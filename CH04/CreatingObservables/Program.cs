@@ -6,6 +6,7 @@ using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CreatingObservables.Chat;
+using Helpers;
 
 namespace CreatingObservables
 {

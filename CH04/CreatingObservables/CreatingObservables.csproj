@@ -65,10 +65,8 @@
     <Compile Include="Chat\ChatExtensions.cs" />
     <Compile Include="Chat\IChatConnection.cs" />
     <Compile Include="Chat\ObservableChat.cs" />
-    <Compile Include="ConsoleObserver.cs" />
     <Compile Include="ContinousSearch\Searcher.cs" />
     <Compile Include="ErrorTestObservable.cs" />
-    <Compile Include="Extensions.cs" />
     <Compile Include="NumbersObservable.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -76,6 +74,12 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Helpers\Helpers.csproj">
+      <Project>{8413FDBA-6CAB-4547-B8E3-97A9386B65E9}</Project>
+      <Name>Helpers</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

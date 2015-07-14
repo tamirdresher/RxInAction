@@ -6,7 +6,7 @@ using System.Reactive.Linq;
 
 namespace CreatingObservables.Chat
 {
-    class ChatClient
+    public class ChatClient
     {
         IList<IChatConnection> _connections = new List<IChatConnection>();
         public IChatConnection Connect(string user, string password)

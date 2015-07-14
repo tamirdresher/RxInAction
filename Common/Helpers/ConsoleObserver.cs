@@ -1,7 +1,13 @@
 ﻿using System;
 
-namespace CreatingObservables
+namespace Helpers
 {
+    /// <summary>
+    /// Listing 4.2
+    /// An observer that output to the console each time the OnNext, OnError and OnComplete occurs
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
 public class ConsoleObserver<T>:IObserver<T>
 {
     private readonly string _name;
