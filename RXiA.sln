@@ -35,7 +35,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helpers", "Common\Helpers\H
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NonStandardEvents", "CH04\NonStandardEvents\NonStandardEvents.csproj", "{49F79703-E5FF-4332-963A-2B7C9635D5F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnumerablesToObservables", "CH04\EnumerablesToObservables\EnumerablesToObservables.csproj", "{EC1367F7-0BCC-40D8-8392-DFE5F8EF6C97}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnumerablesToObservablesAndBack", "CH04\EnumerablesToObservables\EnumerablesToObservablesAndBack.csproj", "{EC1367F7-0BCC-40D8-8392-DFE5F8EF6C97}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
