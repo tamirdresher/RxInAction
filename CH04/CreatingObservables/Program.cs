@@ -14,8 +14,8 @@ namespace CreatingObservables
     {
         static void Main(string[] args)
         {
-            //HandcraftedObservable();
-            //EnforcingUnsubscribingObservers();
+            HandcraftedObservable();
+            EnforcingUnsubscribingObservers();
             UsingObservableCreate();
             ChatExample.Run();
             Console.ReadLine();
@@ -23,26 +23,32 @@ namespace CreatingObservables
 
         private static void UsingObservableCreate()
         {
+            Console.WriteLine();
+            Console.WriteLine("----- Using the Create operator ----");
+
             var numbers = ObserveNumbers(5);
 
             numbers.SubscribeConsole("Observable.Created(...)");
         }
 
-public static IObservable<int> ObserveNumbers(int amount)
-{
-    return Observable.Create<int>(observer =>
-    {
-        for (int i = 0; i < amount; i++)
+        public static IObservable<int> ObserveNumbers(int amount)
         {
-            observer.OnNext(i);
+            return Observable.Create<int>(observer =>
+            {
+                for (int i = 0; i < amount; i++)
+                {
+                    observer.OnNext(i);
+                }
+                observer.OnCompleted();
+                return Disposable.Empty;
+            });
         }
-        observer.OnCompleted();
-        return Disposable.Empty;
-    });
-}
 
         private static void EnforcingUnsubscribingObservers()
         {
+            Console.WriteLine();
+            Console.WriteLine("----- Enforcing The Observers Unsubscription (OnCompleted/OnError) ----");
+
             IObservable<int> errorTestObservable =
                 new ErrorNumbersObservable(5);
 
@@ -70,6 +76,9 @@ public static IObservable<int> ObserveNumbers(int amount)
 
         private static void HandcraftedObservable()
         {
+            Console.WriteLine();
+            Console.WriteLine("----- Handcrafted Observable ----");
+
             var numbers = new NumbersObservable(5);
             var subscription =
                 numbers.Subscribe(new ConsoleObserver<int>("numbers"));

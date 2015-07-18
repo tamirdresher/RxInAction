@@ -14,31 +14,41 @@ namespace NonStandardEvents
     {
         static void Main(string[] args)
         {
-            var listener = new WifiScanner();
+            ConvertingNonStandardEvents();
+            ConvertingEventsWithNoArguments();
+        }
+
+        private static void ConvertingNonStandardEvents()
+        {
+            Console.WriteLine();
+            Console.WriteLine("----- Converting Non Standard Events ----");
+
+            var wifiScanner = new WifiScanner();
 
             //
             // this code snippet will result in an ArgumentException, since the NetworkFoundEventHandler delegate is not convertible to the standard EventHandler<TEventArgs> type
             //
             //var networks = Observable.FromEventPattern<NetworkFoundEventHandler, string>(
-            //      (h) => { listener.NetworkFound += h; },
-            //      (h) => { listener.NetworkFound -= h; });
+            //      (h) => { wifiScanner.NetworkFound += h; },
+            //      (h) => { wifiScanner.NetworkFound -= h; });
             //networks.SubscribeConsole();
 
             //
             // when the target event has only one parameter, its easy to make it into observable
             //
             //IObservable<string> networks = Observable.FromEvent<NetworkFoundEventHandler, string>(
-            //      (h) => { listener.NetworkFound += h; },
-            //      (h) => { listener.NetworkFound -= h; });
+            //      (h) => { wifiScanner.NetworkFound += h; },
+            //      (h) => { wifiScanner.NetworkFound -= h; });
 
             //
             // When the target event has more than one parameter, a conversion method is needed to turn them into a single object
             //
-            IObservable<Tuple<string, int>> networks = Observable.FromEvent<ExtendedNetworkFoundEventHandler, Tuple<String, int>>(
-                rxHandler =>
-                    (ssid, strength) => rxHandler(Tuple.Create(ssid, strength)),
-                h => listener.ExtendedNetworkFound += h,
-                h => listener.ExtendedNetworkFound -= h);
+            IObservable<Tuple<string, int>> networks = Observable
+                .FromEvent<ExtendedNetworkFoundEventHandler, Tuple<String, int>>(
+                    rxHandler =>
+                        (ssid, strength) => rxHandler(Tuple.Create(ssid, strength)),
+                    h => wifiScanner.ExtendedNetworkFound += h,
+                    h => wifiScanner.ExtendedNetworkFound -= h);
 
 
             networks.SubscribeConsole();
@@ -55,10 +65,27 @@ namespace NonStandardEvents
                 Console.WriteLine("Enter the network strength - 1 to 10");
                 var strength = int.Parse(Console.ReadLine());
 
-                listener.RaiseFound(ssid, strength);
+                wifiScanner.RaiseFound(ssid, strength);
             }
         }
 
+        static void ConvertingEventsWithNoArguments()
+        {
+            Console.WriteLine();
+            Console.WriteLine("----- Converting Events With No Arguments ----");
+
+            var wifiScanner = new WifiScanner();
+            IObservable<Unit> connected = Observable.FromEvent(
+                h => wifiScanner.Connected += h,
+                h => wifiScanner.Connected -= h);
+
+            connected.SubscribeConsole("connected");
+
+            wifiScanner.RaiseConnected();
+            wifiScanner.RaiseConnected();
+
+
+        }
 
     }
 
@@ -69,13 +96,18 @@ namespace NonStandardEvents
         public event NetworkFoundEventHandler NetworkFound = delegate { };
         public event ExtendedNetworkFoundEventHandler ExtendedNetworkFound = delegate { };
 
+        public event Action Connected = delegate { };
+
         // rest of the code
         public void RaiseFound(string ssid, int strength = 0)
         {
             NetworkFound(ssid);
             ExtendedNetworkFound(ssid, strength);
+        }
 
-
+        public void RaiseConnected()
+        {
+            Connected();
         }
     }
 }

@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Helpers;
 
@@ -15,10 +18,55 @@ namespace CreationalOpeartors
         static void Main(string[] args)
         {
             GenerateSequence();
+            CreatingRangeObservable();
             ReadingAFileWithGenerate();
-
+            CreatingSingleItemObservable();
+            CreatingNeverendingObservable();
+            CreatingObservableTheThrows();
+            CreatingEmptyObservable();
             Console.ReadLine();
         }
+
+        private static void CreatingEmptyObservable()
+        {
+            Console.WriteLine();
+            Console.WriteLine("----- Creating an empty observable ----");
+
+Observable.Empty<string>()
+    .SubscribeConsole("Empty");
+        }
+
+        private static void CreatingObservableTheThrows()
+        {
+            Console.WriteLine();
+            Console.WriteLine("----- Creating observable the throws ----");
+
+Observable.Throw<ApplicationException>(new ApplicationException("something bad happened"))
+    .SubscribeConsole("Throw"); 
+
+        }
+
+        private static void CreatingNeverendingObservable()
+        {
+            Console.WriteLine();
+            Console.WriteLine("----- Creating a neverending observable ----");
+
+Observable.Never<string>()
+    .SubscribeConsole("Never"); //nothing will be printed
+
+            Console.WriteLine("No notifications will be pushed, press enter to contine");
+        }
+
+        private static void CreatingSingleItemObservable()
+        {
+            Console.WriteLine();
+            Console.WriteLine("----- Creating a single item observable ----");
+
+            Observable.Return("Hello World")
+                .SubscribeConsole("Return");
+
+        }
+
 
         private static void ReadingAFileWithGenerate()
         {
@@ -64,8 +112,25 @@ namespace CreationalOpeartors
                     i => i * 2);      //the value in each iteration
 
             // this will print the values: 0,2,4,6,8,10,12,14,16,18
-            observable.SubscribeConsole();
+            observable.SubscribeConsole("Generate sequence");
 
         }
+
+        public static void CreatingRangeObservable()
+        {
+            Console.WriteLine();
+            Console.WriteLine("----- Using Range ----");
+
+            IObservable<int> observable =
+                Observable
+                    .Range(0, 10)
+                    .Select(i => i * 2);
+
+            // this will print the values: 0,2,4,6,8,10,12,14,16,18
+            observable.SubscribeConsole("range");
+
+        }
+
+
     }
 }

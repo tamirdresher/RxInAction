@@ -42,8 +42,6 @@ namespace DelegatesAndLambdas
             Tools.ForEach(new[] { 1, 2, 3 }, n => Console.WriteLine(n));
             Tools.ForEach(new[] { "a", "b", "c" }, n => Console.WriteLine(n));
             Tools.ForEach(new[] { ConsoleColor.Red, ConsoleColor.Green, ConsoleColor.Blue }, n => Console.WriteLine(n));
-
-
         }
 
 
