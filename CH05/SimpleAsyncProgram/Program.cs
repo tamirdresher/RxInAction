@@ -18,128 +18,118 @@ namespace SimpleAsyncProgram
             //GetPageWithTask();
             //GetPageWithContinuation();
             //ContinuationIsLengthy();
-            //GetPageWithAsyncAwait();
-            AsyncMethodsAreNotAlwaysAsync();
-
+            //GetPageAsync().Wait();
+            AsyncMethodIsNotAlwaysAsync.AsyncMethodCaller().Wait();
+            MakingAsyncWithTaskRun.AsyncMethodCaller().Wait();
             Console.WriteLine("Press <Enter> to exit");
             Console.ReadLine();
         }
 
-        private async static void AsyncMethodsAreNotAlwaysAsync()
+
+
+
+        private static async Task<string> GetPageAsync()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Async methods are not always Async ----");
+            Console.WriteLine("----- Getting reactivex.io with async-await ----");
 
-            bool isSame = await MyAsyncMethod(Thread.CurrentThread.ManagedThreadId);
-            Console.WriteLine("isDifferent = {0}", isSame);
+            var httpClient = new HttpClient();
+
+            // The program wont block here, so this method will return right after this call
+            var response = await httpClient.GetAsync("http://ReactiveX.io");
+            var page = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(page);
+            return page;
+
         }
 
-        private async static Task<bool> MyAsyncMethod(int callingThreadId)
+        private static void ContinuationIsLengthy()
         {
-            return Thread.CurrentThread.ManagedThreadId == callingThreadId;
+            Console.WriteLine();
+            Console.WriteLine("----- Task Continuation can be lengthy ----");
+
+            var httpClient = new HttpClient();
+
+            // The program wont block here, so this method will return right after this call
+            httpClient.GetAsync("http://ReactiveX.io")
+                .ContinueWith(requestTask =>
+                {
+                    HttpContent httpContent = requestTask.Result.Content;
+                    httpContent.ReadAsStringAsync()
+                        .ContinueWith(contentTask =>
+                        {
+                            Console.WriteLine(contentTask.Result);
+                        });
+                });
         }
 
-        private static async void GetPageWithAsyncAwait()
-{
-    Console.WriteLine();
-    Console.WriteLine("----- Getting reactivex.io with async-await ----");
+        private static void GetPageWithTask()
+        {
+            Console.WriteLine();
+            Console.WriteLine("----- Download headers with Task ----");
 
-    var httpClient = new HttpClient();
+            var httpClient = new HttpClient();
+            Task<HttpResponseMessage> requestTask = httpClient.GetAsync("http://ReactiveX.io");
 
-    // The program wont block here, so this method will return right after this call
-    var response = await httpClient.GetAsync("http://ReactiveX.io");
-    var page = await response.Content.ReadAsStringAsync();
-    Console.WriteLine(page);
+            Console.WriteLine("the request was sent, status:{0}", requestTask.Status);
 
-}
+            Console.WriteLine(requestTask.Result.Headers);
+        }
 
-    private static void ContinuationIsLengthy()
-    {
-        Console.WriteLine();
-        Console.WriteLine("----- Task Continuation can be lengthy ----");
+        private static void GetPageWithContinuation()
+        {
+            Console.WriteLine();
+            Console.WriteLine("----- Download headers with Task Continuation ----");
 
-        var httpClient = new HttpClient();
+            var httpClient = new HttpClient();
 
-        // The program wont block here, so this method will return right after this call
-        httpClient.GetAsync("http://ReactiveX.io")
-            .ContinueWith(requestTask =>
+            // The program wont block here, so this method will return right after this call
+            httpClient.GetAsync("http://ReactiveX.io")
+                .ContinueWith(requestTask =>
+                {
+                    Console.WriteLine("the request was sent, status:{0}", requestTask.Status);
+                    Console.WriteLine(requestTask.Result.Headers);
+                });
+
+
+        }
+
+        private static void CreatingThread()
+        {
+            Console.WriteLine();
+            Console.WriteLine("----- Creating a Thread ----");
+
+            var thread = new Thread(() =>
             {
-                HttpContent httpContent = requestTask.Result.Content;
-                httpContent.ReadAsStringAsync()
-                    .ContinueWith(contentTask =>
-                    {
-                        Console.WriteLine(contentTask.Result);
-                    });
-            });
-    }
+                //simulating a long work of five secnods
+                Thread.Sleep(TimeSpan.FromSeconds(5));
 
-    private static void GetPageWithTask()
-    {
-        Console.WriteLine();
-        Console.WriteLine("----- Download headers with Task ----");
-
-        var httpClient = new HttpClient();
-        Task<HttpResponseMessage> requestTask = httpClient.GetAsync("http://ReactiveX.io");
-
-        Console.WriteLine("the request was sent, status:{0}", requestTask.Status);
-
-        Console.WriteLine(requestTask.Result.Headers);
-    }
-
-    private static void GetPageWithContinuation()
-    {
-        Console.WriteLine();
-        Console.WriteLine("----- Download headers with Task Continuation ----");
-
-        var httpClient = new HttpClient();
-
-        // The program wont block here, so this method will return right after this call
-        httpClient.GetAsync("http://ReactiveX.io")
-            .ContinueWith(requestTask =>
-            {
-                Console.WriteLine("the request was sent, status:{0}", requestTask.Status);
-                Console.WriteLine(requestTask.Result.Headers);
+                Console.WriteLine("Long work is done");
             });
 
+            Console.WriteLine("Starting the long work");
+            thread.Start();
 
-    }
+            Console.WriteLine("Waiting for long work to finish, but you can press <Enter> any time to continue");
+            Console.ReadLine();
+        }
 
-    private static void CreatingThread()
-    {
-        Console.WriteLine();
-        Console.WriteLine("----- Creating a Thread ----");
-
-        var thread = new Thread(() =>
+        private static void UsingThreadPool()
         {
-            //simulating a long work of five secnods
-            Thread.Sleep(TimeSpan.FromSeconds(5));
+            Console.WriteLine();
+            Console.WriteLine("----- Using the ThreadPool ----");
 
-            Console.WriteLine("Long work is done");
-        });
+            Console.WriteLine("Starting the long work");
+            ThreadPool.QueueUserWorkItem((_) =>
+            {
+                //simulating a long work of five secnods
+                Thread.Sleep(TimeSpan.FromSeconds(5));
 
-        Console.WriteLine("Starting the long work");
-        thread.Start();
+                Console.WriteLine("Long work is done");
+            });
 
-        Console.WriteLine("Waiting for long work to finish, but you can press <Enter> any time to continue");
-        Console.ReadLine();
+            Console.WriteLine("Waiting for long work to finish, but you can press <Enter> any time to continue");
+            Console.ReadLine();
+        }
     }
-
-    private static void UsingThreadPool()
-    {
-        Console.WriteLine();
-        Console.WriteLine("----- Using the ThreadPool ----");
-
-        Console.WriteLine("Starting the long work");
-        ThreadPool.QueueUserWorkItem((_) =>
-        {
-            //simulating a long work of five secnods
-            Thread.Sleep(TimeSpan.FromSeconds(5));
-
-            Console.WriteLine("Long work is done");
-        });
-
-        Console.WriteLine("Waiting for long work to finish, but you can press <Enter> any time to continue");
-        Console.ReadLine();
-    }
-}
 }
