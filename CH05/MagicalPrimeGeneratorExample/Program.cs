@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Helpers;
@@ -12,8 +13,41 @@ namespace MagicalPrimeGeneratorExample
         static void Main(string[] args)
         {
             //GeneratingSynchronously();
+            //GeneratingEnumerableAsynchronously().Wait();
+            //GeneratingWithObservable();
             GeneratingAsynchronously();
+
+            Console.WriteLine("Done");
             Console.ReadLine();
+        }
+
+        private static void GeneratingWithObservable()
+        {
+            Console.WriteLine();
+            Console.WriteLine("----- Generating primes into observable  ----");
+
+            var generator = new MagicalPrimeGenerator();
+
+            var subscription = generator
+                .GeneratePrimes_Sync(5)
+                .Timestamp()
+                .SubscribeConsole("primes observable");
+
+            Console.WriteLine("Generation is done");
+        }
+
+        private async static Task GeneratingEnumerableAsynchronously()
+        {
+            Console.WriteLine();
+            Console.WriteLine("----- Generating enumerable asynchronously ----");
+
+            var generator = new MagicalPrimeGenerator();
+
+            Console.WriteLine("it will takes a 10 seconds before anything will be printed");
+            foreach (var prime in await generator.GenerateAsync(5))
+            {
+                Console.Write("{0}, ", prime);
+            }
         }
 
         private static void GeneratingSynchronously()
@@ -37,8 +71,11 @@ namespace MagicalPrimeGeneratorExample
 
             var generator = new MagicalPrimeGenerator();
 
-            var subscription=generator.ObservePrimes(5)
-                .SubscribeConsole("async observable");
+            var primesObservable = generator.GeneratePrimes_ManualAsync(5);
+            //primesObservable = generator.GeneratePrimes_AsyncCreate(5);
+            var subscription =
+                primesObservable
+                .SubscribeConsole("primes observable");
 
             Console.WriteLine("Proving we're not blocked. you can continue typing. type X to dispose and exit");
             while (true)
@@ -53,6 +90,6 @@ namespace MagicalPrimeGeneratorExample
                 Console.WriteLine("\t {0}", input);
             }
         }
-        
+
     }
 }
