@@ -99,15 +99,5 @@ namespace MagicalPrimeGeneratorExample
 
     }
 
-    internal class Searcher
-    {
-        public IObservable<Uri> Search(string term)
-        {
-            return Observable.Create(o =>
-            {
-                object searchEngineA;
-                searchEngineA.Search(term);
-            });
-        }
-    }
+    
 }
