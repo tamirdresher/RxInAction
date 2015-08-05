@@ -54,22 +54,22 @@ namespace MagicalPrimeGeneratorExample
                 return Disposable.Empty;
             });
         }
-        public IObservable<int> GeneratePrimes_AsyncCreate(int amount)
+public IObservable<int> GeneratePrimes_AsyncCreate(int amount)
+{
+    return Observable.Create<int>((o, ct) =>
+    {
+        return Task.Run(() =>
         {
-            return Observable.Create<int>((o, ct) =>
+            foreach (var prime in Generate(amount))
             {
-                return Task.Run(() =>
-                {
-                    foreach (var prime in Generate(amount))
-                    {
-                        ct.ThrowIfCancellationRequested();
-                        o.OnNext(prime);
-                    }
-                    o.OnCompleted();
-                });
+                ct.ThrowIfCancellationRequested();
+                o.OnNext(prime);
+            }
+            o.OnCompleted();
+        },ct);
 
-            });
-        }
+    });
+}
 
         public IObservable<int> GeneratePrimes3(int amount)
         {

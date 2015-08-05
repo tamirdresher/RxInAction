@@ -16,9 +16,15 @@ namespace MagicalPrimeGeneratorExample
             //GeneratingEnumerableAsynchronously().Wait();
             //GeneratingWithObservable();
             GeneratingAsynchronously();
-
+            ObservableWithAsyncAwait();
             Console.WriteLine("Done");
             Console.ReadLine();
+        }
+
+        private static void ObservableWithAsyncAwait()
+        {
+            var searcher = new Searcher();
+            IObservable<Uri> results = searcher.Search("Rx");
         }
 
         private static void GeneratingWithObservable()
@@ -91,5 +97,17 @@ namespace MagicalPrimeGeneratorExample
             }
         }
 
+    }
+
+    internal class Searcher
+    {
+        public IObservable<Uri> Search(string term)
+        {
+            return Observable.Create(o =>
+            {
+                object searchEngineA;
+                searchEngineA.Search(term);
+            });
+        }
     }
 }
