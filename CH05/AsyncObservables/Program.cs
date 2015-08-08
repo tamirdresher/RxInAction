@@ -4,7 +4,9 @@ using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
+using AsyncObservables.SearchEngine;
+using AsyncObservables.Services;
 using Helpers;
 
 namespace AsyncObservables
@@ -15,30 +17,42 @@ namespace AsyncObservables
         {
             //Uncomment the example you wish to run
 
-            //SearchingWithAsyncAwait();
-            //SearchingWithCancellation();
-            //SearchingWithConcatingTasks();
-            //SearchingWithDefferedAsync();
+            SearchingWithAsyncAwait();
+            SearchingWithCancellation();
+            SearchingWithConcatingTasks();
+            SearchingWithDefferedAsync();
 
             RunningAsyncCodeInWhere();
+            ContrlingOrderOfAsyncCode();
             Console.ReadLine();
         }
 
         private static void RunningAsyncCodeInWhere()
         {
+            Console.WriteLine();
+            Console.WriteLine("----- Running async code int the pipeline - order is not determenistic ----");
+
             var svc = new PrimeCheckService();
+
             //
             // this wont Compile
             //
             //var subscription = Observable.Range(1, 10)
             //    .Where(async x => await svc.IsPrimeAsync(x))
             //    .SubscribeConsole("AsyncWhere");
-            IObservable<int> primes;
-            primes = from number in Observable.Range(1, 10)
-                     from isPrime in svc.IsPrimeAsync(number)
-                     where isPrime
-                     select number;
 
+            //
+            // This compiles and runs - query syntax
+            //
+            IObservable<int> primes =
+                from number in Observable.Range(1, 10)
+                from isPrime in svc.IsPrimeAsync(number)
+                where isPrime
+                select number;
+
+            //
+            // The same, but in methods chain
+            //
             primes =
                 Observable.Range(1, 10)
                     .SelectMany((number) => svc.IsPrimeAsync(number),
@@ -46,49 +60,68 @@ namespace AsyncObservables
                     .Where(x => x.isPrime)
                     .Select(x => x.number);
 
+            var exampleResetEvent = new AutoResetEvent(false);
+            primes
+                .DoLast(() => exampleResetEvent.Set(), delay: TimeSpan.FromSeconds(1))
+                .SubscribeConsole("primes");
 
+            exampleResetEvent.WaitOne();
+        }
+
+        private static void ContrlingOrderOfAsyncCode()
+        {
+            Console.WriteLine();
+            Console.WriteLine("----- Contrling the order of async code with Concat ----");
+
+            var resetEvent = new AutoResetEvent(false);
+
+            Console.WriteLine("Using SelectMany wont maintain items order");
+            var svc = new VariableTimePrimeCheckService(numberToDelay: 3);
+            IObservable<int> primes =
+                from number in Observable.Range(1, 10)
+                from isPrime in svc.IsPrimeAsync(number)
+                where isPrime
+                select number;
+
+            primes
+                .DoLast(() => resetEvent.Set(), delay: TimeSpan.FromSeconds(1))
+                .SubscribeConsole("primes - unorderd");
+
+            // Waiting for the previous example to finish
+            resetEvent.WaitOne();
+
+            Console.WriteLine("Using concat does enforce order");
             primes =
                 Observable.Range(1, 10)
-                    .Select(async (number) => new {number, IsPrime = await svc.IsPrimeAsync(number)})
+                    .Select(async (number) => new { number, IsPrime = await svc.IsPrimeAsync(number) })
                     .Concat()
                     .Where(x => x.IsPrime)
                     .Select(x => x.number);
 
             primes.SubscribeConsole("primes");
+
+            // Waiting for the previous example to finish
+            resetEvent.WaitOne();
         }
 
-        private class PrimeCheckService
-        {
-            public async Task<bool> IsPrimeAsync(int number)
-            {
-                return await Task.Run(async () =>
-                 {
-                     if (number == 3)
-                     {
-                         await Task.Delay(2000);
-                     }
-                     for (int j = 2; j <= Math.Sqrt(number); j++)
-                     {
-                         if (number % j == 0)
-                         {
-                             return false;
-                         }
-                     }
-                     return true;
-                 });
-            }
-        }
+
 
         public static void SearchingWithAsyncAwait()
         {
             Console.WriteLine();
             Console.WriteLine("----- Creating async observable with async-await ----");
 
+            var exampleResetEvent = new AutoResetEvent(false);
+
             var results = SearchEngineExample.Search_WithAsyncAwait("Rx");
             int i = 0;
             var subscription = Disposable.Empty;
             subscription =
-                results.SubscribeConsole("results");
+                results
+                .DoLast(() => exampleResetEvent.Set(), delay: TimeSpan.FromSeconds(1))
+                .SubscribeConsole("results");
+
+            exampleResetEvent.WaitOne();
         }
 
         public static void SearchingWithCancellation()
@@ -96,6 +129,7 @@ namespace AsyncObservables
             Console.WriteLine();
             Console.WriteLine("----- Creating async observable with async-await and cancellation----");
 
+            var exampleResetEvent = new AutoResetEvent(false);
 
             // Change the index to when you want the subscription disposed
             int cancelIndex = 1;
@@ -111,11 +145,14 @@ namespace AsyncObservables
                     {
                         Console.WriteLine("Cancelling on index {0}", cancelIndex);
                         subscription.Dispose();
+                        exampleResetEvent.Set();
                     }
                 })
                 .Select(x => x.result) //rollback the observable to be IObservable<string> 
+                 .DoLast(() => exampleResetEvent.Set(), delay: TimeSpan.FromSeconds(1))
                 .SubscribeConsole("results");
 
+            exampleResetEvent.WaitOne();
         }
 
         public static void SearchingWithConcatingTasks()
@@ -123,11 +160,18 @@ namespace AsyncObservables
             Console.WriteLine();
             Console.WriteLine("----- Converting Tasks to observables ----");
 
+            var exampleResetEvent = new AutoResetEvent(false);
+
             var results = SearchEngineExample.Search_ConcatingTasks("Rx");
             int i = 0;
             var subscription = Disposable.Empty;
             subscription =
-                results.SubscribeConsole("results");
+                results
+                 .DoLast(() => exampleResetEvent.Set(), delay: TimeSpan.FromSeconds(1))
+                .SubscribeConsole("results");
+
+            exampleResetEvent.WaitOne();
+
         }
 
         public static void SearchingWithDefferedAsync()
@@ -135,11 +179,18 @@ namespace AsyncObservables
             Console.WriteLine();
             Console.WriteLine("----- Defferd async ----");
 
+            var exampleResetEvent = new AutoResetEvent(false);
+
             var results = SearchEngineExample.Search_DefferedConcatingTasks("Rx");
             int i = 0;
             var subscription = Disposable.Empty;
             subscription =
-                results.SubscribeConsole("results");
+                results
+                .DoLast(() => exampleResetEvent.Set(), delay: TimeSpan.FromSeconds(1))
+                .SubscribeConsole("results");
+
+            exampleResetEvent.WaitOne();
+
         }
     }
 }

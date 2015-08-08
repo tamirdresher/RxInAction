@@ -1,20 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reactive;
-using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Helpers;
 
-namespace AsyncObservables
+namespace AsyncObservables.SearchEngine
 {
     class SearchEngineExample
     {
-      
+
 
         public static IObservable<string> Search_WithAsyncAwait(string term)
         {
@@ -60,16 +53,16 @@ namespace AsyncObservables
         }
 
 
-public static IObservable<string> Search_ConcatingTasks(string term)
-{
-    var searchEngineA = new SearchEngineA();
-    var searchEngineB = new SearchEngineB();
-    IObservable<IEnumerable<string>> resultsA = searchEngineA.SearchAsync(term).ToObservable();
-    IObservable<IEnumerable<string>> resultsB = searchEngineB.SearchAsync(term).ToObservable();
-    return resultsA
-        .Concat(resultsB)
-        .SelectMany(x => x);
-}
+        public static IObservable<string> Search_ConcatingTasks(string term)
+        {
+            var searchEngineA = new SearchEngineA();
+            var searchEngineB = new SearchEngineB();
+            IObservable<IEnumerable<string>> resultsA = searchEngineA.SearchAsync(term).ToObservable();
+            IObservable<IEnumerable<string>> resultsB = searchEngineB.SearchAsync(term).ToObservable();
+            return resultsA
+                .Concat(resultsB)
+                .SelectMany(x => x);
+        }
 
         public static IObservable<string> Search_DefferedConcatingTasks(string term)
         {
@@ -83,30 +76,6 @@ public static IObservable<string> Search_ConcatingTasks(string term)
         }
 
 
-        class SearchEngineA : ISearchEngine
-        {
-            public async Task<IEnumerable<string>> SearchAsync(string term)
-            {
-                Console.WriteLine("SearchEngine A - SearchAsync()");
-
-                await Task.Delay(1500);//simulate latency
-                return new[] { "resultA", "resultB" };
-            }
-        }
-
-        class SearchEngineB : ISearchEngine
-        {
-            public async Task<IEnumerable<string>> SearchAsync(string term)
-            {
-                Console.WriteLine("SearchEngine B - SearchAsync()");
-                await Task.Delay(1500);//simulate latency
-                return new[] { "resultC", "resultD" }.AsEnumerable();
-            }
-        }
-    }
-
-    internal interface ISearchEngine
-    {
-        Task<IEnumerable<string>> SearchAsync(string term);
+      
     }
 }
