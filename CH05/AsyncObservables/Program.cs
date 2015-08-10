@@ -111,17 +111,8 @@ namespace AsyncObservables
             Console.WriteLine();
             Console.WriteLine("----- Creating async observable with async-await ----");
 
-            var exampleResetEvent = new AutoResetEvent(false);
-
             var results = SearchEngineExample.Search_WithAsyncAwait("Rx");
-            int i = 0;
-            var subscription = Disposable.Empty;
-            subscription =
-                results
-                .DoLast(() => exampleResetEvent.Set(), delay: TimeSpan.FromSeconds(1))
-                .SubscribeConsole("results");
-
-            exampleResetEvent.WaitOne();
+            results.RunExample("results");
         }
 
         public static void SearchingWithCancellation()
@@ -160,18 +151,10 @@ namespace AsyncObservables
             Console.WriteLine();
             Console.WriteLine("----- Converting Tasks to observables ----");
 
-            var exampleResetEvent = new AutoResetEvent(false);
-
             var results = SearchEngineExample.Search_ConcatingTasks("Rx");
-            int i = 0;
-            var subscription = Disposable.Empty;
-            subscription =
-                results
-                 .DoLast(() => exampleResetEvent.Set(), delay: TimeSpan.FromSeconds(1))
-                .SubscribeConsole("results");
 
-            exampleResetEvent.WaitOne();
-
+            results
+             .RunExample("results");
         }
 
         public static void SearchingWithDefferedAsync()
@@ -179,18 +162,8 @@ namespace AsyncObservables
             Console.WriteLine();
             Console.WriteLine("----- Defferd async ----");
 
-            var exampleResetEvent = new AutoResetEvent(false);
-
             var results = SearchEngineExample.Search_DefferedConcatingTasks("Rx");
-            int i = 0;
-            var subscription = Disposable.Empty;
-            subscription =
-                results
-                .DoLast(() => exampleResetEvent.Set(), delay: TimeSpan.FromSeconds(1))
-                .SubscribeConsole("results");
-
-            exampleResetEvent.WaitOne();
-
+            results.RunExample("results");
         }
     }
 }

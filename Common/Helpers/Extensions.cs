@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reactive.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Helpers
@@ -33,6 +34,20 @@ namespace Helpers
                 (_) => { },//empty OnNext
                 _ => delayedLastAction(),
                 delayedLastAction);
+        }
+
+
+
+        public static void RunExample<T>(this IObservable<T> observable, string exampleName)
+        {
+            var exampleResetEvent = new AutoResetEvent(false);
+
+            observable
+                 .DoLast(() => exampleResetEvent.Set(), TimeSpan.FromSeconds(3))
+                 .SubscribeConsole(exampleName);
+
+            exampleResetEvent.WaitOne();
+
         }
     }
 }
