@@ -112,7 +112,7 @@ namespace AsyncObservables
             Console.WriteLine("----- Creating async observable with async-await ----");
 
             var results = SearchEngineExample.Search_WithAsyncAwait("Rx");
-            results.RunExample("results");
+            results.RunExample("search async-await");
         }
 
         public static void SearchingWithCancellation()
@@ -154,7 +154,7 @@ namespace AsyncObservables
             var results = SearchEngineExample.Search_ConcatingTasks("Rx");
 
             results
-             .RunExample("results");
+             .RunExample("tasks to observables");
         }
 
         public static void SearchingWithDefferedAsync()
@@ -163,7 +163,7 @@ namespace AsyncObservables
             Console.WriteLine("----- Defferd async ----");
 
             var results = SearchEngineExample.Search_DefferedConcatingTasks("Rx");
-            results.RunExample("results");
+            results.RunExample("defered");
         }
     }
 }
