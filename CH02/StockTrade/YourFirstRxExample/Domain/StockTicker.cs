@@ -4,7 +4,7 @@ namespace FirstRxExample
 {
     public class StockTicker
     {
-        public event EventHandler<StockTick> StockTick;
+        public event EventHandler<StockTick> StockTick= delegate {};
 
         public void Notify(StockTick tick)
         {

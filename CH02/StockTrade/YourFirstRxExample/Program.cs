@@ -13,37 +13,54 @@ namespace FirstRxExample
     {
         private static void Main(string[] args)
         {
-        
-            //
-            // Uncomment the StockTicker version you wish to test
-            //
             var stockTicker = new StockTicker();
-            //var stockTicker = new RxStockMonitor(stockTicker);
 
-            //
-            // Uncomment to test the case of Concurrent Ticks
-            //
+
+            /////////////////////////////////////////////////////////////
+            //                                                         //
+            // 1. Uncomment the StockMonitor version you wish to test  //
+            //                                                         //
+            /////////////////////////////////////////////////////////////
+
+            // Regular events StockMonitor
+            var stockMonitor = new StockMonitor(stockTicker);
+            
+            // Rx StockMonitor
+            //var stockMonitor = new RxStockMonitor(stockTicker);
+
+            //////////////////////////////////////////////////////////////////
+            //                                                              //
+            // 2. (optional) Uncomment to test the case of Concurrent Ticks //
+            //                                                              //
+            //////////////////////////////////////////////////////////////////
+
             //TestConcurrentTicks(stockTicker);
 
-            // A small program to let you enter the Ticks info.
-            // Symbol X will exit the program 
+            //////////////////////////////////////////////////////
+            // A small program to let you enter the Ticks info. //
+            // Symbol X will exit the program                   // 
+            //////////////////////////////////////////////////////
             while (true)
             {
-                Console.Write("enter symbol: ");
+                Console.Write("enter symbol (or x to exit): ");
                 var symbol = Console.ReadLine();
                 if (symbol.ToLower() == "x")
                 {
                     break;
                 }
-                Console.WriteLine("enter value: ");
-                var val = decimal.Parse(Console.ReadLine());
-                for (int i = 0; i < 30; i++)
+                Console.WriteLine("enter price: ");
+                decimal price;
+                if (decimal.TryParse(Console.ReadLine(), out price))
                 {
-                    int i1 = i;
-                    Task.Run(() => stockTicker.Notify(new StockTick() { Price = val, QuoteSymbol = symbol + i1 }));
+                    stockTicker.Notify(new StockTick() {Price = price, QuoteSymbol = symbol});
+                }
+                else
+                {
+                    Console.WriteLine("price should be decimal");
                 }
             }
 
+            GC.KeepAlive(stockMonitor);
             Console.WriteLine("Bye Bye");
         }
 

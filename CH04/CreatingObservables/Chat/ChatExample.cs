@@ -59,6 +59,7 @@ namespace CreatingObservables.Chat
             Console.WriteLine("Press Enter to subscribe to the deffered observable");
             Console.ReadLine();
             var subscription = messages.SubscribeConsole();
+            var subscription2 = messages.SubscribeConsole();
 
             return subscription;
         }
