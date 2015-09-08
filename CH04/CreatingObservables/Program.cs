@@ -24,7 +24,7 @@ namespace CreatingObservables
         private static void UsingObservableCreate()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Using the Create operator ----");
+            Demo.DisplayHeader("Using the Create operator");
 
             var numbers = ObserveNumbers(5);
 
@@ -47,7 +47,7 @@ namespace CreatingObservables
         private static void EnforcingUnsubscribingObservers()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Enforcing The Observers Unsubscription (OnCompleted/OnError) ----");
+            Demo.DisplayHeader("Enforcing The Observers Unsubscription (OnCompleted/OnError)");
 
             IObservable<int> errorTestObservable =
                 new ErrorNumbersObservable(5);
@@ -77,7 +77,7 @@ namespace CreatingObservables
         private static void HandcraftedObservable()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Handcrafted Observable ----");
+            Demo.DisplayHeader("Handcrafted Observable");
 
             var numbers = new NumbersObservable(5);
             var subscription =

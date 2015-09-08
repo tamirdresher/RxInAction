@@ -22,7 +22,7 @@ namespace UsingTimeBasedOperators
         private static void UsingInterval()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Using Interval ----");
+            Demo.DisplayHeader("Using Interval");
 
 
             IObservable<long> observable = Observable
@@ -43,7 +43,7 @@ namespace UsingTimeBasedOperators
         private static void UsingTimeInterval()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Using TimeInterval ----");
+            Demo.DisplayHeader("Using TimeInterval");
 
 
             IObservable<TimeInterval<long>> observable =

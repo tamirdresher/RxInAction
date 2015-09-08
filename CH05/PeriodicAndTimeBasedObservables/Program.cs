@@ -23,7 +23,7 @@ namespace PeriodicAndTimeBasedObservables
         private static void ChangingTheUnderlyingObservableByTime()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Switching observables after 5 seconds (with timer) ----");
+            Demo.DisplayHeader("Switching observables after 5 seconds (with timer)");
 
             IObservable<string> firstObservable =
                 Observable
@@ -56,7 +56,7 @@ namespace PeriodicAndTimeBasedObservables
         private static void UsingTimerToScheduleTheBeginning()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Creating observable with Timer - emission will start 5 sec after the subscription, with a period of 1 sec between notification----");
+            Demo.DisplayHeader("Creating observable with Timer - emission will start 5 sec after the subscription, with a period of 1 sec between notification----");
 
             var observable = Observable
                 .Timer(dueTime: TimeSpan.FromSeconds(5), //first emission
@@ -71,7 +71,7 @@ namespace PeriodicAndTimeBasedObservables
         private static void CreatingPeriodicObservableWithInterval()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Creating observable with Interval ----");
+            Demo.DisplayHeader("Creating observable with Interval");
 
             var observable = Observable
                 .Interval(TimeSpan.FromSeconds(1))
@@ -87,7 +87,7 @@ namespace PeriodicAndTimeBasedObservables
         private static void PeriodicallyGetUpdates()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Using Interval to periodically poll a webservice ----");
+            Demo.DisplayHeader("Using Interval to periodically poll a webservice");
 
             var updatesWebService = new UpdatesWebService();
             var observable = Observable
@@ -104,7 +104,7 @@ namespace PeriodicAndTimeBasedObservables
         private static void UsingTimerToScheduleWithRelativeTime()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Schedule single emission with Timer (relative)----");
+            Demo.DisplayHeader("Schedule single emission with Timer (relative)----");
 
             Console.WriteLine("Scheduling to 5 sec from subscription");
             var observable = Observable
@@ -120,7 +120,7 @@ namespace PeriodicAndTimeBasedObservables
         private static void UsingTimerToScheduleWithAbsoluteTime()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Schedule single emission with Timer (absolute)----");
+            Demo.DisplayHeader("Schedule single emission with Timer (absolute)----");
 
             var dateTimeOffset = DateTimeOffset.UtcNow + TimeSpan.FromSeconds(5);
 

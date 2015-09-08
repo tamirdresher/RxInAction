@@ -32,7 +32,7 @@ namespace EnumerablesToObservables
         private static void ObservableToEnumerableWithNext()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Observable To Enumerable (using Next) ----");
+            Demo.DisplayHeader("Observable To Enumerable (using Next)");
 
             var observable =
                  Observable.Interval(TimeSpan.FromSeconds(1));
@@ -55,7 +55,7 @@ namespace EnumerablesToObservables
         private static void ObservableToLookup()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Observable To Lookup ----");
+            Demo.DisplayHeader("Observable To Lookup");
             // Madrid and London has the same length
             IEnumerable<string> cities = new[] { "London", "Tel-Aviv", "Tokyo", "Rome", "Madrid" };
 
@@ -78,7 +78,7 @@ namespace EnumerablesToObservables
         private static void ObservableToDictionary()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Observable To Dictionary ----");
+            Demo.DisplayHeader("Observable To Dictionary");
             IEnumerable<string> cities = new[] { "London", "Tel-Aviv", "Tokyo", "Rome" };
 
             var dictionaryObservable =
@@ -94,7 +94,7 @@ namespace EnumerablesToObservables
         private static void ObservableToList()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Observable To List ----");
+            Demo.DisplayHeader("Observable To List");
             var observable =
                 Observable.Create<string>(o =>
                 {
@@ -117,7 +117,7 @@ namespace EnumerablesToObservables
         private static void ObservableToEnumerable()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Observable To Enumerable ----");
+            Demo.DisplayHeader("Observable To Enumerable");
 
             var observable =
                 Observable.Create<string>(o =>
@@ -145,7 +145,7 @@ namespace EnumerablesToObservables
 
         private static void EnumerableToObservable()
         {
-            Console.WriteLine("----- Enumerable to Observable ----");
+            Demo.DisplayHeader("Enumerable to Observable");
 
             IEnumerable<string> names = new[] { "Shira", "Yonatan", "Gabi", "Tamir" };
             IObservable<string> observable = names.ToObservable();
@@ -156,7 +156,7 @@ namespace EnumerablesToObservables
         private static void SubscribingToEnumerable()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Subscribing to enumerable ----");
+            Demo.DisplayHeader("Subscribing to enumerable");
 
             IEnumerable<string> names = new[] { "Shira", "Yonatan", "Gabi", "Tamir" };
             names.Subscribe(new ConsoleObserver<string>("subscribe"));
@@ -173,7 +173,7 @@ namespace EnumerablesToObservables
         static IEnumerable<int> NumbersAndThrow()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Numbers and Throw ----");
+            Demo.DisplayHeader("Numbers and Throw");
             yield return 1;
             yield return 2;
             yield return 3;
@@ -184,7 +184,7 @@ namespace EnumerablesToObservables
         static void MergingObservableConnectionWithLoadedMessages()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Merging ObservableConnection with loaded messages ----");
+            Demo.DisplayHeader("Merging ObservableConnection with loaded messages");
 
             ChatClient client = new ChatClient();
             IObservable<string> liveMessages = client.ObserveMessages("user", "pass");

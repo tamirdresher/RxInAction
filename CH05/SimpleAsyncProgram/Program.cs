@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Helpers;
 
 namespace SimpleAsyncProgram
 {
@@ -31,7 +32,7 @@ namespace SimpleAsyncProgram
         private static async Task<string> GetPageAsync()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Getting reactivex.io with async-await ----");
+            Demo.DisplayHeader("Getting reactivex.io with async-await");
 
             var httpClient = new HttpClient();
 
@@ -46,7 +47,7 @@ namespace SimpleAsyncProgram
         private static void ContinuationIsLengthy()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Task Continuation can be lengthy ----");
+            Demo.DisplayHeader("Task Continuation can be lengthy");
 
             var httpClient = new HttpClient();
 
@@ -66,7 +67,7 @@ namespace SimpleAsyncProgram
         private static void GetPageWithTask()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Download headers with Task ----");
+            Demo.DisplayHeader("Download headers with Task");
 
             var httpClient = new HttpClient();
             Task<HttpResponseMessage> requestTask = httpClient.GetAsync("http://ReactiveX.io");
@@ -79,7 +80,7 @@ namespace SimpleAsyncProgram
         private static void GetPageWithContinuation()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Download headers with Task Continuation ----");
+            Demo.DisplayHeader("Download headers with Task Continuation");
 
             var httpClient = new HttpClient();
 
@@ -97,7 +98,7 @@ namespace SimpleAsyncProgram
         private static void CreatingThread()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Creating a Thread ----");
+            Demo.DisplayHeader("Creating a Thread");
 
             var thread = new Thread(() =>
             {
@@ -117,7 +118,7 @@ namespace SimpleAsyncProgram
         private static void UsingThreadPool()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Using the ThreadPool ----");
+            Demo.DisplayHeader("Using the ThreadPool");
 
             Console.WriteLine("Starting the long work");
             ThreadPool.QueueUserWorkItem((_) =>

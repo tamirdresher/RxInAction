@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Helpers;
 
 namespace SimpleAsyncProgram
 {
@@ -12,7 +13,7 @@ namespace SimpleAsyncProgram
         public static async Task AsyncMethodCaller()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Async methods are not always async ----");
+            Demo.DisplayHeader("Async methods are not always async");
 
             bool isSame = await MyAsyncMethod(Thread.CurrentThread.ManagedThreadId);
             Console.WriteLine("Caller thread is the same as executing thread: {0}", isSame);//this will print 'true'

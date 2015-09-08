@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,9 +8,35 @@ namespace Helpers
 {
     public static class Extensions
     {
+        /// <summary>
+        /// Subscribe an observer that prints each notificatio to the console output
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="observable"></param>
+        /// <param name="name"></param>
+        /// <returns>a disposable subscription object</returns>
         public static IDisposable SubscribeConsole<T>(this IObservable<T> observable, string name = "")
         {
             return observable.Subscribe(new ConsoleObserver<T>(name));
+        }
+
+        /// <summary>
+        /// this method does the same as SubscribeConsole but uses Observable.Subscribe() method instead of a handcrafted observer class
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="observable"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static IDisposable SubscribeTheConsole<T>(this IObservable<T> observable, string name = "")
+        {
+
+            return observable.Subscribe(x => Console.WriteLine("{0} - OnNext({1})", name, x),
+                ex =>
+                {
+                    Console.WriteLine("{0} - OnError:", name);
+                    Console.WriteLine("\t {0}", ex);
+                },
+                () => Console.WriteLine("{0} - OnCompleted()", name));
         }
 
         /// <summary>

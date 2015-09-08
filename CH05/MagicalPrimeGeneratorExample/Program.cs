@@ -25,7 +25,7 @@ namespace MagicalPrimeGeneratorExample
         private static void GeneratingWithObservable()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Generating primes into observable  ----");
+            Demo.DisplayHeader("Generating primes into observable ");
 
             var generator = new MagicalPrimeGenerator();
 
@@ -40,7 +40,7 @@ namespace MagicalPrimeGeneratorExample
         private async static Task GeneratingEnumerableAsynchronously()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Generating enumerable asynchronously ----");
+            Demo.DisplayHeader("Generating enumerable asynchronously");
 
             var generator = new MagicalPrimeGenerator();
 
@@ -55,7 +55,7 @@ namespace MagicalPrimeGeneratorExample
         {
 
             Console.WriteLine();
-            Console.WriteLine("----- Using synchronous enumerable ----");
+            Demo.DisplayHeader("Using synchronous enumerable");
 
             var generator = new MagicalPrimeGenerator();
             // this will block the main thread for a few seconds
@@ -68,7 +68,7 @@ namespace MagicalPrimeGeneratorExample
         private static void GeneratingAsynchronously()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Using observable ----");
+            Demo.DisplayHeader("Using observable");
 
             var generator = new MagicalPrimeGenerator();
 

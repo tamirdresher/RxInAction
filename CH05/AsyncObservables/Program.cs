@@ -29,8 +29,8 @@ namespace AsyncObservables
 
         private static void RunningAsyncCodeInWhere()
         {
-            Console.WriteLine();
-            Console.WriteLine("----- Running async code int the pipeline - order is not determenistic ----");
+            
+            Demo.DisplayHeader("Running async code int the pipeline - order is not determenistic");
 
             var svc = new PrimeCheckService();
 
@@ -70,8 +70,8 @@ namespace AsyncObservables
 
         private static void ContrlingOrderOfAsyncCode()
         {
-            Console.WriteLine();
-            Console.WriteLine("----- Contrling the order of async code with Concat ----");
+            
+            Demo.DisplayHeader("Contrling the order of async code with Concat");
 
             var resetEvent = new AutoResetEvent(false);
 
@@ -108,8 +108,7 @@ namespace AsyncObservables
 
         public static void SearchingWithAsyncAwait()
         {
-            Console.WriteLine();
-            Console.WriteLine("----- Creating async observable with async-await ----");
+            Demo.DisplayHeader("Creating async observable with async-await");
 
             var results = SearchEngineExample.Search_WithAsyncAwait("Rx");
             results.RunExample("search async-await");
@@ -117,8 +116,7 @@ namespace AsyncObservables
 
         public static void SearchingWithCancellation()
         {
-            Console.WriteLine();
-            Console.WriteLine("----- Creating async observable with async-await and cancellation----");
+            Demo.DisplayHeader("Creating async observable with async-await and cancellation");
 
             var exampleResetEvent = new AutoResetEvent(false);
 
@@ -148,8 +146,8 @@ namespace AsyncObservables
 
         public static void SearchingWithConcatingTasks()
         {
-            Console.WriteLine();
-            Console.WriteLine("----- Converting Tasks to observables ----");
+            
+            Demo.DisplayHeader("Converting Tasks to observables");
 
             var results = SearchEngineExample.Search_ConcatingTasks("Rx");
 
@@ -159,8 +157,8 @@ namespace AsyncObservables
 
         public static void SearchingWithDefferedAsync()
         {
-            Console.WriteLine();
-            Console.WriteLine("----- Defferd async ----");
+            
+            Demo.DisplayHeader("Defferd async");
 
             var results = SearchEngineExample.Search_DefferedConcatingTasks("Rx");
             results.RunExample("defered");

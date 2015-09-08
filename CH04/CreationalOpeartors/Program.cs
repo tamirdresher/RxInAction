@@ -30,7 +30,7 @@ namespace CreationalOpeartors
         private static void CreatingEmptyObservable()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Creating an empty observable ----");
+            Demo.DisplayHeader("Creating an empty observable");
 
 Observable.Empty<string>()
     .SubscribeConsole("Empty");
@@ -39,7 +39,7 @@ Observable.Empty<string>()
         private static void CreatingObservableTheThrows()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Creating observable the throws ----");
+            Demo.DisplayHeader("Creating observable the throws");
 
 Observable.Throw<ApplicationException>(new ApplicationException("something bad happened"))
     .SubscribeConsole("Throw"); 
@@ -49,7 +49,7 @@ Observable.Throw<ApplicationException>(new ApplicationException("something bad h
         private static void CreatingNeverendingObservable()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Creating a neverending observable ----");
+            Demo.DisplayHeader("Creating a neverending observable");
 
 Observable.Never<string>()
     .SubscribeConsole("Never"); //nothing will be printed
@@ -60,7 +60,7 @@ Observable.Never<string>()
         private static void CreatingSingleItemObservable()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Creating a single item observable ----");
+            Demo.DisplayHeader("Creating a single item observable");
 
             Observable.Return("Hello World")
                 .SubscribeConsole("Return");
@@ -71,7 +71,7 @@ Observable.Never<string>()
         private static void ReadingAFileWithGenerate()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Generate Sequence from a file ----");
+            Demo.DisplayHeader("Generate Sequence from a file");
 
 
             //
@@ -102,7 +102,7 @@ Observable.Never<string>()
         public static void GenerateSequence()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Generate Sequence ----");
+            Demo.DisplayHeader("Generate Sequence");
 
             IObservable<int> observable =
                 Observable.Generate(
@@ -119,7 +119,7 @@ Observable.Never<string>()
         public static void CreatingRangeObservable()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Using Range ----");
+            Demo.DisplayHeader("Using Range");
 
             IObservable<int> observable =
                 Observable

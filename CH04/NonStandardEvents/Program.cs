@@ -21,7 +21,7 @@ namespace NonStandardEvents
         private static void ConvertingNonStandardEvents()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Converting Non Standard Events ----");
+            Demo.DisplayHeader("Converting Non Standard Events");
 
             var wifiScanner = new WifiScanner();
 
@@ -72,7 +72,7 @@ namespace NonStandardEvents
         static void ConvertingEventsWithNoArguments()
         {
             Console.WriteLine();
-            Console.WriteLine("----- Converting Events With No Arguments ----");
+            Demo.DisplayHeader("Converting Events With No Arguments");
 
             var wifiScanner = new WifiScanner();
             IObservable<Unit> connected = Observable.FromEvent(
