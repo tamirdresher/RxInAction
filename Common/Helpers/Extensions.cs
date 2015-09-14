@@ -30,7 +30,8 @@ namespace Helpers
         public static IDisposable SubscribeTheConsole<T>(this IObservable<T> observable, string name = "")
         {
 
-            return observable.Subscribe(x => Console.WriteLine("{0} - OnNext({1})", name, x),
+            return observable.Subscribe(
+                x => Console.WriteLine("{0} - OnNext({1})", name, x),
                 ex =>
                 {
                     Console.WriteLine("{0} - OnError:", name);
@@ -38,6 +39,25 @@ namespace Helpers
                 },
                 () => Console.WriteLine("{0} - OnCompleted()", name));
         }
+
+        /// <summary>
+        /// Adds a log that prints to the console the notification emitted by the <paramref name="observable"/>
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="observable"></param>
+        /// <param name="msg">An optioanl prefix that will be added before each notification</param>
+        /// <returns></returns>
+ public static IObservable<T> Log<T>(this IObservable<T> observable,string msg="")
+ {
+     return observable.Do(
+         x => Console.WriteLine("{0} - OnNext({1})", msg, x),
+         ex =>
+         {
+             Console.WriteLine("{0} - OnError:", msg);
+             Console.WriteLine("\t {0}", ex);
+         },
+         () => Console.WriteLine("{0} - OnCompleted()", msg));
+ }
 
         /// <summary>
         /// Runs a configureable action when the observable completes or emit error 
@@ -65,7 +85,7 @@ namespace Helpers
 
 
 
-        public static void RunExample<T>(this IObservable<T> observable, string exampleName)
+        public static void RunExample<T>(this IObservable<T> observable, string exampleName="")
         {
             var exampleResetEvent = new AutoResetEvent(false);
 

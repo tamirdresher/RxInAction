@@ -24,8 +24,37 @@ namespace ControllingTheObserverLifetime
             //Skip();
 
             //TakeWhileAndSkipWhile();
-            RepeatByAmount();
+            //RepeatByAmount();
+
+            Do();
+            ReusableLogWithDo();
             Console.ReadLine();
+        }
+
+        private static void ReusableLogWithDo()
+        {
+            Demo.DisplayHeader("A reusable log created with Do(...)");
+
+            Observable.Range(1, 5)
+                .Log("Range")
+                .Where(x => x % 2 == 0)
+                .Log("Where")
+                .Select(x => x * 3)
+                .SubscribeConsole("final");
+
+        }
+
+        private static void Do()
+        {
+            Demo.DisplayHeader("Adding side effects with Do(...)");
+
+            Observable.Range(1, 5)
+                .Do(x => { Console.WriteLine("{0} was emitted", x); })
+                .Where(x => x % 2 == 0)
+                .Do(x => { Console.WriteLine("{0} survived the Where()", x); })
+                .Select(x => x * 3)
+                .SubscribeConsole("final");
+
         }
 
         private static void RepeatByAmount()
