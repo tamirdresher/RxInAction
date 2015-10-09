@@ -17,10 +17,10 @@ namespace ControllingTheObserverLifetime
             //DelayingSubscriptionOnlyStartsWhenSubscribing();
 
             //UnsubscribingAtASpcificTime();
-            //TakeUntil();
-            //TakeUntilAStopMessage();
+            TakeUntil();
+            TakeUntilAStopMessage();
 
-            //SkipUntil();
+            SkipUntil();
             //Skip();
 
             //TakeWhileAndSkipWhile();
@@ -90,7 +90,10 @@ namespace ControllingTheObserverLifetime
 
             IObservable<string> messages =
                 new[] { "First", "START", "Message1", "Message2", "LastMessage" }.ToObservable();
-            messages.SkipUntil(messages.Where(m => m == "START"))
+
+            IObservable<string> controlChannel = messages;
+
+            messages.SkipUntil(controlChannel.Where(m => m == "START"))
                 .SubscribeConsole();
         }
 
@@ -104,10 +107,11 @@ namespace ControllingTheObserverLifetime
                 .Concat(Observable.Return("STOP"))
                 .Concat(Observable.Return("After Stop")); //the final message will not be oberved by the observer 
 
+            IObservable<string> controlChannel = messages;//to keep it simple, the control channel is the same observable as the messages
 
             messages
-                .TakeUntil(messages.Where(m => m == "STOP"))
-                            .RunExample("TakeUnti(STOP)");
+                .TakeUntil(controlChannel.Where(m => m == "STOP"))
+                .RunExample("TakeUnti(STOP)");
         }
 
         private static void TakeUntil()

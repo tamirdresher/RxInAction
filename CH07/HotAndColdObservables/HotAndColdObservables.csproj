@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F0E4F192-1807-43EE-A1B1-B7CD8B6518CA}</ProjectGuid>
+    <ProjectGuid>{CF0F3931-B527-4F43-9C3A-FE438906EA25}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Subjects</RootNamespace>
-    <AssemblyName>Subjects</AssemblyName>
+    <RootNamespace>HotAndColdObservables</RootNamespace>
+    <AssemblyName>HotAndColdObservables</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -59,8 +59,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NetworkConnectivity.cs" />
-    <Compile Include="BankAccount.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
