@@ -17,17 +17,17 @@ namespace ControllingTheObserverLifetime
             //DelayingSubscriptionOnlyStartsWhenSubscribing();
 
             //UnsubscribingAtASpcificTime();
-            TakeUntil();
-            TakeUntilAStopMessage();
+            //TakeUntil();
+            //TakeUntilAStopMessage();
 
-            SkipUntil();
+            //SkipUntil();
             //Skip();
 
             //TakeWhileAndSkipWhile();
-            //RepeatByAmount();
+            RepeatByAmount();
 
-            Do();
-            ReusableLogWithDo();
+            //Do();
+            //ReusableLogWithDo();
             Console.ReadLine();
         }
 
@@ -122,7 +122,7 @@ namespace ControllingTheObserverLifetime
             Observable.Timer(DateTimeOffset.Now, TimeSpan.FromSeconds(1))
                 .Select(t => DateTimeOffset.Now)
                 .TakeUntil(Observable.Timer(TimeSpan.FromSeconds(5)))
-                .RunExample("TakeUnti(observable)");
+                .RunExample("TakeUntil(observable)");
         }
 
         private static void UnsubscribingAtASpcificTime()

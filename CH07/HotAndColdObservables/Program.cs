@@ -19,7 +19,7 @@ namespace HotAndColdObservables
             PublishWithInitialValue();
             PublishWithSelector();
             PublishLast();
-            DisposingTheConnectableSubscription();
+            Reconnecting();
             RefCount();
             ReplayFive();
 
@@ -69,24 +69,22 @@ namespace HotAndColdObservables
 
         }
 
-        private static void DisposingTheConnectableSubscription()
+        private static void Reconnecting()
         {
             Demo.DisplayHeader("Reconnecting a connectable observable");
 
-            var connectableObservable = Observable.Interval(TimeSpan.FromSeconds(1))
-                .Take(5)
-                .Publish();
+            var connectableObservable =
+                Observable.Defer(() => ChatServer.Current.ObserveMessages())
+                    .Publish();
 
-            connectableObservable.SubscribeConsole("First");
+            connectableObservable.SubscribeConsole("Messages Screen");
+            connectableObservable.SubscribeConsole("Messages Statistics");
 
             var subscription = connectableObservable.Connect();
-            Thread.Sleep(3000);
-            Console.WriteLine("Disposing the connectable observable subscription");
-            subscription.Dispose();
 
-            Console.WriteLine("Waiting two seconds before reconnecting");
-            Thread.Sleep(2000);
-            Console.WriteLine("Reconnecting");
+            //After After the application was notified on server outage
+            Console.WriteLine("--Disposing the current connection and reconnecting--");
+            subscription.Dispose();
             subscription = connectableObservable.Connect();
 
             //waiting for the observable to complete
