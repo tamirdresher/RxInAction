@@ -76,15 +76,15 @@ namespace DelegatesAndLambdas
         {
             string s1 = "Hello";
             string s2 = "World";
-            var comperators = new StringComparators();
+            var comparators = new StringComparators();
 
-            ComparisonTest test = new ComparisonTest(comperators.CompareContent);
+            ComparisonTest test = new ComparisonTest(comparators.CompareContent);
             Console.WriteLine("CompareContent returned: {0}", test(s1, s2));
 
             test = new ComparisonTest(StringComparators.CompareLength);
             Console.WriteLine("CompareLength returned: {0}", test(s1, s2));
 
-            ComparisonTest test2 = comperators.CompareContent;
+            ComparisonTest test2 = comparators.CompareContent;
         }
 
         public delegate bool NameValidator(string name);
@@ -104,9 +104,9 @@ namespace DelegatesAndLambdas
         {
             string s1 = "Hello";
             string s2 = "World";
-            var comperators = new StringComparators();
+            var comparators = new StringComparators();
 
-            Func<string, string, bool> test = comperators.CompareContent;
+            Func<string, string, bool> test = comparators.CompareContent;
             Console.WriteLine("CompareContent returned: {0}", test(s1, s2));
 
             test = StringComparators.CompareLength;
