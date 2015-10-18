@@ -44,7 +44,7 @@ strings.Where(s => s.StartsWith("A"))
         {
             Demo.DisplayHeader("The DistinctUntilChanged operator - returns an observable sequence that contains only distinct contiguous element");
 
-            var searchTerms = new Subject<string>();//this could have been
+            var subject = new Subject<int>();//this could have been
             subject.Log()
                 .DistinctUntilChanged()
                 .SubscribeConsole("DistinctUntilChanged");
