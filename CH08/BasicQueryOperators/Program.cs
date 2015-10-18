@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using BasicQueryOperators.Examples;
+using BasicQueryOperators.Model;
 using Helpers;
 
 namespace BasicQueryOperators
@@ -13,25 +16,102 @@ namespace BasicQueryOperators
     {
         static void Main(string[] args)
         {
-            Selecting();
-            SelectingFromAnotherSource();
-            SelectManyObservables();
+            //Selecting();
+            //SelectingFromAnotherSource();
+            //SelectManyObservables();
+            //SelectManyNewsImagesExample.Run();
+            //ChatRoomsExample.Run();
+
+            Where();
+            Distinct();
+            DistinctNewsItems();
+            DistinctUntilChanged();
         }
 
+       
+
+        private static void Where()
+        {
+            Demo.DisplayHeader("The Where operator - filters the elements of an observable sequence based on a predicate ");
+
+var strings = new[] {"aa", "Abc", "Ba", "Ac"}.ToObservable();
+
+strings.Where(s => s.StartsWith("A"))
+    .SubscribeConsole();
+        }
+
+        private static void DistinctUntilChanged()
+        {
+            Demo.DisplayHeader("The DistinctUntilChanged operator - returns an observable sequence that contains only distinct contiguous element");
+
+            var searchTerms = new Subject<string>();//this could have been
+            subject.Log()
+                .DistinctUntilChanged()
+                .SubscribeConsole("DistinctUntilChanged");
+
+            subject.OnNext(1);
+            subject.OnNext(2);
+            subject.OnNext(3);
+            subject.OnNext(2);
+            subject.OnNext(2);
+            subject.OnNext(4);
+            subject.OnNext(4);
+            subject.OnCompleted();
+        }
+
+        private static void Distinct()
+        {
+            Demo.DisplayHeader("The Distinct operator - filters values that were already emmited by the observable");
+
+            var subject = new Subject<int>();
+            subject.Log()
+                .Distinct()
+                .SubscribeConsole("Distinct");
+
+            subject.OnNext(1);
+            subject.OnNext(2);
+            subject.OnNext(3);
+            subject.OnNext(2);
+            subject.OnNext(4);
+            subject.OnCompleted();
+
+
+        }
+        private static void DistinctNewsItems()
+        {
+            Demo.DisplayHeader("The Distinct operator - filters values that were already emmited by the observable - by a given keySelector");
+
+var subject = new Subject<NewsItem>();
+subject.Log()
+    .Distinct(n=>n.Title)//items with same Title will only be emitted once
+    .SubscribeConsole("Distinct");
+subject.OnNext(new NewsItem() {Title = "Title1"});
+subject.OnNext(new NewsItem() {Title = "Title2"});
+subject.OnNext(new NewsItem() {Title = "Title1"});
+subject.OnNext(new NewsItem() {Title = "Title3"});
+            
+            subject.OnCompleted();
+        }
         private static void SelectingFromAnotherSource()
         {
             Demo.DisplayHeader("The Select operator - using select to load data");
 
-            var messages =
+            IObservable<ChatMessage> messages =
                 Observable.Interval(TimeSpan.FromMilliseconds(500)).Take(5)
-                    .Select(i =>new ChatMessage {Content = "Message" + i, Timestamp = DateTime.UtcNow, Sender = "123" + i});
+                    .Select(i => new ChatMessage { Content = "Message" + i, Timestamp = DateTime.UtcNow, Sender = "123" + i });
+            IObservable<ChatMessageViewModel> messagesViewModels =
+                messages
+                    .Select(m => new ChatMessageViewModel
+                    {
+                        MessageContent = m.Content,
+                        User = LoadUserFromDb(m.Sender)
+                    })
+                    .Log();
 
-            messages.Select(m => new {MessageContent=m.Content, User=LoadUserFromDb(m.Sender)})
-                .Log()
-                .Wait();
+            messagesViewModels.Wait();
         }
 
-       
+
 
         private static void Selecting()
         {
@@ -64,27 +144,9 @@ namespace BasicQueryOperators
 
         private static User LoadUserFromDb(string sender)
         {
-            Console.WriteLine("Loading User {0} from DB",sender);
+            Console.WriteLine("Loading User {0} from DB", sender);
             Thread.Sleep(600);//simulate latency
-            return  new User() {Name = "My Name",Id = sender};
+            return new User() { Name = "My Name", Id = sender };
         }
-    }
-
-    internal class User
-    {
-        public string Name { get; set; }
-        public string Id { get; set; }
-
-        public override string ToString()
-        {
-            return String.Format("Id={0} Name:{1}",Id,Name);
-        }
-    }
-
-    internal class ChatMessage
-    {
-        public string Content { get; set; }
-        public DateTime Timestamp { get; set; }
-        public string Sender { get; set; }
     }
 }
