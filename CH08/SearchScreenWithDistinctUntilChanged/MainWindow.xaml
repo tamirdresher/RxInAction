@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SearchScreenWithDistinctUntilChanged"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="Rx Search" Height="350" Width="525">
     <DockPanel>
         
-        <StackPanel DockPanel.Dock="Top">
-            <TextBlock Text="Search Term"/>
-            <TextBox x:Name="SearchTerm"></TextBox>
+        <StackPanel DockPanel.Dock="Top" Orientation="Vertical">
+            <TextBlock Text="Search Term:" Margin="5,5,0,0"/>
+            <TextBox x:Name="SearchTerm" Margin="0,0,0,0"></TextBox>
         </StackPanel>
         
         <ListBox x:Name="Terms"></ListBox>
