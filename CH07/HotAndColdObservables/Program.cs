@@ -30,13 +30,14 @@ namespace HotAndColdObservables
         {
             Demo.DisplayHeader("Replay(2) - will replay the last two items for the subscribed observer");
 
-            var publishedObservable = Observable.Interval(TimeSpan.FromSeconds(1)).Take(7)
+            var observable = Observable.Interval(TimeSpan.FromSeconds(1))
+                .Take(7)
                 .Replay(2);
-            publishedObservable.Connect();
-            var subscription1 = publishedObservable.SubscribeConsole("First");
+            observable.Connect();
+            observable.SubscribeConsole("First");
             Thread.Sleep(3000);
             Console.WriteLine("subscribing the second observable");
-            var subscription2 = publishedObservable.SubscribeConsole("Second");
+            observable.SubscribeConsole("Second");
 
             //waiting for the observable to complete
             Thread.Sleep(4000);

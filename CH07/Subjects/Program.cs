@@ -19,13 +19,16 @@ namespace Subjects
             //MergingBySubjectPitfall();
 
             //AsyncSubjectExample();
+            TaskToObservableWithAsyncSubject();
 
             //BehaviorSubjectExample();
 
             //ReplaySubjectExample();
+            ReplaySubjectToKeepHeartRateExample();
+            //NotHidingYourSubjects();
+            //HidingYourSubjects();
 
-            NotHidingYourSubjects();
-            HidingYourSubjects();
+            Console.ReadLine();
 
         }
 
@@ -81,6 +84,19 @@ namespace Subjects
 
         }
 
+        private static void ReplaySubjectToKeepHeartRateExample()
+        {
+            Demo.DisplayHeader("ReplaySubject - simulating the usage of RxToBand for showin the heart rate - https://github.com/Reactive-Extensions/RxToBand");
+
+IObservable<int> heartRate = Observable.Range(70, 5);
+ReplaySubject<int> sbj = new ReplaySubject<int>(bufferSize: 20, window: TimeSpan.FromMinutes(2));
+
+heartRate.Subscribe(sbj);
+
+// after a while (for example, after the user selected to show the heart rate on the screen)
+var subscription = sbj.SubscribeConsole("HeartRate Graph"); //only 70-74 will be observed
+        }
+
 
         private static void BehaviorSubjectExample()
         {
@@ -106,6 +122,34 @@ namespace Subjects
 
             sbj.SubscribeConsole();
         }
+
+        private static void TaskToObservableWithAsyncSubject()
+        {
+            Demo.DisplayHeader("AsyncSubject - the Task.ToObservable() operator uses AsyncSubject");
+            var tcs = new TaskCompletionSource<bool>();
+            var task = tcs.Task;
+
+            AsyncSubject<bool> sbj = new AsyncSubject<bool>();
+            task.ContinueWith(t =>
+            {
+                switch (t.Status)
+                {
+                    case TaskStatus.RanToCompletion:
+                        sbj.OnNext(t.Result);
+                        sbj.OnCompleted();
+                        break;
+                    case TaskStatus.Faulted:
+                        sbj.OnError(t.Exception.InnerException);
+                        break;
+                    case TaskStatus.Canceled:
+                        sbj.OnError(new TaskCanceledException(t));
+                        break;
+                }
+            }, TaskContinuationOptions.ExecuteSynchronously);
+            tcs.SetResult(true);//making the Task complete before the observer subscribed
+            sbj.SubscribeConsole();
+        }
+
 
         private static void SubjectExample()
         {
