@@ -28,16 +28,16 @@ namespace BasicQueryOperators
             DistinctUntilChanged();
         }
 
-       
+
 
         private static void Where()
         {
             Demo.DisplayHeader("The Where operator - filters the elements of an observable sequence based on a predicate ");
 
-var strings = new[] {"aa", "Abc", "Ba", "Ac"}.ToObservable();
+            var strings = new[] { "aa", "Abc", "Ba", "Ac" }.ToObservable();
 
-strings.Where(s => s.StartsWith("A"))
-    .SubscribeConsole();
+            strings.Where(s => s.StartsWith("A"))
+                .SubscribeConsole();
         }
 
         private static void DistinctUntilChanged()
@@ -81,15 +81,15 @@ strings.Where(s => s.StartsWith("A"))
         {
             Demo.DisplayHeader("The Distinct operator - filters values that were already emmited by the observable - by a given keySelector");
 
-var subject = new Subject<NewsItem>();
-subject.Log()
-    .Distinct(n=>n.Title)//items with same Title will only be emitted once
-    .SubscribeConsole("Distinct");
-subject.OnNext(new NewsItem() {Title = "Title1"});
-subject.OnNext(new NewsItem() {Title = "Title2"});
-subject.OnNext(new NewsItem() {Title = "Title1"});
-subject.OnNext(new NewsItem() {Title = "Title3"});
-            
+            var subject = new Subject<NewsItem>();
+            subject.Log()
+                .Distinct(n => n.Title)//items with same Title will only be emitted once
+                .SubscribeConsole("Distinct");
+            subject.OnNext(new NewsItem() { Title = "Title1" });
+            subject.OnNext(new NewsItem() { Title = "Title2" });
+            subject.OnNext(new NewsItem() { Title = "Title1" });
+            subject.OnNext(new NewsItem() { Title = "Title3" });
+
             subject.OnCompleted();
         }
         private static void SelectingFromAnotherSource()

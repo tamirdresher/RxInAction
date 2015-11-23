@@ -17,11 +17,11 @@ namespace DelegatesAndLambdas
             }
         }
 
-        private class GenricComparer<T> : IComparer<T>
+        private class GenericComparer<T> : IComparer<T>
         {
             private Func<T, T, int> CompareFunc { get; set; }
 
-            public GenricComparer(Func<T, T, int> compareFunc)
+            public GenericComparer(Func<T, T, int> compareFunc)
             {
                 CompareFunc = compareFunc;
             }
@@ -34,16 +34,16 @@ namespace DelegatesAndLambdas
 
         public static void BetterIComparable()
         {
-            var numbers = new List<string> { "ab", "a", "aabb", "abc" };
-            numbers.Sort(new LengthComparer());
-            Tools.ForEach(numbers, Console.WriteLine);
+            var words = new List<string> { "ab", "a", "aabb", "abc" };
+            words.Sort(new LengthComparer());
+            Tools.ForEach(words, Console.WriteLine);
 
-            numbers = new List<string> { "ab", "a", "aabb", "abc" };
-            numbers.Sort(new GenricComparer<string>((x, y) =>
+            words = new List<string> { "ab", "a", "aabb", "abc" };
+            words.Sort(new GenericComparer<string>((x, y) =>
                 (x.Length == y.Length)
                     ? 0
                     : (x.Length > y.Length) ? 1 : -1));
-            Tools.ForEach(numbers, Console.WriteLine);
+            Tools.ForEach(words, Console.WriteLine);
 
 
         }
