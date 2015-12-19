@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Text;
@@ -15,11 +16,10 @@ namespace Joins
         {
             Join();
             GroupJoin();
-
             Console.WriteLine("Press any key to continue");
             Console.ReadLine();
         }
-
+        
         private static void GroupJoin()
         {
             Demo.DisplayHeader("The GroupJoin operator - correlates elements from two observables based on overlapping duration windows and put them in a correlation group");
