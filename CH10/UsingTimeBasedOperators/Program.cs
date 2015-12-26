@@ -14,8 +14,83 @@ namespace UsingTimeBasedOperators
     {
         static void Main(string[] args)
         {
-            UsingInterval();
-            UsingTimeInterval();
+            AddingATimestampToNotifications();
+            AddingTimeIntervalBetweenNotifications();
+            //UsingTimeInterval();
+            UsingTimeout();
+            //UsingDelay();
+            //Throttling();
+            SamplingTheObservable();
+        }
+
+        private static void SamplingTheObservable()
+        {
+            Demo.DisplayHeader("The Sample operator - samples the observable sequence every time-interval, emitting the last item in that interval");
+
+            Observable.Interval(TimeSpan.FromSeconds(1))
+                .Sample(TimeSpan.FromSeconds(3.5))
+                .Take(3)
+                .RunExample("Sample");
+
+            //Same as
+            Observable.Interval(TimeSpan.FromSeconds(1))
+                .Sample(Observable.Timer(TimeSpan.FromSeconds(3.5), TimeSpan.FromSeconds(3.5)))
+                .Take(3)
+                .RunExample("Sample with sampler-observable");
+        }
+
+        private static void Throttling()
+        {
+            Demo.DisplayHeader("Throttle operator - only emit an item from an Observable if a particular timespan has passed without it emitting another item");
+
+            var observable = Observable
+              .Return(1)
+              .Concat(Observable.Timer(TimeSpan.FromSeconds(2)).Select(_ => 2))
+              .Concat(Observable.Timer(TimeSpan.FromSeconds(1)).Select(_ => 3))
+              .Concat(Observable.Timer(TimeSpan.FromSeconds(1)).Select(_ => 4))
+              .Concat(Observable.Timer(TimeSpan.FromSeconds(3)).Select(_ => 5));
+
+            observable.Throttle(TimeSpan.FromSeconds(2))
+                .RunExample("Throttle");
+        }
+
+        private static void UsingDelay()
+        {
+            var observable = Observable
+                .Timer(TimeSpan.FromSeconds(1))
+                .Concat(Observable.Timer(TimeSpan.FromSeconds(1)))
+                .Concat(Observable.Timer(TimeSpan.FromSeconds(4)))
+                .Concat(Observable.Timer(TimeSpan.FromSeconds(4)));
+
+            observable
+                .Timestamp()
+                .Delay(TimeSpan.FromSeconds(2))
+                .Timestamp()
+                .Take(5)
+                .RunExample("Delay");
+        }
+
+        public static void UsingTimeout()
+        {
+var observable = Observable
+     .Timer(TimeSpan.FromSeconds(1))
+     .Concat(Observable.Timer(TimeSpan.FromSeconds(1)))
+     .Concat(Observable.Timer(TimeSpan.FromSeconds(4)))
+     .Concat(Observable.Timer(TimeSpan.FromSeconds(4)));
+
+observable
+    .Timeout(TimeSpan.FromSeconds(3))
+    .RunExample("Timeout");
+        }
+
+        private static void AddingATimestampToNotifications()
+        {
+            Demo.DisplayHeader("Timestamp operator - adds a timestamp to every notification");
+            Observable
+                 .Interval(TimeSpan.FromSeconds(1))
+                 .Take(3)
+                 .Timestamp()
+                 .RunExample("Timestamp");
         }
 
 
@@ -40,28 +115,21 @@ namespace UsingTimeBasedOperators
             Console.ReadLine();
         }
 
-        private static void UsingTimeInterval()
+        private static void AddingTimeIntervalBetweenNotifications()
         {
             Console.WriteLine();
-            Demo.DisplayHeader("Using TimeInterval");
+            Demo.DisplayHeader("TimeInterval operator - records the time interval between two consecutive notifications");
 
-
-            IObservable<TimeInterval<long>> observable =
-                Observable
-                .Interval(TimeSpan.FromSeconds(1))
+            var observable = Observable
+                .Timer(TimeSpan.FromSeconds(1))
+                .Concat(Observable.Timer(TimeSpan.FromSeconds(2)))
+                .Concat(Observable.Timer(TimeSpan.FromSeconds(4)));
+            
+            observable
                 .TimeInterval()
-                .Do(_ => Thread.Sleep(TimeSpan.FromSeconds(3)));
+                .RunExample("time interval");
 
-            var subscription =
-                observable.SubscribeConsole("time interval");
 
-            Console.WriteLine("press enter to unsubsribe");
-            Console.ReadLine();
-
-            subscription.Dispose();
-
-            Console.WriteLine("subscription disposed, press enter to continue");
-            Console.ReadLine();
         }
     }
 }
