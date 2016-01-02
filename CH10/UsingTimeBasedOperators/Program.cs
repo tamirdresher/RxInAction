@@ -28,7 +28,7 @@ namespace UsingTimeBasedOperators
 
 
 
-        private static void SamplingTheObservable()
+        public static void SamplingTheObservable()
         {
             Demo.DisplayHeader("The Sample operator - samples the observable sequence every time-interval, emitting the last item in that interval");
 

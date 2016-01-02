@@ -47,17 +47,46 @@ namespace Helpers
         /// <param name="observable"></param>
         /// <param name="msg">An optioanl prefix that will be added before each notification</param>
         /// <returns></returns>
- public static IObservable<T> Log<T>(this IObservable<T> observable,string msg="")
- {
-     return observable.Do(
-         x => Console.WriteLine("{0} - OnNext({1})", msg, x),
-         ex =>
-         {
-             Console.WriteLine("{0} - OnError:", msg);
-             Console.WriteLine("\t {0}", ex);
-         },
-         () => Console.WriteLine("{0} - OnCompleted()", msg));
- }
+        public static IObservable<T> Log<T>(this IObservable<T> observable, string msg = "")
+        {
+            return observable.Do(
+                x => Console.WriteLine("{0} - OnNext({1})", msg, x),
+                ex =>
+                {
+                    Console.WriteLine("{0} - OnError:", msg);
+                    Console.WriteLine("\t {0}", ex);
+                },
+                () => Console.WriteLine("{0} - OnCompleted()", msg));
+        }
+
+        /// <summary>
+        /// Logs the subscriptions and emissions done on/by the observable
+        /// each log message also includes the thread it happens on
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="observable"></param>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+public static IObservable<T> LogWithThread<T>(this IObservable<T> observable, string msg = "")
+{
+    return Observable.Defer(() =>
+     {
+         Console.WriteLine("{0} Subscription happened on Thread: {1}", msg, 
+                            Thread.CurrentThread.ManagedThreadId);
+
+         return observable.Do(
+             x => Console.WriteLine("{0} - OnNext({1}) Thread: {2}", msg, x,
+                                        Thread.CurrentThread.ManagedThreadId),
+             ex =>
+             {
+                 Console.WriteLine("{0} - OnError Thread:{1}", msg,
+                                        Thread.CurrentThread.ManagedThreadId);
+                 Console.WriteLine("\t {0}", ex);
+             },
+             () => Console.WriteLine("{0} - OnCompleted() Thread {1}", msg,
+                                        Thread.CurrentThread.ManagedThreadId));
+     });
+}
 
         /// <summary>
         /// Runs a configureable action when the observable completes or emit error 
@@ -85,7 +114,7 @@ namespace Helpers
 
 
 
-        public static void RunExample<T>(this IObservable<T> observable, string exampleName="")
+        public static void RunExample<T>(this IObservable<T> observable, string exampleName = "")
         {
             var exampleResetEvent = new AutoResetEvent(false);
 
