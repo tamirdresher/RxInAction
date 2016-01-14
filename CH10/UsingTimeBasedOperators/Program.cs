@@ -126,11 +126,13 @@ observable
         private static void AddingATimestampToNotifications()
         {
             Demo.DisplayHeader("Timestamp operator - adds a timestamp to every notification");
-            Observable
-                 .Interval(TimeSpan.FromSeconds(1))
+            IObservable<long> deviceHeartbeat = 
+                Observable.Interval(TimeSpan.FromSeconds(1));
+
+            deviceHeartbeat
                  .Take(3)
                  .Timestamp()
-                 .RunExample("Timestamp");
+                 .RunExample("Heartbeat");
         }
 
 
