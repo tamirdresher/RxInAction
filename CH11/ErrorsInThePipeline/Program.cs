@@ -15,9 +15,9 @@ namespace ErrorsInThePipeline
         {
             //ExceptionDuringSubscription();
             ExceptionInAnOperator();
-            
+
             //
-            // Beware, throwing from the observer will crash your process// 
+            // Beware, throwing from the observer will crash your process
             //
             //ExceptionInOnNext();
 
@@ -29,10 +29,10 @@ namespace ErrorsInThePipeline
             Demo.DisplayHeader("Throwing exception in an operator code - Rx guidleine is that the operator redirect the exception to OnError");
 
             Observable.Interval(TimeSpan.FromMilliseconds(500))
-                .Do(_=> {throw new Exception("Do");})
-                .Subscribe(
-                    _ => { },
-                    e => Console.WriteLine("exception caught: {0}",e.Message));
+                 .Do(_ => { throw new Exception("Do"); })
+                 .Subscribe(
+                     _ => { },
+                     e => Console.WriteLine("exception caught: {0}", e.Message));
         }
 
         private static void ExceptionInOnNext()
@@ -49,7 +49,7 @@ namespace ErrorsInThePipeline
                     });
         }
 
-       
+
         private static void ExceptionDuringSubscription()
         {
             Demo.DisplayHeader("Throwing exception in Subscribe()");

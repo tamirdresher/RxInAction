@@ -13,8 +13,24 @@ namespace DealingWithBackpressure
         static void Main(string[] args)
         {
             BackpressureExample();
-
+            LossyBackpressureHandlingUsingCombineLatest();
             Console.ReadLine();
+        }
+
+        private static void LossyBackpressureHandlingUsingCombineLatest()
+        {
+            Demo.DisplayHeader("Backpressure example - using CombineLatest to drop old notifications (lossy approach)");
+
+            var heartRatesValues = new[] { 70, 75, 80, 90, 80 };
+            var speedValues = new[] { 50,51,53,52,55 };
+
+            var heartRates = Observable.Interval(TimeSpan.FromSeconds(1)).Select(x => heartRatesValues[x % heartRatesValues.Length]);
+            var speeds = Observable.Interval(TimeSpan.FromSeconds(3)).Select(x => speedValues[x % speedValues.Length]);
+
+            heartRates.CombineLatest(speeds, (h, s) => String.Format("Heart:{0} Speed:{1}", h, s))
+                .Take(5)
+                .SubscribeConsole();
+
         }
 
         private static void BackpressureExample()
