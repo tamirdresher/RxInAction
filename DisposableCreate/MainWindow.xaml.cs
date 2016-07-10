@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using DisposableCreate.Annotations;
@@ -37,7 +39,7 @@ namespace DisposableCreate
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            RefreshNews();
+            RefreshNewsAsync();
         }
 
         public IEnumerable<string> NewsItems
@@ -51,7 +53,7 @@ namespace DisposableCreate
             }
         }
 
-        private async void RefreshNews()
+        private async void RefreshNewsAsync()
         {
             IsBusy = true;
             NewsItems = Enumerable.Empty<string>();
@@ -59,6 +61,23 @@ namespace DisposableCreate
             {
                 NewsItems = await DownloadNewsItems();
             }
+        }
+
+        private async void RefreshNews2Async()
+        {
+            NewsItems = Enumerable.Empty<string>();
+            using (StartBusy())
+            {
+                NewsItems = await DownloadNewsItems();
+            }
+        }
+
+        public IDisposable StartBusy()
+        {
+            IsBusy = true;
+            return new ContextDisposable(
+                SynchronizationContext.Current,
+                Disposable.Create(() => IsBusy = false));
         }
 
 
