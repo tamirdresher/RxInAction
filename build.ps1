@@ -65,5 +65,5 @@ $projects = gci $scriptPath -Directory `
 
 foreach ($project in $projects) {
   dotnet build -c "$configuration" $project.FullName    
-  }
 }
+
