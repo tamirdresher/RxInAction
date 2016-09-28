@@ -119,7 +119,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppendixC-Testing", "Append
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "RxLibrary.Tests", "AppendixC-Testing\RxLibrary.Tests\RxLibrary.Tests.xproj", "{6226BC5A-6A25-49A3-97E4-305011647B3E}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "PortableRxLibrary", "AppendixC-Testing\RxLibrary\RxLibrary.xproj", "{9C859F1F-43B9-4576-A0C8-73403CB07399}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "RxLibrary", "AppendixC-Testing\RxLibrary\RxLibrary.xproj", "{9C859F1F-43B9-4576-A0C8-73403CB07399}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E2800573-57EF-4A84-8819-4C167098BDF8}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
