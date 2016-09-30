@@ -60,7 +60,7 @@ dotnet restore $scriptPath | out-null
 #need to ensure core is built first due to bad dependency order determination by dotnet build
 
 Write-Host "Building projects" -Foreground Green
-$projects = gci $scriptPath -Directory `
+$projects = gci $scriptPath -Directory -Recurse `
    | Where-Object { ($_.Name -notlike "*DeviceRunner") -and (Test-Path (Join-Path $_.FullName "project.json"))  } `
 
 foreach ($project in $projects) {
