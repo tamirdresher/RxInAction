@@ -4,7 +4,6 @@ using System.Reactive.Linq;
 
 namespace RxLibrary
 {
-    public class Teststst { }
     public static class ObservableExtensions
     {
         public static IObservable<T> FilterBursts<T>(this IObservable<T> src, int burstSize)
@@ -12,17 +11,33 @@ namespace RxLibrary
             return src.Window(burstSize).SelectMany(window => window.Take(1));
         }
 
-        public static IObservable<T> FilterBursts<T>(this IObservable<T> src, TimeSpan burstDuration)
+        /// <summary>
+        /// Emits the first value from every burst of items. 
+        /// a burst is a sequence of elements from an observable sequence which are followed by another element within a specified relative time duration.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="src">Source sequence to throttle.</param>
+        /// <param name="maximalDistance">The due-time after an emission that defines the end of a burst.</param>
+        /// <returns>an observable sequence with the first value from every burst of items.</returns>
+        public static IObservable<T> FilterBursts<T>(this IObservable<T> src, TimeSpan maximalDistance)
         {
-            return src.FilterBursts(burstDuration, DefaultScheduler.Instance);
+            return src.FilterBursts(maximalDistance, DefaultScheduler.Instance);
         }
-
-        public static IObservable<T> FilterBursts<T>(this IObservable<T> src, TimeSpan burstDuration,
+        /// <summary>
+        /// Emits the first value from every burst of items. 
+        /// a burst is a sequence of elements from an observable sequence which are followed by another element within a specified relative time duration.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="src">Source sequence to throttle.</param>
+        /// <param name="maximalDistance">The due-time after an emission that defines the end of a burst.</param>
+        /// <param name="scheduler">Scheduler to run the throttle timers on.</param>
+        /// <returns></returns>
+        public static IObservable<T> FilterBursts<T>(this IObservable<T> src, TimeSpan maximalDistance,
             IScheduler scheduler)
         {
             return src.Publish(xs =>
             {
-                var windowBoundaries = xs.Throttle(burstDuration, scheduler);
+                var windowBoundaries = xs.Throttle(maximalDistance, scheduler);
 
                  return xs.Window(windowBoundaries).SelectMany(window => window.Take(1));
              });

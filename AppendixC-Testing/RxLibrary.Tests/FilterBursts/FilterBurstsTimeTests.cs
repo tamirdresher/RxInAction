@@ -34,7 +34,7 @@ namespace RxLibrary.Tests
             xs.Subscriptions.AssertEqual(
                 Subscribe(Subscribed, 500));
         }
-
+        
         [Fact]
         public void FilterBurstsInColdObservable()
         {
@@ -63,7 +63,7 @@ namespace RxLibrary.Tests
                 OnCompleted<int>(700));
 
             xs.Subscriptions.AssertEqual(
-                Subscribe(Subscribed, 700));
+                Subscribe(ReactiveTest.Subscribed, 700));
         }
 
         [Fact]
