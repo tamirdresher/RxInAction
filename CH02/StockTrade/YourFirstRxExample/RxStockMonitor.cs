@@ -11,7 +11,7 @@ namespace FirstRxExample
     {
         private IDisposable _subscription;
 
-        public RxStockMonitor(StockTicker ticker)
+        public RxStockMonitor(IStockTicker ticker)
         {
             const decimal maxChangeRatio = 0.1m;
 

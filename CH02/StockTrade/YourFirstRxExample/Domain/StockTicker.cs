@@ -2,7 +2,7 @@ using System;
 
 namespace FirstRxExample
 {
-    public class StockTicker
+    public class StockTicker : IStockTicker
     {
         public event EventHandler<StockTick> StockTick= delegate {};
 
