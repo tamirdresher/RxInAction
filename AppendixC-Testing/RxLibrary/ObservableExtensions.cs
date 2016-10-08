@@ -42,5 +42,20 @@ namespace RxLibrary
                  return xs.Window(windowBoundaries).SelectMany(window => window.Take(1));
              });
         }
+
+        
+        public static IObservable<T> FilterBursts<T>(this IObservable<T> src,
+            TimeSpan maximalDistance,
+            TimeSpan maximalBurstDuration,
+            IScheduler scheduler)
+        {
+            return src.Publish(xs =>
+            {
+                var maximDurationPassed = xs.Delay(maximalBurstDuration, scheduler).Take(1);
+                var windowBoundary = xs.Throttle(maximalDistance, scheduler).Merge(maximDurationPassed);
+
+                return xs.Window(() => windowBoundary).SelectMany(window => window.Take(1));
+            });
+        }
     }
 }
