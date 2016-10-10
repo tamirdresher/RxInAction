@@ -1,6 +1,6 @@
 using System;
 
-namespace FirstRxExample
+namespace RxStockMonitor
 {
     public class StockTicker : IStockTicker
     {

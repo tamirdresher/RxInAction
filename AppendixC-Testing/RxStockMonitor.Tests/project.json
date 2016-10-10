@@ -1,0 +1,35 @@
+﻿{
+  "version": "1.0.0-*",
+
+  "testRunner": "xunit",
+  "dependencies": {
+    "Microsoft.Reactive.Testing": "3.0.0",
+    "NETStandard.Library": "1.6.0",
+    "System.Reactive": "3.0.0",
+    "xunit": "2.2.0-beta2-build3300",
+    "dotnet-test-xunit": "2.2.0-preview2-build1029",
+    "System.Reactive.Linq": "3.0.0",
+    "RxStockMonitor": { "target": "project" },
+    "NSubstitute": "2.0.0-rc"
+  },
+  "buildOptions": {
+    "copyToOutput": {
+      "include": [ "xunit.runner.json" ]
+    }
+  },
+
+  "frameworks": {
+    "netcoreapp1.0": {
+      "dependencies": {
+        "Microsoft.NETCore.App": {
+          "version": "1.0.0",
+          "type": "platform"
+        }
+      }
+    },
+    "net461": {
+      "dependencies": {
+      }
+    }
+  }
+}
