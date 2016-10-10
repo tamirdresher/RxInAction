@@ -21,8 +21,7 @@ namespace RxLibrary.Tests
             var oneSecond = TimeSpan.TicksPerSecond;
 
             var temperatures = testScheduler.CreateHotObservable<double>(
-                OnNext(310, 500.0),
-                OnNext(oneSecond, 500.0)
+                OnNext(310, 500.0)
             );
             var proximities = testScheduler.CreateHotObservable<Unit>(
                 OnNext(100, Unit.Default),
@@ -43,9 +42,12 @@ namespace RxLibrary.Tests
             proxSensor.Readings.Returns(proximities);
 
 
-            var monitor=new SensorMonitor(concurrencyProvider, tempSensor, proxSensor);
+            var monitor=new MachineMonitor(concurrencyProvider, tempSensor, proxSensor);
 
-            var res = testScheduler.Start(() => monitor.ObserveAlerts(),0,0,long.MaxValue);
+            var res = testScheduler.Start(() => monitor.ObserveAlerts(),
+                0,
+                0,
+                long.MaxValue);
 
             res.Messages.AssertEqual(
                 OnNext(310, (Alert a) => a.Time.Ticks == 310),

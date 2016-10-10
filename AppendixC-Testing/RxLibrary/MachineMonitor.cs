@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RxLibrary
 {
-    public class SensorMonitor
+    public class MachineMonitor
     {
         private readonly IConcurrencyProvider _concurrencyProvider;
         private readonly ITemperatureSensor _temperatureSensor;
@@ -16,7 +16,7 @@ namespace RxLibrary
         public const int MINIMAL_ALERT_PAUSE_IN_SECONDS = 5;
         public const int MAXIMAL_TIME_WITH_NO_MOVEMENT_IN_SECONDS = 1;
         public const double RISKY_TEMPERATURE = 70;
-        public SensorMonitor(
+        public MachineMonitor(
             IConcurrencyProvider concurrencyProvider,
             ITemperatureSensor temperatureSensor, 
             IProximitySensor proximitySensor)
@@ -31,12 +31,12 @@ namespace RxLibrary
         /// even if the notifications are emitted close to each other, after this amount 
         /// of time a burst is "closed"
         /// </summary>
-        public TimeSpan MaximalAlertBurstTime { get; set; } = TimeSpan.FromSeconds(MAXIMAL_ALERT_BURST_TIME_IN_SECONDS);
+        public TimeSpan MaxAlertBurstTime { get; set; } = TimeSpan.FromSeconds(MAXIMAL_ALERT_BURST_TIME_IN_SECONDS);
         /// <summary>
         /// the amount of time we allow between two consecutive alerts. 
         /// if two alerts are notified with a short time between them, we consider them as one 
         /// </summary>
-        public TimeSpan MinimalAlertPause { get; set; } = TimeSpan.FromSeconds(MINIMAL_ALERT_PAUSE_IN_SECONDS);
+        public TimeSpan MinAlertPause { get; set; } = TimeSpan.FromSeconds(MINIMAL_ALERT_PAUSE_IN_SECONDS);
 
         /// <summary>
         /// if no proximity notification is emitted during this time, we conclude that 
@@ -59,7 +59,7 @@ namespace RxLibrary
                 return (from proximityWindows in proximities.Window(proximityWindowBoundaries)
                         from t in proximityWindows.CombineLatest(riskyTempaeatures, (p, t) => t)
                         select t)
-                    .FilterBursts(MinimalAlertPause, MaximalAlertBurstTime, scheduler)
+                    .FilterBursts(MinAlertPause, MaxAlertBurstTime, scheduler)
                     .Select(_ => new Alert("Temperature is too hot! Please move away", scheduler.Now));
             });
         }
