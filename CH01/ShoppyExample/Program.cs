@@ -69,8 +69,8 @@ namespace ShoppyExample
             {
                 IObservable<Connectivity> myConnectivity = Observable.Empty<Connectivity>();
                 IObservable<IEnumerable<Discount>> newDiscounts =
-                    from connectiviy in myConnectivity
-                    where connectiviy == Connectivity.Online
+                    from connectivity in myConnectivity
+                    where connectivity == Connectivity.Online
                     from discounts in GetDiscounts()
                     select discounts;
 
