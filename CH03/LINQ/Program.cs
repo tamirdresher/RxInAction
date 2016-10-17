@@ -174,7 +174,7 @@ namespace LINQExamples
 
         private static void SimpleQueryOnListAsQueryExpression()
         {
-            var numbers = new List<int> { 1, 37, 22, 6, 10, 13 };
+            var numbers = new List<int> { 1, 35, 22, 6, 10, 11 };
             var result =
                 from number in numbers
                 where number % 2 == 1

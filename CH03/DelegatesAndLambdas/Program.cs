@@ -150,10 +150,10 @@ namespace DelegatesAndLambdas
             ComparisonTest comparer;
             {
                 int moduloBase = 2;
-                comparer = delegate (string str1, string str2)
+                comparer = delegate (string s1, string s2)
                 {
                     Console.WriteLine("the modulo base is: {0}", moduloBase);
-                    return ((str1.Length % moduloBase) == (str2.Length % moduloBase));
+                    return ((s1.Length % moduloBase) == (s2.Length % moduloBase));
                 };
                 moduloBase = 3;
             }
@@ -165,7 +165,7 @@ namespace DelegatesAndLambdas
         private static bool PassingAnonymousMethodAsArgument(string[] cities, string[] friends)
         {
             //Passing anonymous method as argument
-            AreSimilar(friends, cities, delegate (string str1, string str2) { return str1 == str2; });
+            AreSimilar(friends, cities, delegate (string s1, string s2) { return s1 == s2; });
 
             int moduloBase = 2;
             var similarByMod = AreSimilar(friends, cities, delegate (string str1, string str2)
