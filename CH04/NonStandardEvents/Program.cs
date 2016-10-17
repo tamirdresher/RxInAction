@@ -29,16 +29,16 @@ namespace NonStandardEvents
             // this code snippet will result in an ArgumentException, since the NetworkFoundEventHandler delegate is not convertible to the standard EventHandler<TEventArgs> type
             //
             //var networks = Observable.FromEventPattern<NetworkFoundEventHandler, string>(
-            //      (h) => { wifiScanner.NetworkFound += h; },
-            //      (h) => { wifiScanner.NetworkFound -= h; });
+            //      h => wifiScanner.NetworkFound += h,
+            //      h => wifiScanner.NetworkFound -= h);
             //networks.SubscribeConsole();
 
             //
             // when the target event has only one parameter, its easy to make it into observable
             //
             //IObservable<string> networks = Observable.FromEvent<NetworkFoundEventHandler, string>(
-            //      (h) => { wifiScanner.NetworkFound += h; },
-            //      (h) => { wifiScanner.NetworkFound -= h; });
+            //      h => wifiScanner.NetworkFound += h,
+            //      h => wifiScanner.NetworkFound -= h);
 
             //
             // When the target event has more than one parameter, a conversion method is needed to turn them into a single object
