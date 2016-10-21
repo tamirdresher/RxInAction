@@ -73,6 +73,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\CH05\MagicalPrimeGeneratorExample\MagicalPrimeGeneratorExample.csproj">
+      <Project>{BAB3AE16-0DA3-43A2-A13B-69A279986B2D}</Project>
+      <Name>MagicalPrimeGeneratorExample</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Common\Helpers\Helpers.csproj">
       <Project>{8413FDBA-6CAB-4547-B8E3-97A9386B65E9}</Project>
       <Name>Helpers</Name>

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MagicalPrimeGeneratorExample
 {
-    class MagicalPrimeGenerator
+    public class MagicalPrimeGenerator
     {
         public IEnumerable<int> Generate(int amount)
         {
@@ -54,22 +54,22 @@ namespace MagicalPrimeGeneratorExample
                 return Disposable.Empty;
             });
         }
-public IObservable<int> GeneratePrimes_AsyncCreate(int amount)
-{
-    return Observable.Create<int>((o, ct) =>
-    {
-        return Task.Run(() =>
+        public IObservable<int> GeneratePrimes_AsyncCreate(int amount)
         {
-            foreach (var prime in Generate(amount))
+            return Observable.Create<int>((o, ct) =>
             {
-                ct.ThrowIfCancellationRequested();
-                o.OnNext(prime);
-            }
-            o.OnCompleted();
-        },ct);
+                return Task.Run(() =>
+                {
+                    foreach (var prime in Generate(amount))
+                    {
+                        ct.ThrowIfCancellationRequested();
+                        o.OnNext(prime);
+                    }
+                    o.OnCompleted();
+                }, ct);
 
-    });
-}
+            });
+        }
 
         public IObservable<int> GeneratePrimes3(int amount)
         {
