@@ -35,8 +35,7 @@ namespace HotAndColdObservables
                 .Replay(2);
             observable.Connect();
             observable.SubscribeConsole("First");
-            Thread.Sleep(3000); //3 secondPJNVD-CP9PJ-FH7WW-BX39Q-GF38V
-            s before subsribing the next observable
+            Thread.Sleep(3000); //3 seconds before subsribing the next observable
             Console.WriteLine("subscribing the second observable");
             observable.SubscribeConsole("Second");
 
