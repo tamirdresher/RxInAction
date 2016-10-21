@@ -16,11 +16,11 @@ namespace BasicQueryOperators
     {
         static void Main(string[] args)
         {
-            //Selecting();
-            //SelectingFromAnotherSource();
-            //SelectManyObservables();
-            //SelectManyNewsImagesExample.Run();
-            //ChatRoomsExample.Run();
+            Selecting();
+            SelectingFromAnotherSource();
+            SelectManyObservables();
+            SelectManyNewsImagesExample.Run();
+            ChatRoomsExample.Run();
 
             Where();
             Distinct();

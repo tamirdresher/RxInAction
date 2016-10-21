@@ -16,7 +16,7 @@ namespace BasicQueryOperators.Examples
 
         private static void ProccessingTheSourceAndTheResult()
         {
-            Demo.DisplayHeader("The SelectMany operator - with resultSelector you can ");
+            Demo.DisplayHeader("The SelectMany operator - with resultSelector you can have access to the original emitted item");
 
             var roomsSubject = new Subject<ChatRoom>();
 

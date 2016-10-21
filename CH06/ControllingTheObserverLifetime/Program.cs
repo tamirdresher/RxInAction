@@ -13,21 +13,21 @@ namespace ControllingTheObserverLifetime
     {
         static void Main(string[] args)
         {
-            //DelayingSubscription();
-            //DelayingSubscriptionOnlyStartsWhenSubscribing();
+            DelayingSubscription();
+            DelayingSubscriptionOnlyStartsWhenSubscribing();
 
-            //UnsubscribingAtASpcificTime();
-            //TakeUntil();
-            //TakeUntilAStopMessage();
+            UnsubscribingAtASpcificTime();
+            TakeUntil();
+            TakeUntilAStopMessage();
 
-            //SkipUntil();
-            //Skip();
+            SkipUntil();
+            Skip();
 
-            //TakeWhileAndSkipWhile();
+            TakeWhileAndSkipWhile();
             RepeatByAmount();
 
-            //Do();
-            //ReusableLogWithDo();
+            Do();
+            ReusableLogWithDo();
             Console.ReadLine();
         }
 

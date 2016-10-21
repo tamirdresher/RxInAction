@@ -21,26 +21,27 @@ namespace HotAndColdObservables
             PublishLast();
             Reconnecting();
             RefCount();
-            ReplayFive();
+            ReplayTwo();
 
             Console.ReadLine();
         }
 
-        private static void ReplayFive()
+        private static void ReplayTwo()
         {
-            Demo.DisplayHeader("Replay(2) - will replay the last two items for the subscribed observer");
+            Demo.DisplayHeader("Replay(2) - will replay the last two items for the future subscribed observer");
 
             var observable = Observable.Interval(TimeSpan.FromSeconds(1))
-                .Take(7)
+                .Take(5)
                 .Replay(2);
             observable.Connect();
             observable.SubscribeConsole("First");
-            Thread.Sleep(3000);
+            Thread.Sleep(3000); //3 secondPJNVD-CP9PJ-FH7WW-BX39Q-GF38V
+            s before subsribing the next observable
             Console.WriteLine("subscribing the second observable");
             observable.SubscribeConsole("Second");
 
             //waiting for the observable to complete
-            Thread.Sleep(4000);
+            observable.Wait();
         }
 
         private static void RefCount()
@@ -174,7 +175,7 @@ namespace HotAndColdObservables
             Console.WriteLine("Zipping an observable to itself after publihsing it");
             i = 0;
             var publishedZip =
-                numbers.Publish(ys => ys.Zip(ys, (a, b) => a + b));
+                numbers.Publish(published => published.Zip(published, (a, b) => a + b));
             publishedZip.SubscribeConsole("publishedZipped");
 
         }
