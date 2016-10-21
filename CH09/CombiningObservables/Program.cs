@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Reactive.Threading.Tasks;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Helpers;
@@ -95,8 +92,8 @@ namespace CombiningObservables
             Task<string[]> twitterStatuses = Task.FromResult(new[] { "Twitter1", "Twitter2" }); //this will finish immidiatly
 
             Observable.Merge(
-                facebookMessages.ToObservable(),
-                twitterStatuses.ToObservable())
+                    facebookMessages.ToObservable(),
+                    twitterStatuses.ToObservable())
                 .SelectMany(messages => messages)
                 .RunExample("Merged Messages");
 
