@@ -85,7 +85,7 @@ namespace AsyncObservables
 
             primes
                 .DoLast(() => resetEvent.Set(), delay: TimeSpan.FromSeconds(1))
-                .SubscribeConsole("primes - unorderd");
+                .SubscribeConsole("primes - unordered");
 
             // Waiting for the previous example to finish
             resetEvent.WaitOne();
