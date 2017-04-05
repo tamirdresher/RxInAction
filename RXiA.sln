@@ -1,13 +1,37 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CH01", "CH01", "{33D9259E-6C81-46A5-8723-51253983A597}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CH02", "CH02", "{C1AFFFAC-D1F4-4ABE-ADFB-C3DC4046BED4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CH03", "CH03", "{4874EC62-6EF6-444F-B78B-B004B34934C0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CH04", "CH04", "{1C843FD7-4EE3-4A9E-9CA6-68F471855CB3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{90AD1594-875C-47DB-A0B6-4502743D91FA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CH09", "CH09", "{25B99D1D-27A5-4745-9EBE-0640CE71A6F6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CH05", "CH05", "{6CA0AC39-2C04-42D1-92DE-65F4F2E011B6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CH06", "CH06", "{FB63BE1F-F823-4CCD-A316-185C6CB98CD2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CH07", "CH07", "{2DC2E98F-0E45-4437-90EB-6F4CA78C6CBA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CH08", "CH08", "{BDDAB349-3E21-4EF9-8A46-177E8823FCB3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CH10", "CH10", "{79AE4355-AFEF-48DF-B10A-F5613CA73D7E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CH11", "CH11", "{BDA81859-3045-4320-8CC3-ACD3BC5430B8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppendixB-Disposables", "AppendixB-Disposables", "{A5826F68-9F61-47BE-946A-88B4500FEB21}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppendixC-Testing", "AppendixC-Testing", "{0600EF4E-226C-4AC1-BC7A-EC73CF9657A1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E2800573-57EF-4A84-8819-4C167098BDF8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionalThinking", "CH03\FunctionalThinking\FunctionalThinking.csproj", "{3820D470-514B-4B74-BBA8-001D39A00435}"
 EndProject
@@ -23,13 +47,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YourFirstRxExample", "CH02\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentTests", "CH03\FluentTests\FluentTests.csproj", "{1C0BF017-690B-4BF2-88FD-372A8D2F2D03}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CH04", "CH04", "{1C843FD7-4EE3-4A9E-9CA6-68F471855CB3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CreatingObservables", "CH04\CreatingObservables\CreatingObservables.csproj", "{7D69D45B-88F7-43F9-B84D-A083D572B19E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObserveUIEvents", "CH04\ObservablesFromEvents\ObserveUIEvents.csproj", "{46B0CBD8-4CDD-46A1-AFDD-CB6137800DE6}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{90AD1594-875C-47DB-A0B6-4502743D91FA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helpers", "Common\Helpers\Helpers.csproj", "{8413FDBA-6CAB-4547-B8E3-97A9386B65E9}"
 EndProject
@@ -38,10 +58,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnumerablesToObservablesAndBack", "CH04\EnumerablesToObservables\EnumerablesToObservablesAndBack.csproj", "{EC1367F7-0BCC-40D8-8392-DFE5F8EF6C97}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CreationalOpeartors", "CH04\CreationalOpeartors\CreationalOpeartors.csproj", "{CDB27ABA-A368-44E7-8618-B82A87496425}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CH09", "CH09", "{25B99D1D-27A5-4745-9EBE-0640CE71A6F6}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CH05", "CH05", "{6CA0AC39-2C04-42D1-92DE-65F4F2E011B6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAsyncProgram", "CH05\SimpleAsyncProgram\SimpleAsyncProgram.csproj", "{A3C0062C-81D5-4DFD-8650-0AC3F8260FB2}"
 EndProject
@@ -53,21 +69,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeriodicAndTimeBasedObserva
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CreatingPeriodicUpdatableView", "CH05\CreatingPeriodicUpdatableView\CreatingPeriodicUpdatableView.csproj", "{81996ABE-68BE-46CC-A665-A60B5C0AEBD8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CH06", "CH06", "{FB63BE1F-F823-4CCD-A316-185C6CB98CD2}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CreatingObservers", "CH06\CreatingObservers\CreatingObservers.csproj", "{D2B9E63E-1B09-443A-BCAC-BC2B4FC91DDA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControllingTheObserverLifetime", "CH06\ControllingTheObserverLifetime\ControllingTheObserverLifetime.csproj", "{4AA9E8D0-8EA7-40AD-9FB3-27F4E5BFC825}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveWPFDrawingApp", "CH06\ReactiveWPFDrawingApp\ReactiveWPFDrawingApp.csproj", "{FC2E562A-8692-4657-8EA7-2C80F37EB2DE}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CH07", "CH07", "{2DC2E98F-0E45-4437-90EB-6F4CA78C6CBA}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotAndColdObservables", "CH07\HotAndColdObservables\HotAndColdObservables.csproj", "{CF0F3931-B527-4F43-9C3A-FE438906EA25}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subjects", "CH07\Subjects\Subjects.csproj", "{75921D22-A54F-4B5D-BEB0-1FF3170AE41A}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CH08", "CH08", "{BDDAB349-3E21-4EF9-8A46-177E8823FCB3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicQueryOperators", "CH08\BasicQueryOperators\BasicQueryOperators.csproj", "{DEF9639D-5AEC-4BCF-92DD-F097E3A3FC69}"
 EndProject
@@ -83,8 +93,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grouping", "CH09\Grouping\G
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Joins", "CH09\Joins\Joins.csproj", "{D1D8136C-D277-467D-A130-81B98DD59ACD}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CH10", "CH10", "{79AE4355-AFEF-48DF-B10A-F5613CA73D7E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Schedulers", "CH10\Schedulers\Schedulers.csproj", "{C2E9F40A-B0DC-42DB-9F88-28E1BEA4A710}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsingTimeBasedOperators", "CH10\UsingTimeBasedOperators\UsingTimeBasedOperators.csproj", "{AF8A9BD3-AA52-472B-AB2F-F78FF4D97A53}"
@@ -94,8 +102,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObserveOnAndSubscribeOn", "CH10\ObserveOnAndSubscribeOn\ObserveOnAndSubscribeOn.csproj", "{9651405D-12C6-4E80-B685-50E83D07AA05}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Synchronize", "CH10\Synchronize\Synchronize.csproj", "{98B410E1-3237-4B03-84EB-BF96CDC706E1}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CH11", "CH11", "{BDA81859-3045-4320-8CC3-ACD3BC5430B8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErrorsInThePipeline", "CH11\ErrorsInThePipeline\ErrorsInThePipeline.csproj", "{BC03C4EB-A19F-4E28-8D1B-B6CB4F66E220}"
 EndProject
@@ -109,26 +115,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DealingWithBackpressure", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncEnumerable", "CH11\AsyncEnumerable\AsyncEnumerable.csproj", "{B6DFA3CF-9A38-499F-B599-942AC8BE56D1}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppendixB-Disposables", "AppendixB-Disposables", "{A5826F68-9F61-47BE-946A-88B4500FEB21}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Disposables", "AppendixB-Disposables\Disposables\Disposables.csproj", "{2A85C0D7-233C-434B-AD5E-FF3BDA68D8AD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DisposableCreate", "DisposableCreate\DisposableCreate.csproj", "{838A74BF-1945-4040-9DC5-5FD173AC2293}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppendixC-Testing", "AppendixC-Testing", "{0600EF4E-226C-4AC1-BC7A-EC73CF9657A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RxLibrary.Tests", "AppendixC-Testing\RxLibrary.Tests\RxLibrary.Tests.csproj", "{6226BC5A-6A25-49A3-97E4-305011647B3E}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "RxLibrary.Tests", "AppendixC-Testing\RxLibrary.Tests\RxLibrary.Tests.xproj", "{6226BC5A-6A25-49A3-97E4-305011647B3E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RxLibrary", "AppendixC-Testing\RxLibrary\RxLibrary.csproj", "{9C859F1F-43B9-4576-A0C8-73403CB07399}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "RxLibrary", "AppendixC-Testing\RxLibrary\RxLibrary.xproj", "{9C859F1F-43B9-4576-A0C8-73403CB07399}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RxStockMonitor", "AppendixC-Testing\RxStockMonitor\RxStockMonitor.csproj", "{7A354638-9C84-4C63-9B95-A016DBB2DC48}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E2800573-57EF-4A84-8819-4C167098BDF8}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-	EndProjectSection
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "RxStockMonitor", "AppendixC-Testing\RxStockMonitor\RxStockMonitor.xproj", "{7A354638-9C84-4C63-9B95-A016DBB2DC48}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "RxStockMonitor.Tests", "AppendixC-Testing\RxStockMonitor.Tests\RxStockMonitor.Tests.xproj", "{F2C81F87-2774-437D-872C-1BB1B9527137}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RxStockMonitor.Tests", "AppendixC-Testing\RxStockMonitor.Tests\RxStockMonitor.Tests.csproj", "{F2C81F87-2774-437D-872C-1BB1B9527137}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
