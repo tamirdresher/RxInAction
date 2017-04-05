@@ -4,6 +4,10 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/hshhkn2vlqkh847y?svg=true)](https://ci.appveyor.com/project/tamirdresher/rxinaction)
 
 This respository includes the source code for the [Rx.NET in Action](http://manning.com/dresher/)  book.
+
+* The 'master' branch include the VS2017 version
+* If you need the VS2015 version which include the `project.json` style of .NET Core projects, clone the `VS2015` branch
+
 ## How to use?
 
 The solution is structured such that the examples from each chapter are located inside a folder with the chapter name 
