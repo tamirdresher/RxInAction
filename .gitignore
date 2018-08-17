@@ -181,3 +181,4 @@ $RECYCLE.BIN/
 /packages
 /.vs/restore.dg
 *.lock.json
+/.vs

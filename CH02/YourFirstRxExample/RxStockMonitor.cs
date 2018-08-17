@@ -1,28 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace FirstRxExample
-{
-    public class RxStockMonitor : IDisposable
-    {
-        private IDisposable _subscription;
+namespace FirstRxExample {
 
-        public RxStockMonitor(IStockTicker ticker)
-        {
+    public class RxStockMonitor : IDisposable {
+        private readonly IDisposable _subscription;
+
+        public RxStockMonitor(IStockTicker ticker) {
             const decimal maxChangeRatio = 0.1m;
 
             //creating an observable from the StockTick event, each notification will carry only the eventargs and will be synchronized
-            IObservable<StockTick> ticks =
+            var ticks =
                     Observable.FromEventPattern<EventHandler<StockTick>, StockTick>(
-                        h => ticker.StockTick += h, 
-                        h => ticker.StockTick -= h) 
+                        h => ticker.StockTick += h,
+                        h => ticker.StockTick -= h)
                         .Select(tickEvent => tickEvent.EventArgs)
                         .Synchronize();
-            
+
             var drasticChanges =
                 from tick in ticks
                 group tick by tick.QuoteSymbol
@@ -30,38 +25,34 @@ namespace FirstRxExample
                 from tickPair in company.Buffer(2, 1)
                 let changeRatio = Math.Abs((tickPair[1].Price - tickPair[0].Price) / tickPair[0].Price)
                 where changeRatio > maxChangeRatio
-                select new DrasticChange()
-                {
+                select new DrasticChange() {
                     Symbol = company.Key,
                     ChangeRatio = changeRatio,
                     OldPrice = tickPair[0].Price,
                     NewPrice = tickPair[1].Price
                 };
 
-            DrasticChanges = drasticChanges;
+            this.DrasticChanges = drasticChanges;
 
-            _subscription =
-                drasticChanges.Subscribe(change =>
-                    {
-                        Console.WriteLine("Stock:{0} has changed with {1} ratio, Old Price:{2} New Price:{3}", change.Symbol,
-                            change.ChangeRatio,
-                            change.OldPrice,
-                            change.NewPrice);
-                    },
+            this._subscription =
+                drasticChanges.Subscribe(change => {
+                    Console.WriteLine("Stock:{0} has changed with {1} ratio, Old Price:{2} New Price:{3}", change.Symbol,
+                        change.ChangeRatio,
+                        change.OldPrice,
+                        change.NewPrice);
+                },
                     ex => { /* code that handles erros */}, //#C
                     () => {/* code that handles the observable completenss */}); //#C
         }
 
         public IObservable<DrasticChange> DrasticChanges { get; }
 
-        public void Dispose()
-        {
-            _subscription.Dispose();
+        public void Dispose() {
+            this._subscription.Dispose();
         }
     }
 
-    public class DrasticChange
-    {
+    public class DrasticChange {
         public decimal NewPrice { get; set; }
         public string Symbol { get; set; }
         public decimal ChangeRatio { get; set; }
