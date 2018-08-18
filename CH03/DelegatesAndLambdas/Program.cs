@@ -1,22 +1,16 @@
-﻿using System;
+﻿using ExtensionMethodsExample;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
-using ExtensionMethodsExample;
-namespace DelegatesAndLambdas
-{
-    class Program
-    {
 
+namespace DelegatesAndLambdas {
+    class Program {
         public delegate bool ComparisonTest(string first, string second);
+
         public delegate void ActionDelegate();
 
-
-        static void Main(string[] args)
-        {
-            int meaningOfLife = 42;
+        static void Main(string[] args) {
+            var meaningOfLife = 42;
 
             Console.WriteLine("is the meaning of life even:{0}", meaningOfLife.IsEven());
             UsingDelegates();
@@ -31,11 +25,7 @@ namespace DelegatesAndLambdas
             FluentInterfacesExample.StringBuilderExample();
         }
 
-
-
-
-        private static void MethodWithAction()
-        {
+        private static void MethodWithAction() {
             var oddNumbers = new[] { 1, 3, 5, 7, 9 };
             Tools.ForEachInt(oddNumbers, n => Console.WriteLine(n));
 
@@ -44,26 +34,17 @@ namespace DelegatesAndLambdas
             Tools.ForEach(new[] { ConsoleColor.Red, ConsoleColor.Green, ConsoleColor.Blue }, n => Console.WriteLine(n));
         }
 
-
-        private static void MethodWithFunc()
-        {
-            var numbers = Enumerable.Range(1, 10);
+        private static void MethodWithFunc() {
+            IEnumerable<int> numbers = Enumerable.Range(1, 10);
             Tools.ForEach(numbers, n => Console.WriteLine(n), n => (n % 2 == 0));
-
-
         }
 
-
-        private static void IntroducingLambdas()
-        {
+        private static void IntroducingLambdas() {
             ComparisonTest x = (s1, s2) => s1 == s2;
             ComparisonTest y = delegate (string s1, string s2) { return s1 == s2; };
-
-
         }
 
-        private static void MethodAsParameter()
-        {
+        private static void MethodAsParameter() {
             string[] cities, friends;
 
             //Passing method as parameter
@@ -72,13 +53,12 @@ namespace DelegatesAndLambdas
             Console.WriteLine("Are friendss and cities similar? {0}", AreSimilar(friends, cities, StringComparators.CompareLength));
         }
 
-        private static void UsingDelegates()
-        {
-            string s1 = "Hello";
-            string s2 = "World";
+        private static void UsingDelegates() {
+            var s1 = "Hello";
+            var s2 = "World";
             var comparators = new StringComparators();
 
-            ComparisonTest test = new ComparisonTest(comparators.CompareContent);
+            var test = new ComparisonTest(comparators.CompareContent);
             Console.WriteLine("CompareContent returned: {0}", test(s1, s2));
 
             test = new ComparisonTest(StringComparators.CompareLength);
@@ -88,22 +68,21 @@ namespace DelegatesAndLambdas
         }
 
         public delegate bool NameValidator(string name);
+
         public delegate bool EmailValidator(string email);
-        private static void SameDelegateDifferentName()
-        {
+
+        private static void SameDelegateDifferentName() {
             NameValidator nameValidator = (name) => name.Length > 3;
             EmailValidator emailValidator = (email) => email.Length > 3;
             emailValidator = (email) => email.Contains("@");
 
             //wont work
             //nameValidator = emailValidator;
-
         }
 
-        private static void UsingFuncAndAction()
-        {
-            string s1 = "Hello";
-            string s2 = "World";
+        private static void UsingFuncAndAction() {
+            var s1 = "Hello";
+            var s2 = "World";
             var comparators = new StringComparators();
 
             Func<string, string, bool> test = comparators.CompareContent;
@@ -119,39 +98,34 @@ namespace DelegatesAndLambdas
             actionExample(s1, s2);
         }
 
-
-        private static void AnonymousMethod()
-        {
-            string[] cities = new[] { "London", "Madrid", "TelAviv" };
-            string[] friends = new[] { "Minnie", "Goofey", "MickeyM" };
+        private static void AnonymousMethod() {
+            var cities = new[] { "London", "Madrid", "TelAviv" };
+            var friends = new[] { "Minnie", "Goofey", "MickeyM" };
 
             //Anonymous Method
-            ComparisonTest lengthComparer = delegate (string first, string second)
-            {
+            ComparisonTest lengthComparer = delegate (string first, string second) {
                 return first.Length == second.Length;
             };
             Console.WriteLine("anonymous method returned: {0}", lengthComparer("Hello", "World"));
             PassingAnonymousMethodAsArgument(cities, friends);
         }
 
-        private static void TrickyCapturedVariables()
-        {
+        private static void TrickyCapturedVariables() {
             //Captured Variables are tricky
             var actions = new List<ActionDelegate>();
-            for (var i = 0; i < 5; i++)
-            {
+            for (var i = 0; i < 5; i++) {
                 actions.Add(delegate () { Console.WriteLine(i); });
             }
-            foreach (var act in actions) act();
+            foreach (ActionDelegate act in actions) {
+                act();
+            }
         }
 
-        private static void CapturedVariables()
-        {
+        private static void CapturedVariables() {
             ComparisonTest comparer;
             {
-                int moduloBase = 2;
-                comparer = delegate (string s1, string s2)
-                {
+                var moduloBase = 2;
+                comparer = delegate (string s1, string s2) {
                     Console.WriteLine("the modulo base is: {0}", moduloBase);
                     return ((s1.Length % moduloBase) == (s2.Length % moduloBase));
                 };
@@ -162,29 +136,26 @@ namespace DelegatesAndLambdas
             Console.WriteLine("Similar by modulo: {0}", similarByMod);
         }
 
-        private static bool PassingAnonymousMethodAsArgument(string[] cities, string[] friends)
-        {
+        private static bool PassingAnonymousMethodAsArgument(string[] cities, string[] friends) {
             //Passing anonymous method as argument
             AreSimilar(friends, cities, delegate (string s1, string s2) { return s1 == s2; });
 
-            int moduloBase = 2;
-            var similarByMod = AreSimilar(friends, cities, delegate (string str1, string str2)
-            {
+            var moduloBase = 2;
+            var similarByMod = AreSimilar(friends, cities, delegate (string str1, string str2) {
                 return ((str1.Length % moduloBase) == (str2.Length % moduloBase));
             });
             Console.WriteLine("Similar by modulo: {0}", similarByMod);
             return similarByMod;
         }
 
-        static bool AreSimilar(string[] leftItems, string[] rightItems, ComparisonTest tester)
-        {
-            if (leftItems.Length != rightItems.Length)
+        static bool AreSimilar(string[] leftItems, string[] rightItems, 
+            ComparisonTest tester) {
+            if (leftItems.Length != rightItems.Length) {
                 return false;
+            }
 
-            for (int i = 0; i < leftItems.Length; i++)
-            {
-                if (tester(leftItems[i], rightItems[i]) == false)
-                {
+            for (var i = 0; i < leftItems.Length; i++) {
+                if (tester(leftItems[i], rightItems[i]) == false) {
                     return false;
                 }
             }

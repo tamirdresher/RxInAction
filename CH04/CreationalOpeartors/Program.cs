@@ -1,22 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Helpers;
+using System;
 using System.IO;
 using System.Linq;
-using System.Reactive;
-using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Reactive.Subjects;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Helpers;
 
-namespace CreationalOpeartors
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
+namespace CreationalOpeartors {
+    class Program {
+        static void Main(string[] args) {
             GenerateSequence();
             CreatingRangeObservable();
             ReadingAFileWithGenerate();
@@ -27,52 +17,43 @@ namespace CreationalOpeartors
             Console.ReadLine();
         }
 
-        private static void CreatingEmptyObservable()
-        {
+        private static void CreatingEmptyObservable() {
             Console.WriteLine();
             Demo.DisplayHeader("Creating an empty observable");
 
-Observable.Empty<string>()
-    .SubscribeConsole("Empty");
+            Observable.Empty<string>()
+                .SubscribeConsole("Empty");
         }
 
-        private static void CreatingObservableTheThrows()
-        {
+        private static void CreatingObservableTheThrows() {
             Console.WriteLine();
             Demo.DisplayHeader("Creating observable the throws");
 
-Observable.Throw<ApplicationException>(new ApplicationException("something bad happened"))
-    .SubscribeConsole("Throw"); 
-
+            Observable.Throw<ApplicationException>(new ApplicationException("something bad happened"))
+                .SubscribeConsole("Throw");
         }
 
-        private static void CreatingNeverendingObservable()
-        {
+        private static void CreatingNeverendingObservable() {
             Console.WriteLine();
             Demo.DisplayHeader("Creating a neverending observable");
 
-Observable.Never<string>()
-    .SubscribeConsole("Never"); //nothing will be printed
+            Observable.Never<string>()
+                .SubscribeConsole("Never"); //nothing will be printed
 
             Console.WriteLine("No notifications will be pushed, press enter to contine");
         }
 
-        private static void CreatingSingleItemObservable()
-        {
+        private static void CreatingSingleItemObservable() {
             Console.WriteLine();
             Demo.DisplayHeader("Creating a single item observable");
 
             Observable.Return("Hello World")
                 .SubscribeConsole("Return");
-
         }
 
-
-        private static void ReadingAFileWithGenerate()
-        {
+        private static void ReadingAFileWithGenerate() {
             Console.WriteLine();
             Demo.DisplayHeader("Generate Sequence from a file");
-
 
             //
             // this will read the file, but the created StreamReader wont get disposed when readings complete
@@ -84,7 +65,6 @@ Observable.Never<string>()
             //        s => s,
             //        s => s.ReadLine());
 
-
             IObservable<string> lines =
                 Observable.Using(
                     () => File.OpenText("TextFile.txt"),    // opens the file and returns the stream we work with
@@ -92,15 +72,14 @@ Observable.Never<string>()
                         Observable.Generate(
                             stream,                 //initial state
                             s => !s.EndOfStream,    //we continue until we reach the end of the file
-                            s => s,                 //the stream is our state, it holds the position in the file 
+                            s => s,                 //the stream is our state, it holds the position in the file
                             s => s.ReadLine())      //each iteration will emit the current line (and moves to the next)
                     );
 
             lines.SubscribeConsole("lines");
         }
 
-        public static void GenerateSequence()
-        {
+        public static void GenerateSequence() {
             Console.WriteLine();
             Demo.DisplayHeader("Generate Sequence");
 
@@ -113,11 +92,9 @@ Observable.Never<string>()
 
             // this will print the values: 0,2,4,6,8,10,12,14,16,18
             observable.SubscribeConsole("Generate sequence");
-
         }
 
-        public static void CreatingRangeObservable()
-        {
+        public static void CreatingRangeObservable() {
             Console.WriteLine();
             Demo.DisplayHeader("Using Range");
 
@@ -128,9 +105,6 @@ Observable.Never<string>()
 
             // this will print the values: 0,2,4,6,8,10,12,14,16,18
             observable.SubscribeConsole("range");
-
         }
-
-
     }
 }
