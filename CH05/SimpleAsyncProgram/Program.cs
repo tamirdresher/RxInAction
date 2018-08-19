@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using Helpers;
+using System;
 using System.Net.Http;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Helpers;
 
-namespace SimpleAsyncProgram
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
+namespace SimpleAsyncProgram {
+    class Program {
+        static void Main(string[] args) {
             //CreatingThread();
             //UsingThreadPool();
             //GetPageWithTask();
@@ -26,26 +19,20 @@ namespace SimpleAsyncProgram
             Console.ReadLine();
         }
 
-
-
-
-        private static async Task<string> GetPageAsync()
-        {
+        private static async Task<string> GetPageAsync() {
             Console.WriteLine();
             Demo.DisplayHeader("Getting reactivex.io with async-await");
 
             var httpClient = new HttpClient();
 
             // The program wont block here, so this method will return right after this call
-            var response = await httpClient.GetAsync("http://ReactiveX.io");
+            HttpResponseMessage response = await httpClient.GetAsync("http://ReactiveX.io");
             var page = await response.Content.ReadAsStringAsync();
             Console.WriteLine(page);
             return page;
-
         }
 
-        private static void ContinuationIsLengthy()
-        {
+        private static void ContinuationIsLengthy() {
             Console.WriteLine();
             Demo.DisplayHeader("Task Continuation can be lengthy");
 
@@ -53,19 +40,16 @@ namespace SimpleAsyncProgram
 
             // The program wont block here, so this method will return right after this call
             httpClient.GetAsync("http://ReactiveX.io")
-                .ContinueWith(requestTask =>
-                {
+                .ContinueWith(requestTask => {
                     HttpContent httpContent = requestTask.Result.Content;
                     httpContent.ReadAsStringAsync()
-                        .ContinueWith(contentTask =>
-                        {
+                        .ContinueWith(contentTask => {
                             Console.WriteLine(contentTask.Result);
                         });
                 });
         }
 
-        private static void GetPageWithTask()
-        {
+        private static void GetPageWithTask() {
             Console.WriteLine();
             Demo.DisplayHeader("Download headers with Task");
 
@@ -77,8 +61,7 @@ namespace SimpleAsyncProgram
             Console.WriteLine(requestTask.Result.Headers);
         }
 
-        private static void GetPageWithContinuation()
-        {
+        private static void GetPageWithContinuation() {
             Console.WriteLine();
             Demo.DisplayHeader("Download headers with Task Continuation");
 
@@ -86,22 +69,17 @@ namespace SimpleAsyncProgram
 
             // The program wont block here, so this method will return right after this call
             httpClient.GetAsync("http://ReactiveX.io")
-                .ContinueWith(requestTask =>
-                {
+                .ContinueWith(requestTask => {
                     Console.WriteLine("the request was sent, status:{0}", requestTask.Status);
                     Console.WriteLine(requestTask.Result.Headers);
                 });
-
-
         }
 
-        private static void CreatingThread()
-        {
+        private static void CreatingThread() {
             Console.WriteLine();
             Demo.DisplayHeader("Creating a Thread");
 
-            var thread = new Thread(() =>
-            {
+            var thread = new Thread(() => {
                 //simulating a long work of five secnods
                 Thread.Sleep(TimeSpan.FromSeconds(5));
 
@@ -115,14 +93,12 @@ namespace SimpleAsyncProgram
             Console.ReadLine();
         }
 
-        private static void UsingThreadPool()
-        {
+        private static void UsingThreadPool() {
             Console.WriteLine();
             Demo.DisplayHeader("Using the ThreadPool");
 
             Console.WriteLine("Starting the long work");
-            ThreadPool.QueueUserWorkItem((_) =>
-            {
+            ThreadPool.QueueUserWorkItem((_) => {
                 //simulating a long work of five secnods
                 Thread.Sleep(TimeSpan.FromSeconds(5));
 

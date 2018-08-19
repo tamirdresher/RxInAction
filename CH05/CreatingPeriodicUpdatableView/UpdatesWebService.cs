@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CreatingPeriodicUpdatableView
-{
-    class UpdatesWebService
-    {
-        public async Task<IEnumerable<string>> GetUpdatesAsync()
-        {
+namespace CreatingPeriodicUpdatableView {
+    class UpdatesWebService {
+        public async Task<IEnumerable<string>> GetUpdatesAsync() {
             Console.WriteLine("GetUpdatesAsync was called");
             await Task.Delay(1000);//simulate latency
 

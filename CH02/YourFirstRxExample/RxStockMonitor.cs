@@ -3,7 +3,6 @@ using System.Linq;
 using System.Reactive.Linq;
 
 namespace FirstRxExample {
-
     public class RxStockMonitor : IDisposable {
         private readonly IDisposable _subscription;
 
@@ -11,14 +10,14 @@ namespace FirstRxExample {
             const decimal maxChangeRatio = 0.1m;
 
             //creating an observable from the StockTick event, each notification will carry only the eventargs and will be synchronized
-            var ticks =
+            IObservable<StockTick> ticks =
                     Observable.FromEventPattern<EventHandler<StockTick>, StockTick>(
                         h => ticker.StockTick += h,
                         h => ticker.StockTick -= h)
                         .Select(tickEvent => tickEvent.EventArgs)
                         .Synchronize();
 
-            var drasticChanges =
+            IObservable<DrasticChange> drasticChanges =
                 from tick in ticks
                 group tick by tick.QuoteSymbol
                 into company

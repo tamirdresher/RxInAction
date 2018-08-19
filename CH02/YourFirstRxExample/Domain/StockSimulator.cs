@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace FirstRxExample {
-
     /// <summary>
     /// This simulator will emit a batch of StockTicks every two seconds. each time, a single item
     /// will be selected and updated with a "drastic change" (more than 10%)
@@ -39,7 +38,7 @@ namespace FirstRxExample {
 
         private void Emit() {
             Console.WriteLine("Emitting...");
-            foreach (var stockTick in this._ticks) {
+            foreach (StockTick stockTick in this._ticks) {
                 this._ticker.Notify(stockTick);
             }
         }
@@ -47,7 +46,7 @@ namespace FirstRxExample {
         private void PrintPrices() {
             Console.WriteLine("Next series to emit:");
             Console.WriteLine("\t");
-            foreach (var stockTick in this._ticks) {
+            foreach (StockTick stockTick in this._ticks) {
                 Console.WriteLine("{{{0} - {1}}}, ", stockTick.QuoteSymbol, stockTick.Price);
             }
             Console.WriteLine();

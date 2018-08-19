@@ -2,7 +2,6 @@
 using System.Threading;
 
 namespace FirstRxExample {
-
     class Program {
         private static StockTicker _stockTicker;
 

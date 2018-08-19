@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 
 namespace FirstRxExample {
-
     class StockMonitor : IDisposable {
         readonly object _stockTickLocker = new object();
         private readonly StockTicker _ticker;
@@ -19,7 +18,7 @@ namespace FirstRxExample {
             const decimal maxChangeRatio = 0.1m;
             var quoteSymbol = stockTick.QuoteSymbol;
             lock (this._stockTickLocker) {
-                var stockInfoExists = this._stockInfos.TryGetValue(quoteSymbol, out var stockInfo);
+                var stockInfoExists = this._stockInfos.TryGetValue(quoteSymbol, out StockInfo stockInfo);
                 if (stockInfoExists) {
                     var priceDiff = stockTick.Price - stockInfo.PrevPrice;
                     var changeRatio = Math.Abs(priceDiff / stockInfo.PrevPrice); //#A the percentage of change
