@@ -3,9 +3,12 @@ using System;
 using System.Reactive;
 using System.Reactive.Linq;
 
-namespace PeriodicAndTimeBasedObservables {
-    class Program {
-        static void Main(string[] args) {
+namespace PeriodicAndTimeBasedObservables
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
             //CreatingPeriodicObservableWithInterval();
             //PeriodicallyGetUpdates();
             //UsingTimerToScheduleTheBeginning();
@@ -15,7 +18,8 @@ namespace PeriodicAndTimeBasedObservables {
             Console.ReadLine();
         }
 
-        private static void ChangingTheUnderlyingObservableByTime() {
+        private static void ChangingTheUnderlyingObservableByTime()
+        {
             Console.WriteLine();
             Demo.DisplayHeader("Switching observables after 5 seconds (with timer)");
 
@@ -48,7 +52,8 @@ namespace PeriodicAndTimeBasedObservables {
             switchingObservable.RunExample("timer switch");
         }
 
-        private static void UsingTimerToScheduleTheBeginning() {
+        private static void UsingTimerToScheduleTheBeginning()
+        {
             Console.WriteLine();
             Demo.DisplayHeader("Creating observable with Timer - emission will start 5 sec after the subscription, with a period of 1 sec between notification----");
 
@@ -61,7 +66,8 @@ namespace PeriodicAndTimeBasedObservables {
             observable.RunExample("Timer(5s,1s)");
         }
 
-        private static void CreatingPeriodicObservableWithInterval() {
+        private static void CreatingPeriodicObservableWithInterval()
+        {
             Console.WriteLine();
             Demo.DisplayHeader("Creating observable with Interval");
 
@@ -76,7 +82,8 @@ namespace PeriodicAndTimeBasedObservables {
         /// Shows how to use the Interval operator to periodically poll a webservice for updates
         /// NOTE: a similar example for WPF GUI application can be found in the project "CreatingPeriodicUpdatableView"
         /// </summary>
-        private static void PeriodicallyGetUpdates() {
+        private static void PeriodicallyGetUpdates()
+        {
             Console.WriteLine();
             Demo.DisplayHeader("Using Interval to periodically poll a webservice");
 
@@ -90,7 +97,8 @@ namespace PeriodicAndTimeBasedObservables {
             observable.RunExample("updates");
         }
 
-        private static void UsingTimerToScheduleWithRelativeTime() {
+        private static void UsingTimerToScheduleWithRelativeTime()
+        {
             Console.WriteLine();
             Demo.DisplayHeader("Schedule single emission with Timer (relative)----");
 
@@ -103,7 +111,8 @@ namespace PeriodicAndTimeBasedObservables {
             observable.RunExample("Timer (relative)");
         }
 
-        private static void UsingTimerToScheduleWithAbsoluteTime() {
+        private static void UsingTimerToScheduleWithAbsoluteTime()
+        {
             Console.WriteLine();
             Demo.DisplayHeader("Schedule single emission with Timer (absolute)----");
 

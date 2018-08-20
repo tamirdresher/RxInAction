@@ -4,9 +4,12 @@ using System;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
-namespace CreatingObservables {
-    class Program {
-        static void Main(string[] args) {
+namespace CreatingObservables
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
             HandcraftedObservable();
             EnforcingUnsubscribingObservers();
             UsingObservableCreate();
@@ -14,7 +17,8 @@ namespace CreatingObservables {
             Console.ReadLine();
         }
 
-        private static void UsingObservableCreate() {
+        private static void UsingObservableCreate()
+        {
             Console.WriteLine();
             Demo.DisplayHeader("Using the Create operator");
 
@@ -23,9 +27,11 @@ namespace CreatingObservables {
             numbers.SubscribeConsole("Observable.Created(...)");
         }
 
-        public static IObservable<int> ObserveNumbers(int amount) {
+        public static IObservable<int> ObserveNumbers(int amount)
+        {
             return Observable.Create<int>(observer => {
-                for (var i = 0; i < amount; i++) {
+                for (var i = 0; i < amount; i++)
+                {
                     observer.OnNext(i);
                 }
                 observer.OnCompleted();
@@ -33,7 +39,8 @@ namespace CreatingObservables {
             });
         }
 
-        private static void EnforcingUnsubscribingObservers() {
+        private static void EnforcingUnsubscribingObservers()
+        {
             Console.WriteLine();
             Demo.DisplayHeader("Enforcing The Observers Unsubscription (OnCompleted/OnError)");
 
@@ -59,7 +66,8 @@ namespace CreatingObservables {
             subscription = errorTestObservable.Subscribe(consoleObserver);
         }
 
-        private static void HandcraftedObservable() {
+        private static void HandcraftedObservable()
+        {
             Console.WriteLine();
             Demo.DisplayHeader("Handcrafted Observable");
 

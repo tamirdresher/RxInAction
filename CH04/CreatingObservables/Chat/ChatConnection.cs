@@ -1,7 +1,9 @@
 ﻿using System;
 
-namespace CreatingObservables.Chat {
-    public class ChatConnection : IChatConnection {
+namespace CreatingObservables.Chat
+{
+    public class ChatConnection : IChatConnection
+    {
         public event Action<string> Received = delegate { };
 
         public event Action Closed = delegate { };
@@ -10,20 +12,24 @@ namespace CreatingObservables.Chat {
 
         //rest of code
 
-        public void NotifyRecieved(string msg) {
+        public void NotifyRecieved(string msg)
+        {
             Received(msg);
         }
 
-        public void NotifyClosed() {
+        public void NotifyClosed()
+        {
             Closed();
         }
 
-        public void NotifyError() {
+        public void NotifyError()
+        {
             //Simulating an error
             Error(new OutOfMemoryException());
         }
 
-        public void Disconnect() {
+        public void Disconnect()
+        {
             Console.WriteLine("Disconnect");
         }
     }

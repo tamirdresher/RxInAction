@@ -4,8 +4,8 @@ namespace LINQExamples
     {
         public Author(int id, string name)
         {
-            ID = id;
-            Name = name;
+            this.ID = id;
+            this.Name = name;
         }
 
         public int ID { get; set; }

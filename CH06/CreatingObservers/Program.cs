@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using Helpers;
+using System;
 using System.Linq;
-using System.Reactive;
-using System.Reactive.Disposables;
-using System.Reactive.Linq;
-using System.Reactive.Threading.Tasks;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Helpers;
 
 namespace CreatingObservers
 {
@@ -23,12 +16,9 @@ namespace CreatingObservers
             CreatingWithSimplestSubscribeOverloadOnAsyncSource();
             SubscribeWithCancellationInsteadOfDisposable();
             ObserverCreate();
-            
-            
+
             Console.ReadLine();
         }
-
-       
 
         private static void ObserverCreate()
         {
@@ -50,8 +40,6 @@ namespace CreatingObservers
             Thread.Sleep(5000);
             subscription1.Dispose();
             subscription2.Dispose();
-
-
         }
 
         private static void SubscribeWithCancellationInsteadOfDisposable()
@@ -74,13 +62,10 @@ namespace CreatingObservers
         {
             Demo.DisplayHeader("Creating observer with the simplest Subscribe(...) overload can hide bugs (Async version)");
 
-
             Observable.Range(1, 5)
                 .Select(x => Task.Run(() => x / (x - 3))) //making the calculation asynchronous - so the when x=3 an exception will occur on another thread
                 .Concat() //keeping the results in the same order as the numbers that created them
                 .Subscribe(x => Console.WriteLine("{0}", x));
-
-
         }
 
         private static void CreatingWithSimplestSubscribeOverload()
@@ -95,10 +80,8 @@ namespace CreatingObservers
             }
             catch (Exception)
             {
-
                 Console.WriteLine("we got exception");
             }
-
 
             Console.WriteLine("We solve it even by simply adding an empty OnError function");
             Observable.Range(1, 5)
@@ -116,7 +99,6 @@ namespace CreatingObservers
                     ex => Console.WriteLine("OnError: {0}", ex.Message),
                     () => Console.WriteLine("OnCompleted")
                 );
-
         }
     }
 }

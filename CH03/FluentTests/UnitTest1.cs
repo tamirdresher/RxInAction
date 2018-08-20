@@ -1,6 +1,4 @@
-﻿using System;
-using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FluentTests
 {
@@ -10,8 +8,7 @@ namespace FluentTests
         [TestMethod]
         public void NonFluentTest()
         {
-
-            string actual = "ABCDEFGHI";
+            var actual = "ABCDEFGHI";
 
             Assert.IsTrue(actual.StartsWith("AB"));
             Assert.IsTrue(actual.EndsWith("HI"));
@@ -22,7 +19,7 @@ namespace FluentTests
         [TestMethod]
         public void FluentTest()
         {
-            string actual = "ABCDEFGHI";
+            var actual = "ABCDEFGHI";
             actual.Should().StartWith("AB")
                         .And.EndWith("HI")
                         .And.Contain("EF")

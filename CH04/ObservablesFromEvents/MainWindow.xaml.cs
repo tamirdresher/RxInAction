@@ -4,12 +4,15 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Windows;
 
-namespace ObservablesFromEvents {
+namespace ObservablesFromEvents
+{
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window {
-        public MainWindow() {
+    public partial class MainWindow : Window
+    {
+        public MainWindow()
+        {
             this.InitializeComponent();
             IObservable<EventPattern<RoutedEventArgs>> clicks =
                             Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(

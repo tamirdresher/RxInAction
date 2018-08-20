@@ -1,21 +1,26 @@
 ﻿using System;
 using System.Reactive.Disposables;
 
-namespace CreatingObservables {
+namespace CreatingObservables
+{
     /// <summary>
     /// This demonstrates what happens when we write our own observables, the contract between the
     /// observable and the observer needs to be enforced by us. A call to OnNext after a call to
     /// OnCompleted will still be observed by the observer
     /// </summary>
-    public class ErrorNumbersObservable : IObservable<int> {
+    public class ErrorNumbersObservable : IObservable<int>
+    {
         private readonly int _amount;
 
-        public ErrorNumbersObservable(int amount) {
+        public ErrorNumbersObservable(int amount)
+        {
             this._amount = amount;
         }
 
-        public IDisposable Subscribe(IObserver<int> observer) {
-            for (var i = 0; i < this._amount; i++) {
+        public IDisposable Subscribe(IObserver<int> observer)
+        {
+            for (var i = 0; i < this._amount; i++)
+            {
                 observer.OnNext(i);
             }
             observer.OnCompleted();

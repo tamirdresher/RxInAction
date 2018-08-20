@@ -6,23 +6,30 @@ using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MagicalPrimeGeneratorExample {
-    public class MagicalPrimeGenerator {
-        public IEnumerable<int> Generate(int amount) {
-            for (var i = 0; i < amount; i++) {
+namespace MagicalPrimeGeneratorExample
+{
+    public class MagicalPrimeGenerator
+    {
+        public IEnumerable<int> Generate(int amount)
+        {
+            for (var i = 0; i < amount; i++)
+            {
                 yield return this.GeneratePrime(i);
             }
         }
 
-        public async Task<IReadOnlyCollection<int>> GenerateAsync(int amount) {
+        public async Task<IReadOnlyCollection<int>> GenerateAsync(int amount)
+        {
             return await Task.Run(() => this.Generate(amount).ToList().AsReadOnly());
         }
 
-        public IObservable<int> GeneratePrimes_ManualAsync(int amount) {
+        public IObservable<int> GeneratePrimes_ManualAsync(int amount)
+        {
             var cts = new CancellationTokenSource();
             return Observable.Create<int>(o => {
                 Task.Run(() => {
-                    foreach (var prime in this.Generate(amount)) {
+                    foreach (var prime in this.Generate(amount))
+                    {
                         cts.Token.ThrowIfCancellationRequested();
                         o.OnNext(prime);
                     }
@@ -33,9 +40,11 @@ namespace MagicalPrimeGeneratorExample {
             });
         }
 
-        public IObservable<int> GeneratePrimes_Sync(int amount) {
+        public IObservable<int> GeneratePrimes_Sync(int amount)
+        {
             return Observable.Create<int>(o => {
-                foreach (var prime in this.Generate(amount)) {
+                foreach (var prime in this.Generate(amount))
+                {
                     o.OnNext(prime);
                 }
                 o.OnCompleted();
@@ -43,10 +52,12 @@ namespace MagicalPrimeGeneratorExample {
             });
         }
 
-        public IObservable<int> GeneratePrimes_AsyncCreate(int amount) {
+        public IObservable<int> GeneratePrimes_AsyncCreate(int amount)
+        {
             return Observable.Create<int>((o, ct) => {
                 return Task.Run(() => {
-                    foreach (var prime in this.Generate(amount)) {
+                    foreach (var prime in this.Generate(amount))
+                    {
                         ct.ThrowIfCancellationRequested();
                         o.OnNext(prime);
                     }
@@ -55,10 +66,12 @@ namespace MagicalPrimeGeneratorExample {
             });
         }
 
-        public IObservable<int> GeneratePrimes3(int amount) {
+        public IObservable<int> GeneratePrimes3(int amount)
+        {
             return Observable.Create<int>((o, ct) => {
                 return Task.Run(() => {
-                    foreach (var prime in this.Generate(amount)) {
+                    foreach (var prime in this.Generate(amount))
+                    {
                         ct.ThrowIfCancellationRequested();
                         o.OnNext(prime);
                     }
@@ -67,12 +80,14 @@ namespace MagicalPrimeGeneratorExample {
             });
         }
 
-        int GeneratePrime(int index) {
+        int GeneratePrime(int index)
+        {
             // Simulate the hard work
             Thread.Sleep(2000);
 
             var firstNumbers = new[] { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, };
-            if (index < firstNumbers.Length) {
+            if (index < firstNumbers.Length)
+            {
                 return firstNumbers[index];
             }
 

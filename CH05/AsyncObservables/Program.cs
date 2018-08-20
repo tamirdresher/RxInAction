@@ -7,9 +7,12 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading;
 
-namespace AsyncObservables {
-    class Program {
-        static void Main(string[] args) {
+namespace AsyncObservables
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
             //Uncomment the example you wish to run
 
             SearchingWithAsyncAwait();
@@ -22,7 +25,8 @@ namespace AsyncObservables {
             Console.ReadLine();
         }
 
-        private static void RunningAsyncCodeInWhere() {
+        private static void RunningAsyncCodeInWhere()
+        {
             Demo.DisplayHeader("Running async code int the pipeline - order is not determenistic");
 
             var svc = new PrimeCheckService();
@@ -57,7 +61,8 @@ namespace AsyncObservables {
             exampleResetEvent.WaitOne();
         }
 
-        private static void ContrlingOrderOfAsyncCode() {
+        private static void ContrlingOrderOfAsyncCode()
+        {
             Demo.DisplayHeader("Contrling the order of async code with Concat");
 
             var resetEvent = new AutoResetEvent(false);
@@ -91,14 +96,16 @@ namespace AsyncObservables {
             resetEvent.WaitOne();
         }
 
-        public static void SearchingWithAsyncAwait() {
+        public static void SearchingWithAsyncAwait()
+        {
             Demo.DisplayHeader("Creating async observable with async-await");
 
             IObservable<string> results = SearchEngineExample.Search_WithAsyncAwait("Rx");
             results.RunExample("search async-await");
         }
 
-        public static void SearchingWithCancellation() {
+        public static void SearchingWithCancellation()
+        {
             Demo.DisplayHeader("Creating async observable with async-await and cancellation");
 
             var exampleResetEvent = new AutoResetEvent(false);
@@ -112,7 +119,8 @@ namespace AsyncObservables {
             subscription = results
                 .Select((result, index) => new { result, index }) //adding the item index to the notification
                 .Do(x => {
-                    if (x.index == cancelIndex) {
+                    if (x.index == cancelIndex)
+                    {
                         Console.WriteLine("Cancelling on index {0}", cancelIndex);
                         subscription.Dispose();
                         exampleResetEvent.Set();
@@ -125,7 +133,8 @@ namespace AsyncObservables {
             exampleResetEvent.WaitOne();
         }
 
-        public static void SearchingWithConcatingTasks() {
+        public static void SearchingWithConcatingTasks()
+        {
             Demo.DisplayHeader("Converting Tasks to observables");
 
             IObservable<string> results = SearchEngineExample.Search_ConcatingTasks("Rx");
@@ -134,7 +143,8 @@ namespace AsyncObservables {
              .RunExample("tasks to observables");
         }
 
-        public static void SearchingWithDefferedAsync() {
+        public static void SearchingWithDefferedAsync()
+        {
             Demo.DisplayHeader("Defferd async");
 
             IObservable<string> results = SearchEngineExample.Search_DefferedConcatingTasks("Rx");

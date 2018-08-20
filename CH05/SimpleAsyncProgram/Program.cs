@@ -4,9 +4,12 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SimpleAsyncProgram {
-    class Program {
-        static void Main(string[] args) {
+namespace SimpleAsyncProgram
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
             //CreatingThread();
             //UsingThreadPool();
             //GetPageWithTask();
@@ -19,7 +22,8 @@ namespace SimpleAsyncProgram {
             Console.ReadLine();
         }
 
-        private static async Task<string> GetPageAsync() {
+        private static async Task<string> GetPageAsync()
+        {
             Console.WriteLine();
             Demo.DisplayHeader("Getting reactivex.io with async-await");
 
@@ -32,7 +36,8 @@ namespace SimpleAsyncProgram {
             return page;
         }
 
-        private static void ContinuationIsLengthy() {
+        private static void ContinuationIsLengthy()
+        {
             Console.WriteLine();
             Demo.DisplayHeader("Task Continuation can be lengthy");
 
@@ -49,7 +54,8 @@ namespace SimpleAsyncProgram {
                 });
         }
 
-        private static void GetPageWithTask() {
+        private static void GetPageWithTask()
+        {
             Console.WriteLine();
             Demo.DisplayHeader("Download headers with Task");
 
@@ -61,7 +67,8 @@ namespace SimpleAsyncProgram {
             Console.WriteLine(requestTask.Result.Headers);
         }
 
-        private static void GetPageWithContinuation() {
+        private static void GetPageWithContinuation()
+        {
             Console.WriteLine();
             Demo.DisplayHeader("Download headers with Task Continuation");
 
@@ -75,7 +82,8 @@ namespace SimpleAsyncProgram {
                 });
         }
 
-        private static void CreatingThread() {
+        private static void CreatingThread()
+        {
             Console.WriteLine();
             Demo.DisplayHeader("Creating a Thread");
 
@@ -93,7 +101,8 @@ namespace SimpleAsyncProgram {
             Console.ReadLine();
         }
 
-        private static void UsingThreadPool() {
+        private static void UsingThreadPool()
+        {
             Console.WriteLine();
             Demo.DisplayHeader("Using the ThreadPool");
 

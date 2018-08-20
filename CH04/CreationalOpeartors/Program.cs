@@ -4,9 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
 
-namespace CreationalOpeartors {
-    class Program {
-        static void Main(string[] args) {
+namespace CreationalOpeartors
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
             GenerateSequence();
             CreatingRangeObservable();
             ReadingAFileWithGenerate();
@@ -17,7 +20,8 @@ namespace CreationalOpeartors {
             Console.ReadLine();
         }
 
-        private static void CreatingEmptyObservable() {
+        private static void CreatingEmptyObservable()
+        {
             Console.WriteLine();
             Demo.DisplayHeader("Creating an empty observable");
 
@@ -25,7 +29,8 @@ namespace CreationalOpeartors {
                 .SubscribeConsole("Empty");
         }
 
-        private static void CreatingObservableTheThrows() {
+        private static void CreatingObservableTheThrows()
+        {
             Console.WriteLine();
             Demo.DisplayHeader("Creating observable the throws");
 
@@ -33,7 +38,8 @@ namespace CreationalOpeartors {
                 .SubscribeConsole("Throw");
         }
 
-        private static void CreatingNeverendingObservable() {
+        private static void CreatingNeverendingObservable()
+        {
             Console.WriteLine();
             Demo.DisplayHeader("Creating a neverending observable");
 
@@ -43,7 +49,8 @@ namespace CreationalOpeartors {
             Console.WriteLine("No notifications will be pushed, press enter to contine");
         }
 
-        private static void CreatingSingleItemObservable() {
+        private static void CreatingSingleItemObservable()
+        {
             Console.WriteLine();
             Demo.DisplayHeader("Creating a single item observable");
 
@@ -51,7 +58,8 @@ namespace CreationalOpeartors {
                 .SubscribeConsole("Return");
         }
 
-        private static void ReadingAFileWithGenerate() {
+        private static void ReadingAFileWithGenerate()
+        {
             Console.WriteLine();
             Demo.DisplayHeader("Generate Sequence from a file");
 
@@ -79,7 +87,8 @@ namespace CreationalOpeartors {
             lines.SubscribeConsole("lines");
         }
 
-        public static void GenerateSequence() {
+        public static void GenerateSequence()
+        {
             Console.WriteLine();
             Demo.DisplayHeader("Generate Sequence");
 
@@ -94,7 +103,8 @@ namespace CreationalOpeartors {
             observable.SubscribeConsole("Generate sequence");
         }
 
-        public static void CreatingRangeObservable() {
+        public static void CreatingRangeObservable()
+        {
             Console.WriteLine();
             Demo.DisplayHeader("Using Range");
 

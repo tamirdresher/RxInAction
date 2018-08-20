@@ -8,9 +8,12 @@ using System.Reactive.Linq;
 using System.Text;
 using System.Threading;
 
-namespace EnumerablesToObservables {
-    class Program {
-        static void Main(string[] args) {
+namespace EnumerablesToObservables
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
             EnumerableToObservable();
             SubscribingToEnumerable();
             ThrowingEnumerable();
@@ -24,7 +27,8 @@ namespace EnumerablesToObservables {
             Console.ReadLine();
         }
 
-        private static void ObservableToEnumerableWithNext() {
+        private static void ObservableToEnumerableWithNext()
+        {
             Console.WriteLine();
             Demo.DisplayHeader("Observable To Enumerable (using Next)");
 
@@ -35,7 +39,8 @@ namespace EnumerablesToObservables {
 
             // enumerting on the enumerable - some values will be missed beacuse the thread will
             // sleep when they are pushed only 5 items are taken so we wont stay here forever
-            foreach (var item in enumerable.Take(5)) {
+            foreach (var item in enumerable.Take(5))
+            {
                 Console.WriteLine(item);
                 Thread.Sleep(TimeSpan.FromSeconds(3));
             }
@@ -44,7 +49,8 @@ namespace EnumerablesToObservables {
             Console.WriteLine("------------------");
         }
 
-        private static void ObservableToLookup() {
+        private static void ObservableToLookup()
+        {
             Console.WriteLine();
             Demo.DisplayHeader("Observable To Lookup");
             // Madrid and London has the same length
@@ -58,7 +64,8 @@ namespace EnumerablesToObservables {
             lookupObservable
                 .Select(lookup => {
                     var groups = new StringBuilder();
-                    foreach (IGrouping<int, string> grp in lookup) {
+                    foreach (IGrouping<int, string> grp in lookup)
+                    {
                         groups.AppendFormat("[Key:{0} => {1}]", grp.Key, grp.Count());
                     }
 
@@ -67,7 +74,8 @@ namespace EnumerablesToObservables {
                 .SubscribeConsole("lookup");
         }
 
-        private static void ObservableToDictionary() {
+        private static void ObservableToDictionary()
+        {
             Console.WriteLine();
             Demo.DisplayHeader("Observable To Dictionary");
             IEnumerable<string> cities = new[] { "London", "Tel-Aviv", "Tokyo", "Rome" };
@@ -82,7 +90,8 @@ namespace EnumerablesToObservables {
                 .SubscribeConsole("dictionary");
         }
 
-        private static void ObservableToList() {
+        private static void ObservableToList()
+        {
             Console.WriteLine();
             Demo.DisplayHeader("Observable To List");
             IObservable<string> observable =
@@ -103,7 +112,8 @@ namespace EnumerablesToObservables {
                 .SubscribeConsole("list ready");
         }
 
-        private static void ObservableToEnumerable() {
+        private static void ObservableToEnumerable()
+        {
             Console.WriteLine();
             Demo.DisplayHeader("Observable To Enumerable");
 
@@ -121,7 +131,8 @@ namespace EnumerablesToObservables {
             Console.WriteLine("got the enumerable");
             Console.WriteLine("------------------");
 
-            foreach (var item in enumerable) {
+            foreach (var item in enumerable)
+            {
                 Console.WriteLine(item);
             }
 
@@ -129,7 +140,8 @@ namespace EnumerablesToObservables {
             Console.WriteLine("------------------");
         }
 
-        private static void EnumerableToObservable() {
+        private static void EnumerableToObservable()
+        {
             Demo.DisplayHeader("Enumerable to Observable");
 
             IEnumerable<string> names = new[] { "Shira", "Yonatan", "Gabi", "Tamir" };
@@ -138,7 +150,8 @@ namespace EnumerablesToObservables {
             observable.SubscribeConsole("names");
         }
 
-        private static void SubscribingToEnumerable() {
+        private static void SubscribingToEnumerable()
+        {
             Console.WriteLine();
             Demo.DisplayHeader("Subscribing to enumerable");
 
@@ -146,14 +159,16 @@ namespace EnumerablesToObservables {
             names.Subscribe(new ConsoleObserver<string>("subscribe"));
         }
 
-        private static void ThrowingEnumerable() {
+        private static void ThrowingEnumerable()
+        {
             //this shows that exception that happen while iterating are sent to the OnError
             NumbersAndThrow()
                 .ToObservable()
                 .SubscribeConsole("enumerable with exception");
         }
 
-        static IEnumerable<int> NumbersAndThrow() {
+        static IEnumerable<int> NumbersAndThrow()
+        {
             Console.WriteLine();
             Demo.DisplayHeader("Numbers and Throw");
             yield return 1;
@@ -163,7 +178,8 @@ namespace EnumerablesToObservables {
             yield return 4;
         }
 
-        static void MergingObservableConnectionWithLoadedMessages() {
+        static void MergingObservableConnectionWithLoadedMessages()
+        {
             Console.WriteLine();
             Demo.DisplayHeader("Merging ObservableConnection with loaded messages");
 
@@ -184,7 +200,8 @@ namespace EnumerablesToObservables {
             client.NotifyRecieved("live message2");
         }
 
-        private static IEnumerable<string> LoadMessagesFromDB() {
+        private static IEnumerable<string> LoadMessagesFromDB()
+        {
             yield return "loaded1";
             yield return "loaded2";
         }

@@ -2,11 +2,14 @@
 using System.Linq;
 using System.Reactive.Linq;
 
-namespace FirstRxExample {
-    public class RxStockMonitor : IDisposable {
+namespace FirstRxExample
+{
+    public class RxStockMonitor : IDisposable
+    {
         private readonly IDisposable _subscription;
 
-        public RxStockMonitor(IStockTicker ticker) {
+        public RxStockMonitor(IStockTicker ticker)
+        {
             const decimal maxChangeRatio = 0.1m;
 
             //creating an observable from the StockTick event, each notification will carry only the eventargs and will be synchronized
@@ -24,7 +27,8 @@ namespace FirstRxExample {
                 from tickPair in company.Buffer(2, 1)
                 let changeRatio = Math.Abs((tickPair[1].Price - tickPair[0].Price) / tickPair[0].Price)
                 where changeRatio > maxChangeRatio
-                select new DrasticChange() {
+                select new DrasticChange()
+                {
                     Symbol = company.Key,
                     ChangeRatio = changeRatio,
                     OldPrice = tickPair[0].Price,
@@ -46,12 +50,14 @@ namespace FirstRxExample {
 
         public IObservable<DrasticChange> DrasticChanges { get; }
 
-        public void Dispose() {
+        public void Dispose()
+        {
             this._subscription.Dispose();
         }
     }
 
-    public class DrasticChange {
+    public class DrasticChange
+    {
         public decimal NewPrice { get; set; }
         public string Symbol { get; set; }
         public decimal ChangeRatio { get; set; }

@@ -3,14 +3,18 @@ using System;
 using System.Reactive;
 using System.Reactive.Linq;
 
-namespace NonStandardEvents {
-    class Program {
-        static void Main(string[] args) {
+namespace NonStandardEvents
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
             ConvertingNonStandardEvents();
             ConvertingEventsWithNoArguments();
         }
 
-        private static void ConvertingNonStandardEvents() {
+        private static void ConvertingNonStandardEvents()
+        {
             Console.WriteLine();
             Demo.DisplayHeader("Converting Non Standard Events");
 
@@ -43,10 +47,12 @@ namespace NonStandardEvents {
             networks.SubscribeConsole();
             networks.SubscribeConsole();
 
-            while (true) {
+            while (true)
+            {
                 Console.WriteLine("Enter the network ssid or X to exit");
                 var ssid = Console.ReadLine();
-                if (ssid == "X") {
+                if (ssid == "X")
+                {
                     break;
                 }
                 Console.WriteLine("Enter the network strength - 1 to 10");
@@ -56,7 +62,8 @@ namespace NonStandardEvents {
             }
         }
 
-        static void ConvertingEventsWithNoArguments() {
+        static void ConvertingEventsWithNoArguments()
+        {
             Console.WriteLine();
             Demo.DisplayHeader("Converting Events With No Arguments");
 
@@ -71,5 +78,4 @@ namespace NonStandardEvents {
             wifiScanner.RaiseConnected();
         }
     }
-
 }

@@ -1,7 +1,9 @@
 using System;
 
-namespace CreatingObservables.Chat {
-    public interface IChatConnection {
+namespace CreatingObservables.Chat
+{
+    public interface IChatConnection
+    {
         event Action<string> Received;
 
         event Action Closed;

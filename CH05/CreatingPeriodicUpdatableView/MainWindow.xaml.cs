@@ -2,14 +2,17 @@
 using System.Reactive.Linq;
 using System.Windows;
 
-namespace CreatingPeriodicUpdatableView {
+namespace CreatingPeriodicUpdatableView
+{
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window {
+    public partial class MainWindow : Window
+    {
         private IDisposable _subscription;
 
-        public MainWindow() {
+        public MainWindow()
+        {
             this.InitializeComponent();
 
             var updatesWebService = new UpdatesWebService();

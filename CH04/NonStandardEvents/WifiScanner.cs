@@ -1,11 +1,13 @@
 ﻿using System;
 
-namespace NonStandardEvents {
+namespace NonStandardEvents
+{
     public delegate void NetworkFoundEventHandler(string ssid);
 
     public delegate void ExtendedNetworkFoundEventHandler(string ssid, int strength);
 
-    class WifiScanner {
+    class WifiScanner
+    {
         public event NetworkFoundEventHandler NetworkFound = delegate { };
 
         public event ExtendedNetworkFoundEventHandler ExtendedNetworkFound = delegate { };
@@ -13,12 +15,14 @@ namespace NonStandardEvents {
         public event Action Connected = delegate { };
 
         // rest of the code
-        public void RaiseFound(string ssid, int strength = 0) {
+        public void RaiseFound(string ssid, int strength = 0)
+        {
             NetworkFound(ssid);
             ExtendedNetworkFound(ssid, strength);
         }
 
-        public void RaiseConnected() {
+        public void RaiseConnected()
+        {
             Connected();
         }
     }

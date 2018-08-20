@@ -7,7 +7,7 @@ namespace LINQExamples
     {
         public static IEnumerable<T> WhereWithLog<T>(this IEnumerable<T> source, Func<T, bool> predicate)
         {
-            foreach (var item in source)
+            foreach (T item in source)
             {
                 Console.WriteLine("Checking item {0}", item);
                 if (predicate(item))

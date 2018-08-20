@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Threading;
 
-namespace FirstRxExample {
-    class Program {
+namespace FirstRxExample
+{
+    class Program
+    {
         private static StockTicker _stockTicker;
 
-        private static void Main(string[] args) {
+        private static void Main(string[] args)
+        {
             _stockTicker = new StockTicker();
 
             /////////////////////////////////////////////////////////////
@@ -27,14 +30,16 @@ namespace FirstRxExample {
             Console.WriteLine("Bye Bye");
         }
 
-        private static void ShowMenu() {
+        private static void ShowMenu()
+        {
             Console.WriteLine("Choose a simulation type (or x to exit):");
             Console.WriteLine("1) Manual     - you enter the symbol and price");
             Console.WriteLine("2) Automatic  - the system emits and updates a predefined collection of ticks");
             Console.WriteLine("3) Concurrent - tests what happens when ticks are emitted concurrently");
 
             var selection = Console.ReadLine();
-            switch (selection) {
+            switch (selection)
+            {
             case "1":
                 ManualSimulator(_stockTicker);
                 break;
@@ -56,31 +61,39 @@ namespace FirstRxExample {
             }
         }
 
-        private static void AutomaticSimulator(StockTicker stockTicker) {
+        private static void AutomaticSimulator(StockTicker stockTicker)
+        {
             var simulator = new StockSimulator(stockTicker);
             simulator.Run();
         }
 
-        private static void ManualSimulator(StockTicker stockTicker) {
+        private static void ManualSimulator(StockTicker stockTicker)
+        {
             //////////////////////////////////////////////////////
             // A small program to let you enter the Ticks info. // Symbol X will exit the program //
             //////////////////////////////////////////////////////
-            while (true) {
+            while (true)
+            {
                 Console.Write("enter symbol (or x to exit): ");
                 var symbol = Console.ReadLine();
-                if (symbol.ToLower() == "x") {
+                if (symbol.ToLower() == "x")
+                {
                     break;
                 }
                 Console.WriteLine("enter price: ");
-                if (Decimal.TryParse(Console.ReadLine(), out var price)) {
+                if (Decimal.TryParse(Console.ReadLine(), out var price))
+                {
                     stockTicker.Notify(new StockTick() { Price = price, QuoteSymbol = symbol });
-                } else {
+                }
+                else
+                {
                     Console.WriteLine("price should be decimal");
                 }
             }
         }
 
-        private static void TestConcurrentTicks(StockTicker stockTicker) {
+        private static void TestConcurrentTicks(StockTicker stockTicker)
+        {
             ThreadPool.QueueUserWorkItem((_) => stockTicker.Notify(new StockTick() { Price = 100, QuoteSymbol = "MSFT" }));
             ThreadPool.QueueUserWorkItem((_) => stockTicker.Notify(new StockTick() { Price = 150, QuoteSymbol = "INTC" }));
             ThreadPool.QueueUserWorkItem((_) => stockTicker.Notify(new StockTick() { Price = 170, QuoteSymbol = "MSFT" }));

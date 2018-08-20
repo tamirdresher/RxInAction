@@ -1,6 +1,9 @@
-namespace FirstRxExample {
-    class StockInfo {
-        public StockInfo(string symbol, decimal price) {
+namespace FirstRxExample
+{
+    class StockInfo
+    {
+        public StockInfo(string symbol, decimal price)
+        {
             this.Symbol = symbol;
             this.PrevPrice = price;
         }
