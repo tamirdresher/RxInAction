@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 
 namespace ShoppyExample
@@ -70,7 +71,7 @@ namespace ShoppyExample
                     from discounts in this.GetDiscounts()
                     select discounts;
 
-                newDiscounts.Subscribe(discounts => RefreshView(discounts));
+                newDiscounts.Subscribe(discounts => this.RefreshView(discounts));
             }
 
             #region Helper Methods
