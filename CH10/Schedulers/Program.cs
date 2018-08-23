@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Helpers;
+using MagicalPrimeGeneratorExample;
+using System;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using Helpers;
-using MagicalPrimeGeneratorExample;
 
 namespace Schedulers
 {
@@ -28,7 +25,6 @@ namespace Schedulers
             Console.ReadLine();
         }
 
-      
         private static void BasicScheduling()
         {
             Demo.DisplayHeader("Basic Scheduling - Scheduling an action to run after two seconds");
@@ -39,15 +35,13 @@ namespace Schedulers
                 scheduler.Schedule(
                     Unit.Default,
                     TimeSpan.FromSeconds(2),
-                    (scdlr, _) =>
-                    {
+                    (scdlr, _) => {
                         Console.WriteLine("Hello World, Now: {0}", scdlr.Now);
                         return Disposable.Empty;
                     });
 
             Console.WriteLine("sleeping for 3 seconds so the scheduling will take place");
             Thread.Sleep(TimeSpan.FromSeconds(3));
-
         }
 
         private static void BasicSchedulingEveryTwoSeconds()
@@ -56,13 +50,12 @@ namespace Schedulers
 
             IScheduler scheduler = NewThreadScheduler.Default;
             Func<IScheduler, int, IDisposable> action = null;
-            action = (scdlr, callNumber) =>
-            {
+            action = (scdlr, callNumber) => {
                 Console.WriteLine("Hello {0}, Now: {1}, Thread: {2}", callNumber, scdlr.Now,
                     Thread.CurrentThread.ManagedThreadId);
                 return scdlr.Schedule(callNumber + 1, TimeSpan.FromSeconds(2), action);
             };
-            var scheduling =
+            IDisposable scheduling =
                 scheduler.Schedule(
                     0,
                     TimeSpan.FromSeconds(2),
@@ -94,7 +87,7 @@ namespace Schedulers
             Demo.DisplayHeader(
                 "Parametrizing concurrency - passing the NewThreadScheduler to the Range operator so the emissions will be on another thread");
 
-            var subscription =
+            IDisposable subscription =
                 Observable.Range(1, 5, NewThreadScheduler.Default)
                     //without passing the scheduler, this will run infinitely
                     .Repeat()
@@ -110,16 +103,14 @@ namespace Schedulers
 
             GeneratePrimes(20, TaskPoolScheduler.Default)
                     .RunExample("primes observable");
-            
         }
+
         public static IObservable<int> GeneratePrimes(int amount, IScheduler schdeuler = null)
         {
             schdeuler = schdeuler ?? DefaultScheduler.Instance;
-            return Observable.Create<int>(o =>
-            {
+            return Observable.Create<int>(o => {
                 var cancellation = new CancellationDisposable();
-                var scheduledWork = schdeuler.Schedule(() =>
-                {
+                IDisposable scheduledWork = schdeuler.Schedule(() => {
                     try
                     {
                         var magicalPrimeGenerator = new MagicalPrimeGenerator();
@@ -138,7 +129,5 @@ namespace Schedulers
                 return new CompositeDisposable(scheduledWork, cancellation);
             });
         }
-
-
     }
 }

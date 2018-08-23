@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Diagnostics;
+﻿using Helpers;
+using System;
 using System.Linq;
-using System.Net.Sockets;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Reactive.Threading.Tasks;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Helpers;
-
 
 namespace BuffersAndSlidingWindows
 {
@@ -36,9 +28,9 @@ namespace BuffersAndSlidingWindows
             IObservable<double> speedReadings = new[] { 50.0, 51.0, 51.5, 53.0, 52.0, 52.5, 53.0 } //in MPH
                 .ToObservable();
 
-            double timeDelta = 0.0002777777777777778; //1 second in hours unit
+            var timeDelta = 0.0002777777777777778; //1 second in hours unit
 
-            var accelrations =
+            IObservable<double> accelrations =
                 from buffer in speedReadings.Buffer(count: 2, skip: 1)
                 where buffer.Count == 2
                 let speedDelta = buffer[1] - buffer[0]
@@ -46,11 +38,12 @@ namespace BuffersAndSlidingWindows
 
             accelrations.RunExample("Acceleration");
         }
+
         private static void BufferingHiRateChatMessages()
         {
             Demo.DisplayHeader("The Buffer operator - can be used to slow high-rate stream by taking it by chunks");
 
-            var coldMessages = Observable.Interval(TimeSpan.FromMilliseconds(50))
+            IObservable<string> coldMessages = Observable.Interval(TimeSpan.FromMilliseconds(50))
                 .Take(4)
                 .Select(x => "Message " + x);
 
@@ -60,60 +53,49 @@ namespace BuffersAndSlidingWindows
                     .Publish()
                     .RefCount();
 
-
             messages.Buffer(messages.Throttle(TimeSpan.FromMilliseconds(100)))
-                .SelectMany((b, i) => b.Select(m => string.Format("Buffer {0} - {1}", i, m)))
+                .SelectMany((b, i) => b.Select(m => String.Format("Buffer {0} - {1}", i, m)))
                 .RunExample("Hi-Rate Messages");
-
         }
 
         private static void Window()
         {
             Demo.DisplayHeader("The Window operator - split the observable sequence into sub-observables along temporal boundaries");
 
-            var numbers = Observable.Interval(TimeSpan.FromMilliseconds(50));
-            var windows = numbers.Window(TimeSpan.FromMilliseconds(200));
-
+            IObservable<long> numbers = Observable.Interval(TimeSpan.FromMilliseconds(50));
+            IObservable<IObservable<long>> windows = numbers.Window(TimeSpan.FromMilliseconds(200));
 
             windows.Do(_ => Console.WriteLine("New Window:"))
                 .Take(3)
                 .SelectMany(x => x)
                 .SubscribeConsole();
-
         }
 
         private static void AggreagateResultInAWindow()
         {
             Demo.DisplayHeader("The Window operator - each window is an observable that can be used with an aggregation function");
 
-            var donationsWindow1 = ObservableEx.FromValues(50M, 55, 60);
-            var donationsWindow2 = ObservableEx.FromValues(49M, 48, 45);
+            IObservable<decimal> donationsWindow1 = ObservableExtensionsHelpers.FromValues(50M, 55, 60);
+            IObservable<decimal> donationsWindow2 = ObservableExtensionsHelpers.FromValues(49M, 48, 45);
 
             IObservable<decimal> donations =
                 donationsWindow1.Concat(donationsWindow2.DelaySubscription(TimeSpan.FromSeconds(1.5)));
 
-            var windows = donations.Window(TimeSpan.FromSeconds(1));
+            IObservable<IObservable<decimal>> windows = donations.Window(TimeSpan.FromSeconds(1));
 
-            var donationsSums =
+            IObservable<decimal> donationsSums =
                 from window in windows.Do(_ => Console.WriteLine("New Window"))
                 from sum in window.Scan((prevSum, donation) => prevSum + donation)
                 select sum;
 
             donationsSums.RunExample("donations in shift");
-
-
         }
 
         private static void ControllingTheWindowClosure()
         {
-            Subject<int> numbers=new Subject<int>();
-            Subject<Unit> mouseClicks = new Subject<Unit>();
-            var windows=numbers.Window(() => mouseClicks);
-
-
-
+            var numbers = new Subject<int>();
+            var mouseClicks = new Subject<Unit>();
+            IObservable<IObservable<int>> windows = numbers.Window(() => mouseClicks);
         }
     }
-
-
 }

@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Reactive.Concurrency;
-using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Threading;
 using System.Windows;
-using Helpers;
 
 namespace ObserveAndSubscribeOn
 {
@@ -15,15 +12,13 @@ namespace ObserveAndSubscribeOn
     {
         public MainWindow()
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
-            Observable.FromEventPattern(TextBox, "TextChanged")
-                .Select(_ => TextBox.Text)
+            Observable.FromEventPattern(this.TextBox, "TextChanged")
+                .Select(_ => this.TextBox.Text)
                 .Throttle(TimeSpan.FromMilliseconds(400))
                 .ObserveOn(DispatcherScheduler.Current)
-                .Subscribe(s => ThrottledResults.Items.Add(s));
+                .Subscribe(s => this.ThrottledResults.Items.Add(s));
         }
-
-            
     }
 }

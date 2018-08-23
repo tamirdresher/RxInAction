@@ -104,7 +104,8 @@ namespace HotAndColdObservables
             Demo.DisplayHeader("PublishLast - will emit the last value, even for observers that subscribe after completed");
 
             //an observable that simulate an asynchronous operation that take a long time to complete
-            IObservable<string> coldObservable = Observable.Timer(TimeSpan.FromSeconds(5)).Select(_ => "Rx");
+            IObservable<string> coldObservable = Observable.Timer(TimeSpan.FromSeconds(5))
+                .Select(_ => "Rx");
 
             Console.WriteLine("Creating hot disconncted observable");
             IConnectableObservable<string> connectableObservable = coldObservable.PublishLast();
@@ -159,6 +160,7 @@ namespace HotAndColdObservables
             zipped.SubscribeConsole("zipped");
 
             Console.WriteLine("Zipping an observable to itself after publihsing it");
+
             i = 0;
             IObservable<int> publishedZip =
                 numbers.Publish(published => published.Zip(published, (a, b) => a + b));

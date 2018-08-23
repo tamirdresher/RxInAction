@@ -78,7 +78,7 @@ namespace Disposables
             Demo.DisplayHeader("AddToCompositeDisposable extensions method - useful for keeping your observable pipeline fluent");
 
             var compositeDisposable = new CompositeDisposable();
-            IObservable<string> observable = ObservableEx.FromValues("Rx", "For", "The", "Win");
+            IObservable<string> observable = ObservableExtensionsHelpers.FromValues("Rx", "For", "The", "Win");
 
             observable.Where(x => x.Length%2 == 0)
                 .Select(x => x.ToUpper())
