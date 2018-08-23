@@ -1,6 +1,8 @@
 ﻿using Helpers;
 using System;
 using System.Linq;
+using System.Reactive;
+using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,14 +26,14 @@ namespace CreatingObservers
         {
             Demo.DisplayHeader("using Observer.Create() to share the observer with two observables");
 
-            var observer = Observer.Create<string>(x => Console.WriteLine(x));
+            IObserver<string> observer = Observer.Create<string>(x => Console.WriteLine(x));
 
-            var subscription1 =
+            IDisposable subscription1 =
             Observable.Interval(TimeSpan.FromSeconds(1))
                 .Select(x => "X" + x)
                 .Subscribe(observer);
 
-            var subscription2 =
+            IDisposable subscription2 =
             Observable.Interval(TimeSpan.FromSeconds(2))
                .Select(x => "YY" + x)
                .Subscribe(observer);

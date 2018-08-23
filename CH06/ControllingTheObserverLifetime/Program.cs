@@ -1,6 +1,7 @@
 ﻿using Helpers;
 using System;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Threading;
 
 namespace ControllingTheObserverLifetime
@@ -147,7 +148,7 @@ namespace ControllingTheObserverLifetime
             Demo.DisplayHeader("DelaySubscription - the delay starts only when the observer subscribes");
 
             Console.WriteLine("Creating the observable pipeline at {0}", DateTime.Now);
-            var observable =
+            IObservable<System.Reactive.Timestamped<int>> observable =
     Observable.Range(1, 5)
         .Timestamp()
         .DelaySubscription(TimeSpan.FromSeconds(5));
