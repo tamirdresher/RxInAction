@@ -128,7 +128,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RxStockMonitor", "AppendixC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RxStockMonitor.Tests", "AppendixC-Testing\RxStockMonitor.Tests\RxStockMonitor.Tests.csproj", "{F2C81F87-2774-437D-872C-1BB1B9527137}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YourFirstRxExample", "CH02\YourFirstRxExample\YourFirstRxExample.csproj", "{C121446F-3DB9-41CF-9A61-D57A41F2D224}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YourFirstRxExample", "CH02\YourFirstRxExample\YourFirstRxExample.csproj", "{C121446F-3DB9-41CF-9A61-D57A41F2D224}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

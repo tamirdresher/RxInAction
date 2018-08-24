@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reactive;
+﻿using Helpers;
+using System;
 using System.Reactive.Linq;
 using System.Runtime;
-using System.Text;
-using System.Threading.Tasks;
-using Helpers;
 
 namespace ReactingToErrors
 {
@@ -65,7 +60,6 @@ namespace ReactingToErrors
             weatherStationB
                 .OnErrorResumeNext(weatherStationB)
                 .SubscribeConsole("OnErrorResumeNext(source completed)");
-
         }
 
         private static void CatchingSpecificExceptionType()
@@ -76,19 +70,18 @@ namespace ReactingToErrors
               Observable.Throw<WeatherSimulation>(new OutOfMemoryException());
 
             weatherSimulationResults
-                .Catch((OutOfMemoryException ex) =>
-                {
+                .Catch((OutOfMemoryException ex) => {
                     Console.WriteLine("handling OOM exception");
                     return Observable.Empty<WeatherSimulation>();
                 })
                 .SubscribeConsole("Catch (source throws)");
 
-            //Catch is not limited to a single exception type, it can be general to ALL exceptions 
+            //Catch is not limited to a single exception type, it can be general to ALL exceptions
             weatherSimulationResults
                 .Catch(Observable.Empty<WeatherSimulation>())
                 .SubscribeConsole("Catch (handling all exception types)");
 
-            //of course, if the source observable completed successfully, then the Catch opertor has no effect (unlike OnErrorResumeNext) 
+            //of course, if the source observable completed successfully, then the Catch opertor has no effect (unlike OnErrorResumeNext)
             Observable.Return(1)
                 .Catch(Observable.Empty<int>())
                 .SubscribeConsole("Catch (source completed successfully)");
@@ -98,16 +91,15 @@ namespace ReactingToErrors
         {
             Demo.DisplayHeader("Basic OnError");
 
-            // This the most basic way you would work with OnError.
-            // But its not ideal, consider using the 'Catch' operator
+            // This the most basic way you would work with OnError. But its not ideal, consider using
+            // the 'Catch' operator
             IObservable<WeatherSimulation> weatherSimulationResults =
                 Observable.Throw<WeatherSimulation>(new OutOfMemoryException());
 
             weatherSimulationResults
                 .Subscribe(
                     _ => { },
-                    e =>
-                    {
+                    e => {
                         if (e is OutOfMemoryException)
                         {
                             //a last attampt to free some memory

@@ -6,12 +6,12 @@
 
         public SensorData(long data)
         {
-            Data = data;
+            this.Data = data;
         }
 
         public override string ToString()
         {
-            return string.Format("SensorData: {0}", Data);
+            return System.String.Format("SensorData: {0}", this.Data);
         }
     }
 }

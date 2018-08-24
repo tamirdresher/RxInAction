@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FakeItEasy;
-using FirstRxExample;
+﻿using FakeItEasy;
 using Microsoft.Reactive.Testing;
+using System;
+using System.Reactive.Linq;
 using Xunit;
 
 namespace YourFirstRxExample.Tests
@@ -16,7 +11,7 @@ namespace YourFirstRxExample.Tests
         [Fact]
         public void Bla()
         {
-            var stockTicks = new[]
+            System.Reactive.IEventSource<StockTick> stockTicks = new[]
             {
                 new StockTick() {QuoteSymbol = "MSFT", Price = 53.49M},
                 new StockTick() {QuoteSymbol = "INTC", Price = 32.68M},
@@ -24,15 +19,12 @@ namespace YourFirstRxExample.Tests
                 new StockTick() {QuoteSymbol = "CSCO", Price = 28.33M},
             }.ToObservable().ToEvent();
             var testScheduler = new TestScheduler();
-            var testableObserver = testScheduler.CreateObserver<DrasticChange>();
+            ITestableObserver<DrasticChange> testableObserver = testScheduler.CreateObserver<DrasticChange>();
             var stockTicker = A.Fake<IStockTicker>();
-            A.CallTo(()=>stockTicker.StockTick).
+            A.CallTo(() => stockTicker.StockTick).
             var rxStockMonitor = new RxStockMonitor(stockTicker);
 
             rxStockMonitor.DrasticChanges.Subscribe(testableObserver);
-
-
-
         }
     }
 }

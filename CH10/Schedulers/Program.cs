@@ -49,12 +49,13 @@ namespace Schedulers
             Demo.DisplayHeader("Basic Scheduling - Scheduling an action to run recursively every two seconds");
 
             IScheduler scheduler = NewThreadScheduler.Default;
-            Func<IScheduler, int, IDisposable> action = null;
-            action = (scdlr, callNumber) => {
+            IDisposable action(IScheduler scdlr, int callNumber)
+            {
                 Console.WriteLine("Hello {0}, Now: {1}, Thread: {2}", callNumber, scdlr.Now,
                     Thread.CurrentThread.ManagedThreadId);
                 return scdlr.Schedule(callNumber + 1, TimeSpan.FromSeconds(2), action);
-            };
+            }
+
             IDisposable scheduling =
                 scheduler.Schedule(
                     0,
@@ -62,10 +63,8 @@ namespace Schedulers
                     action);
 
             Console.WriteLine("sleeping for 5 seconds and then disposing");
-
             Thread.Sleep(TimeSpan.FromSeconds(5));
             scheduling.Dispose();
-
             Console.WriteLine("scheduling disposed, Now: {0}", scheduler.Now);
         }
 
@@ -75,6 +74,7 @@ namespace Schedulers
                 "Parametrizing concurrency - passing the CurrentThreadScheduler to the Interval operator so the emissions will be on the calling thread");
 
             Console.WriteLine("Before - Thread: {0}", Thread.CurrentThread.ManagedThreadId);
+
             Observable.Interval(TimeSpan.FromSeconds(1), CurrentThreadScheduler.Instance)
                 .Timestamp()
                 .Take(3)

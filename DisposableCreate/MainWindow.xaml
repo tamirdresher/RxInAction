@@ -9,20 +9,19 @@
         Height="350"
         Width="525">
     <Window.Resources>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </Window.Resources>
     <Grid>
-        <ListBox ItemsSource="{Binding NewsItems}" />
+        <ListBox ItemsSource="{Binding NewsItems}"/>
         <Button HorizontalAlignment="Left"
                 VerticalAlignment="Bottom"
                 Content="Refresh"
-                Click="ButtonBase_OnClick" />
+                Click="ButtonBase_OnClick"/>
         <StackPanel Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
-            <ProgressBar IsIndeterminate="True" />
+            <ProgressBar IsIndeterminate="True"/>
             <TextBlock Text="Refreshing..."></TextBlock>
         </StackPanel>
-      
     </Grid>
 </Window>
