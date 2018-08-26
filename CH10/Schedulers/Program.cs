@@ -18,14 +18,14 @@ namespace Schedulers
             BasicSchedulingEveryTwoSeconds();
             ObservableIntervalOnCurrentThread();
             ParametrizedConcurrency();
-            TypesOfSchedulersExamples.Run();
+            //TypesOfSchedulersExamples.Run();
 
             FixedGeneratePrimesFromChapter5();
             Console.WriteLine("Press <Enter> to continue...");
             Console.ReadLine();
         }
 
-        private static void BasicScheduling()
+        static void BasicScheduling()
         {
             Demo.DisplayHeader("Basic Scheduling - Scheduling an action to run after two seconds");
 
@@ -44,7 +44,7 @@ namespace Schedulers
             Thread.Sleep(TimeSpan.FromSeconds(3));
         }
 
-        private static void BasicSchedulingEveryTwoSeconds()
+        static void BasicSchedulingEveryTwoSeconds()
         {
             Demo.DisplayHeader("Basic Scheduling - Scheduling an action to run recursively every two seconds");
 
@@ -68,7 +68,7 @@ namespace Schedulers
             Console.WriteLine("scheduling disposed, Now: {0}", scheduler.Now);
         }
 
-        private static void ObservableIntervalOnCurrentThread()
+        static void ObservableIntervalOnCurrentThread()
         {
             Demo.DisplayHeader(
                 "Parametrizing concurrency - passing the CurrentThreadScheduler to the Interval operator so the emissions will be on the calling thread");
@@ -82,7 +82,7 @@ namespace Schedulers
                 .RunExample();
         }
 
-        public static void ParametrizedConcurrency()
+        static void ParametrizedConcurrency()
         {
             Demo.DisplayHeader(
                 "Parametrizing concurrency - passing the NewThreadScheduler to the Range operator so the emissions will be on another thread");
@@ -96,7 +96,7 @@ namespace Schedulers
             subscription.Dispose();
         }
 
-        private static void FixedGeneratePrimesFromChapter5()
+        static void FixedGeneratePrimesFromChapter5()
         {
             Demo.DisplayHeader(
                 "Using schedulers in your observable generators (or operators) - fixing the PrimesGenerator from chapter 5");
@@ -105,9 +105,10 @@ namespace Schedulers
                     .RunExample("primes observable");
         }
 
-        public static IObservable<int> GeneratePrimes(int amount, IScheduler schdeuler = null)
+        static IObservable<int> GeneratePrimes(int amount, IScheduler schdeuler = null)
         {
             schdeuler = schdeuler ?? DefaultScheduler.Instance;
+
             return Observable.Create<int>(o => {
                 var cancellation = new CancellationDisposable();
                 IDisposable scheduledWork = schdeuler.Schedule(() => {

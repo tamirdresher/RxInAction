@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
-using System.Threading.Tasks;
 
 namespace RxStockMonitor
 {
     public class StockMonitor
     {
-
         public StockMonitor(IStockTicker ticker)
         {
             const decimal maxChangeRatio = 0.1m;
@@ -21,7 +18,7 @@ namespace RxStockMonitor
                         .Select(tickEvent => tickEvent.EventArgs)
                         .Synchronize();
 
-            DrasticChanges =
+            this.DrasticChanges =
                 from tick in ticks
                 group tick by tick.QuoteSymbol
                 into company
@@ -35,18 +32,8 @@ namespace RxStockMonitor
                     OldPrice = tickPair[0].Price,
                     NewPrice = tickPair[1].Price
                 };
-
         }
 
         public IObservable<DrasticChange> DrasticChanges { get; }
-
-    }
-
-    public class DrasticChange
-    {
-        public decimal NewPrice { get; set; }
-        public string Symbol { get; set; }
-        public decimal ChangeRatio { get; set; }
-        public decimal OldPrice { get; set; }
     }
 }

@@ -17,7 +17,8 @@ namespace ObserveAndSubscribeOn
             Observable.FromEventPattern(this.TextBox, "TextChanged")
                 .Select(_ => this.TextBox.Text)
                 .Throttle(TimeSpan.FromMilliseconds(400))
-                .ObserveOn(DispatcherScheduler.Current)
+                //.ObserveOn(DispatcherScheduler.Current)
+                .ObserveOnDispatcher()
                 .Subscribe(s => this.ThrottledResults.Items.Add(s));
         }
     }

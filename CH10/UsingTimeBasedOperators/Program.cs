@@ -56,11 +56,11 @@ namespace UsingTimeBasedOperators
             Demo.DisplayHeader("Throttle operator - each element can define the throttling duration independantly by providing a function that creates an observable");
 
             IObservable<string> observable = Observable
-    .Return("Update A")
-    .Concat(Observable.Timer(TimeSpan.FromSeconds(2)).Select(_ => "Update B"))
-    .Concat(Observable.Timer(TimeSpan.FromSeconds(1)).Select(_ => "Immediate Update"))
-    .Concat(Observable.Timer(TimeSpan.FromSeconds(1)).Select(_ => "Update D"))
-    .Concat(Observable.Timer(TimeSpan.FromSeconds(3)).Select(_ => "Update E"));
+                .Return("Update A")
+                .Concat(Observable.Timer(TimeSpan.FromSeconds(2)).Select(_ => "Update B"))
+                .Concat(Observable.Timer(TimeSpan.FromSeconds(1)).Select(_ => "Immediate Update"))
+                .Concat(Observable.Timer(TimeSpan.FromSeconds(1)).Select(_ => "Update D"))
+                .Concat(Observable.Timer(TimeSpan.FromSeconds(3)).Select(_ => "Update E"));
 
             observable
                 .Throttle(x => x == "Immediate Update"
@@ -105,10 +105,10 @@ namespace UsingTimeBasedOperators
             Demo.DisplayHeader("Timeout operator - enforcing a timeout if no notification was made in a period of time");
 
             IObservable<long> observable = Observable
-     .Timer(TimeSpan.FromSeconds(1))
-     .Concat(Observable.Timer(TimeSpan.FromSeconds(1)))
-     .Concat(Observable.Timer(TimeSpan.FromSeconds(4)))
-     .Concat(Observable.Timer(TimeSpan.FromSeconds(4)));
+             .Timer(TimeSpan.FromSeconds(1))
+             .Concat(Observable.Timer(TimeSpan.FromSeconds(1)))
+             .Concat(Observable.Timer(TimeSpan.FromSeconds(4)))
+             .Concat(Observable.Timer(TimeSpan.FromSeconds(4)));
 
             observable
                 .Timeout(TimeSpan.FromSeconds(3))

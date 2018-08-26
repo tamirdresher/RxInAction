@@ -14,10 +14,11 @@ namespace ReactingToErrors
             OnErrorResumeNext();
             Retry();
             Rethrowing();
+
             Console.ReadLine();
         }
 
-        private static void Rethrowing()
+        static void Rethrowing()
         {
             Demo.DisplayHeader("Catch operator - unlike try-catch block, Catch can bounce exceptions to other catchers");
 
@@ -30,7 +31,7 @@ namespace ReactingToErrors
                 .SubscribeConsole("Catch (chain of control)");
         }
 
-        private static void Retry()
+        static void Retry()
         {
             Demo.DisplayHeader("Retry operator");
 
@@ -43,9 +44,9 @@ namespace ReactingToErrors
                 .SubscribeConsole("Retry");
         }
 
-        private static void OnErrorResumeNext()
+        static void OnErrorResumeNext()
         {
-            Demo.DisplayHeader("OnErrorResumeNext operator - conct the second observable when the first completes or throws");
+            Demo.DisplayHeader("OnErrorResumeNext operator - concat the second observable when the first completes or throws");
 
             IObservable<WeatherReport> weatherStationA =
               Observable.Throw<WeatherReport>(new OutOfMemoryException());
@@ -62,7 +63,7 @@ namespace ReactingToErrors
                 .SubscribeConsole("OnErrorResumeNext(source completed)");
         }
 
-        private static void CatchingSpecificExceptionType()
+        static void CatchingSpecificExceptionType()
         {
             Demo.DisplayHeader("Catch operator");
 
@@ -87,7 +88,7 @@ namespace ReactingToErrors
                 .SubscribeConsole("Catch (source completed successfully)");
         }
 
-        private static void BasicOnError()
+        static void BasicOnError()
         {
             Demo.DisplayHeader("Basic OnError");
 

@@ -4,9 +4,10 @@ namespace RxStockMonitor
     {
         public StockInfo(string symbol, decimal price)
         {
-            Symbol = symbol;
-            PrevPrice = price;
+            this.Symbol = symbol;
+            this.PrevPrice = price;
         }
+
         public string Symbol { get; set; }
         public decimal PrevPrice { get; set; }
     }

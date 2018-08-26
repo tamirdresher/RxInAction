@@ -9,7 +9,7 @@ namespace Schedulers
 {
     static class TypesOfSchedulersExamples
     {
-        public static void Run()
+        static void Run()
         {
             NewThreadSchedulerExample();
             NewThreadSchedulerRecursiveSchedulingExample();
@@ -25,7 +25,7 @@ namespace Schedulers
             SynchronizationContextSchedulerExample();
         }
 
-        private static void NewThreadSchedulerExample()
+        static void NewThreadSchedulerExample()
         {
             Demo.DisplayHeader("NewThreadScheduler - Creates a new thread for each scheduling");
 
@@ -47,7 +47,7 @@ namespace Schedulers
             countdownEvent.Wait();
         }
 
-        private static void NewThreadSchedulerRecursiveSchedulingExample()
+        static void NewThreadSchedulerRecursiveSchedulingExample()
         {
             Demo.DisplayHeader("NewThreadScheduler - Recursive scheduling will schedule the action on the same thread");
 
@@ -71,7 +71,7 @@ namespace Schedulers
             countdownEvent.Wait();
         }
 
-        private static void ThreadPoolSchedulerExample()
+        static void ThreadPoolSchedulerExample()
         {
             Demo.DisplayHeader("ThreadPoolScheduler - Uses the ThreadPool for each scheduling");
 
@@ -92,7 +92,7 @@ namespace Schedulers
             countdownEvent.Wait();
         }
 
-        private static void ThreadPoolSchedulerRecursiveSchedulingExample()
+        static void ThreadPoolSchedulerRecursiveSchedulingExample()
         {
             Demo.DisplayHeader("ThreadPoolScheduler - Recursive scheduling will queue the action on thread pool");
 
@@ -119,7 +119,7 @@ namespace Schedulers
             countdownEvent.Wait();
         }
 
-        private static void CurrentThreadSchedulerExample()
+        static void CurrentThreadSchedulerExample()
         {
             Demo.DisplayHeader("CurrentThreadScheduler - Uses the current thread (the caller thread) for each scheduling");
 
@@ -142,7 +142,7 @@ namespace Schedulers
             countdownEvent.Wait();
         }
 
-        private static void CurrentThreadSchedulerRecursiveSchedulingExample()
+        static void CurrentThreadSchedulerRecursiveSchedulingExample()
         {
             Demo.DisplayHeader("CurrentThreadScheduler - Recursive scheduling will queue the action on caller thread");
 
@@ -169,7 +169,7 @@ namespace Schedulers
             countdownEvent.Wait();
         }
 
-        private static void ImmediateSchedulerExample()
+        static void ImmediateSchedulerExample()
         {
             Demo.DisplayHeader("ImmediateScheduler - Uses the current thread (the caller thread) for each scheduling but runs the scheduled action immediatly");
 
@@ -192,7 +192,7 @@ namespace Schedulers
             countdownEvent.Wait();
         }
 
-        private static void ImmediateSchedulerRecursiveSchedulingExample()
+        static void ImmediateSchedulerRecursiveSchedulingExample()
         {
             Demo.DisplayHeader("ImmediateScheduler - Recursive scheduling will run the action immediatly on caller thread");
 
@@ -219,7 +219,7 @@ namespace Schedulers
             countdownEvent.Wait();
         }
 
-        private static void ImmediateSchedulerFutureSchedulingExample()
+        static void ImmediateSchedulerFutureSchedulingExample()
         {
             Demo.DisplayHeader("ImmediateScheduler - Future dueTime will cause the ImmediateScheduler block until the dueTime");
 
@@ -250,7 +250,7 @@ namespace Schedulers
             countdownEvent.Wait();
         }
 
-        private static void EventLoopSchedulerExample()
+        static void EventLoopSchedulerExample()
         {
             Demo.DisplayHeader("EventLoopScheduler - Creates a designated thread that will run all scheduled actions");
 
@@ -273,7 +273,7 @@ namespace Schedulers
             countdownEvent.Wait();
         }
 
-        private static void EventLoopSchedulerRecursiveSchedulingExample()
+        static void EventLoopSchedulerRecursiveSchedulingExample()
         {
             Demo.DisplayHeader("EventLoopScheduler - Recursive scheduling will be enqueued. When an action finish, the next one is dequeued");
 
@@ -300,7 +300,7 @@ namespace Schedulers
             countdownEvent.Wait();
         }
 
-        private static void SynchronizationContextSchedulerExample()
+        static void SynchronizationContextSchedulerExample()
         {
             Demo.DisplayHeader("SynchronizationContextScheduler - A bridge between Rx schedulers world and .NET SynchronizationContext");
 
