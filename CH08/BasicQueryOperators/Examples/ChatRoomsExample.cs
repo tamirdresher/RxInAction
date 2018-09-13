@@ -1,8 +1,8 @@
-﻿using System;
+﻿using BasicQueryOperators.Model;
+using Helpers;
+using System;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using BasicQueryOperators.Model;
-using Helpers;
 
 namespace BasicQueryOperators.Examples
 {
@@ -28,7 +28,6 @@ namespace BasicQueryOperators.Examples
                             (room, msg) => new ChatMessageViewModel(msg) { Room = room.Id })
                 .Subscribe(vm => AddToDashboard(vm));
 
-
             var room1 = new Subject<ChatMessage>();
             roomsSubject.OnNext(new ChatRoom { Id = "Room1", Messages = room1 });
 
@@ -37,7 +36,6 @@ namespace BasicQueryOperators.Examples
 
             var room2 = new Subject<ChatMessage>();
             roomsSubject.OnNext(new ChatRoom { Id = "Room2", Messages = room2 });
-
 
             room2.OnNext(new ChatMessage { Content = "Hello World", Sender = "2" });
             room1.OnNext(new ChatMessage { Content = "Another Message", Sender = "1" });
@@ -74,7 +72,6 @@ namespace BasicQueryOperators.Examples
 
             var room2 = new Subject<ChatMessage>();
             roomsSubject.OnNext(new ChatRoom { Id = "Room2", Messages = room2.Do(m => m.Room = "Room2") });
-
 
             room2.OnNext(new ChatMessage { Content = "Hello World", Sender = "2" });
             room1.OnNext(new ChatMessage { Content = "Another Message", Sender = "1" });

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using Helpers;
+using System;
 using System.Net.Http;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Helpers;
 
 namespace SimpleAsyncProgram
 {
@@ -26,9 +22,6 @@ namespace SimpleAsyncProgram
             Console.ReadLine();
         }
 
-
-
-
         private static async Task<string> GetPageAsync()
         {
             Console.WriteLine();
@@ -37,11 +30,10 @@ namespace SimpleAsyncProgram
             var httpClient = new HttpClient();
 
             // The program wont block here, so this method will return right after this call
-            var response = await httpClient.GetAsync("http://ReactiveX.io");
+            HttpResponseMessage response = await httpClient.GetAsync("http://ReactiveX.io");
             var page = await response.Content.ReadAsStringAsync();
             Console.WriteLine(page);
             return page;
-
         }
 
         private static void ContinuationIsLengthy()
@@ -53,12 +45,10 @@ namespace SimpleAsyncProgram
 
             // The program wont block here, so this method will return right after this call
             httpClient.GetAsync("http://ReactiveX.io")
-                .ContinueWith(requestTask =>
-                {
+                .ContinueWith(requestTask => {
                     HttpContent httpContent = requestTask.Result.Content;
                     httpContent.ReadAsStringAsync()
-                        .ContinueWith(contentTask =>
-                        {
+                        .ContinueWith(contentTask => {
                             Console.WriteLine(contentTask.Result);
                         });
                 });
@@ -86,13 +76,10 @@ namespace SimpleAsyncProgram
 
             // The program wont block here, so this method will return right after this call
             httpClient.GetAsync("http://ReactiveX.io")
-                .ContinueWith(requestTask =>
-                {
+                .ContinueWith(requestTask => {
                     Console.WriteLine("the request was sent, status:{0}", requestTask.Status);
                     Console.WriteLine(requestTask.Result.Headers);
                 });
-
-
         }
 
         private static void CreatingThread()
@@ -100,8 +87,7 @@ namespace SimpleAsyncProgram
             Console.WriteLine();
             Demo.DisplayHeader("Creating a Thread");
 
-            var thread = new Thread(() =>
-            {
+            var thread = new Thread(() => {
                 //simulating a long work of five secnods
                 Thread.Sleep(TimeSpan.FromSeconds(5));
 
@@ -121,8 +107,7 @@ namespace SimpleAsyncProgram
             Demo.DisplayHeader("Using the ThreadPool");
 
             Console.WriteLine("Starting the long work");
-            ThreadPool.QueueUserWorkItem((_) =>
-            {
+            ThreadPool.QueueUserWorkItem((_) => {
                 //simulating a long work of five secnods
                 Thread.Sleep(TimeSpan.FromSeconds(5));
 

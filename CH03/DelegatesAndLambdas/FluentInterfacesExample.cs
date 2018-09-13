@@ -9,7 +9,7 @@ namespace ExtensionMethodsExample
     {
         public static void StringBuilderExample()
         {
-            StringBuilder sbuilder = new StringBuilder();
+            var sbuilder = new StringBuilder();
             var result = sbuilder
                 .AppendLine("Fluent")
                 .AppendLine("Interfaces")
@@ -21,22 +21,21 @@ namespace ExtensionMethodsExample
 
         public static void StandardAddToList()
         {
-            var words = new List<string>();
-            words.Add("This");
-            words.Add("Feels");
-            words.Add("Weird");
-
-
+            var words = new List<string> {
+                "This",
+                "Feels",
+                "Weird"
+            };
         }
+
         public static void FluentAddToList()
         {
             var words = new List<string>();
             words.AddItem("This")
                 .AddItem("Feels")
                 .AddItem("Weird");
-
-
         }
+
         public static void FluentAddToAllLists()
         {
             ICollection<string> words = new List<string>();
@@ -46,7 +45,6 @@ namespace ExtensionMethodsExample
                 .AddItem("Feels")
                 .AddItem("Weird");
         }
-
     }
 
     public static class ListExtensions
@@ -57,10 +55,10 @@ namespace ExtensionMethodsExample
             return list;
         }
 
-public static ICollection<T> AddItem<T>(this ICollection<T> list, T item)
-{
-    list.Add(item);
-    return list;
-}
+        public static ICollection<T> AddItem<T>(this ICollection<T> list, T item)
+        {
+            list.Add(item);
+            return list;
+        }
     }
 }

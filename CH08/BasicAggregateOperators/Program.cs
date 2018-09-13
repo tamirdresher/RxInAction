@@ -1,11 +1,9 @@
-﻿using System;
+﻿using Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Text;
-using System.Threading.Tasks;
-using Helpers;
 
 namespace BasicAggregateOperators
 {
@@ -30,28 +28,26 @@ namespace BasicAggregateOperators
         {
             Demo.DisplayHeader("The Aggregate operators - the resultSelector function transforms the final accumulator value into the result value");
 
-Subject<int> numbers = new Subject<int>();
+            var numbers = new Subject<int>();
 
-numbers.Aggregate(
-    new SortedSet<int>(),
-    (largest, item) =>
-    {
-        largest.Add(item);
-        if (largest.Count > 2)
-        {
-            largest.Remove(largest.First()); //keeping only the first two largest items
+            numbers.Aggregate(
+                new SortedSet<int>(),
+                (largest, item) => {
+                    largest.Add(item);
+                    if (largest.Count > 2)
+                    {
+                        largest.Remove(largest.First()); //keeping only the first two largest items
         }
-        return largest;
-    },
-    largest => largest.FirstOrDefault()) //since the collection is sorted and contain two items at most, the first items is the second largest one 
-    .SubscribeConsole();
+                    return largest;
+                },
+                largest => largest.FirstOrDefault()) //since the collection is sorted and contain two items at most, the first items is the second largest one
+                .SubscribeConsole();
 
-numbers.OnNext(3);
-numbers.OnNext(1);
-numbers.OnNext(4);
-numbers.OnNext(2);
-numbers.OnCompleted();
-
+            numbers.OnNext(3);
+            numbers.OnNext(1);
+            numbers.OnNext(4);
+            numbers.OnNext(2);
+            numbers.OnCompleted();
         }
 
         private static void AggregateAndScan()
@@ -73,7 +69,7 @@ numbers.OnCompleted();
         {
             Demo.DisplayHeader("The MaxBy and MinBy operators - the provided selector will determine the maximal/minimal object based on the selected value");
 
-            Subject<StudentGrade> grades = new Subject<StudentGrade>();
+            var grades = new Subject<StudentGrade>();
             grades.MaxBy(s => s.Grade)
                 .SelectMany(max => max)
                 .SubscribeConsole("Maximal object by grade");
@@ -88,7 +84,7 @@ numbers.OnCompleted();
         {
             Demo.DisplayHeader("The Max and Min operators - passing a selector will emit the maximal/minimal from the values produced by the selector");
 
-            Subject<StudentGrade> grades = new Subject<StudentGrade>();
+            var grades = new Subject<StudentGrade>();
             grades.Max(g => g.Grade)
                 .SubscribeConsole("Maximal grade");
 
@@ -154,8 +150,6 @@ numbers.OnCompleted();
             numbers.OnNext(4);
             numbers.OnNext(5);
             numbers.OnCompleted();
-
-
         }
 
         private static void Sum()
@@ -166,6 +160,5 @@ numbers.OnCompleted();
                 .Sum()
                 .SubscribeConsole("Sum");
         }
-
     }
 }

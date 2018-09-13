@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using AsyncObservables.SearchEngine;
+using AsyncObservables.Services;
+using Helpers;
+using System;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Text;
 using System.Threading;
-using AsyncObservables.SearchEngine;
-using AsyncObservables.Services;
-using Helpers;
 
 namespace AsyncObservables
 {
@@ -29,7 +27,6 @@ namespace AsyncObservables
 
         private static void RunningAsyncCodeInWhere()
         {
-            
             Demo.DisplayHeader("Running async code int the pipeline - order is not determenistic");
 
             var svc = new PrimeCheckService();
@@ -41,18 +38,14 @@ namespace AsyncObservables
             //    .Where(async x => await svc.IsPrimeAsync(x))
             //    .SubscribeConsole("AsyncWhere");
 
-            //
             // This compiles and runs - query syntax
-            //
             IObservable<int> primes =
                 from number in Observable.Range(1, 10)
                 from isPrime in svc.IsPrimeAsync(number)
                 where isPrime
                 select number;
 
-            //
             // The same, but in methods chain
-            //
             primes =
                 Observable.Range(1, 10)
                     .SelectMany((number) => svc.IsPrimeAsync(number),
@@ -70,7 +63,6 @@ namespace AsyncObservables
 
         private static void ContrlingOrderOfAsyncCode()
         {
-            
             Demo.DisplayHeader("Contrling the order of async code with Concat");
 
             var resetEvent = new AutoResetEvent(false);
@@ -104,13 +96,11 @@ namespace AsyncObservables
             resetEvent.WaitOne();
         }
 
-
-
         public static void SearchingWithAsyncAwait()
         {
             Demo.DisplayHeader("Creating async observable with async-await");
 
-            var results = SearchEngineExample.Search_WithAsyncAwait("Rx");
+            IObservable<string> results = SearchEngineExample.Search_WithAsyncAwait("Rx");
             results.RunExample("search async-await");
         }
 
@@ -121,15 +111,14 @@ namespace AsyncObservables
             var exampleResetEvent = new AutoResetEvent(false);
 
             // Change the index to when you want the subscription disposed
-            int cancelIndex = 1;
+            var cancelIndex = 1;
 
-            var results = SearchEngineExample.Search_WithCancellation("Rx");
+            IObservable<string> results = SearchEngineExample.Search_WithCancellation("Rx");
 
             IDisposable subscription = Disposable.Empty;
             subscription = results
                 .Select((result, index) => new { result, index }) //adding the item index to the notification
-                .Do(x =>
-                {
+                .Do(x => {
                     if (x.index == cancelIndex)
                     {
                         Console.WriteLine("Cancelling on index {0}", cancelIndex);
@@ -137,7 +126,7 @@ namespace AsyncObservables
                         exampleResetEvent.Set();
                     }
                 })
-                .Select(x => x.result) //rollback the observable to be IObservable<string> 
+                .Select(x => x.result) //rollback the observable to be IObservable<string>
                  .DoLast(() => exampleResetEvent.Set(), delay: TimeSpan.FromSeconds(1))
                 .SubscribeConsole("results");
 
@@ -146,10 +135,9 @@ namespace AsyncObservables
 
         public static void SearchingWithConcatingTasks()
         {
-            
             Demo.DisplayHeader("Converting Tasks to observables");
 
-            var results = SearchEngineExample.Search_ConcatingTasks("Rx");
+            IObservable<string> results = SearchEngineExample.Search_ConcatingTasks("Rx");
 
             results
              .RunExample("tasks to observables");
@@ -157,10 +145,9 @@ namespace AsyncObservables
 
         public static void SearchingWithDefferedAsync()
         {
-            
             Demo.DisplayHeader("Defferd async");
 
-            var results = SearchEngineExample.Search_DefferedConcatingTasks("Rx");
+            IObservable<string> results = SearchEngineExample.Search_DefferedConcatingTasks("Rx");
             results.RunExample("defered");
         }
     }

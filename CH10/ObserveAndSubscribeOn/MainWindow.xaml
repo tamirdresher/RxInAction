@@ -6,12 +6,12 @@
         mc:Ignorable="d"
         Title="Rx Search" Height="350" Width="525">
     <DockPanel>
-        
+
         <StackPanel DockPanel.Dock="Top" Orientation="Vertical">
             <TextBlock Text="Your Text:" Margin="5,5,0,0"/>
             <TextBox x:Name="TextBox" Margin="0,0,0,0"></TextBox>
         </StackPanel>
-        
+
         <ListBox x:Name="ThrottledResults"></ListBox>
     </DockPanel>
 </Window>

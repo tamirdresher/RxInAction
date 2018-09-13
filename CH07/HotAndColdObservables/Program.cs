@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Helpers;
+using System;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Helpers;
 
 namespace HotAndColdObservables
 {
@@ -30,7 +28,7 @@ namespace HotAndColdObservables
         {
             Demo.DisplayHeader("Replay(2) - will replay the last two items for the future subscribed observer");
 
-            var observable = Observable.Interval(TimeSpan.FromSeconds(1))
+            IConnectableObservable<long> observable = Observable.Interval(TimeSpan.FromSeconds(1))
                 .Take(5)
                 .Replay(2);
             observable.Connect();
@@ -48,13 +46,13 @@ namespace HotAndColdObservables
             Demo.DisplayHeader("Automatic disconnection with RefCount");
 
             //unbounded observable
-            var publishedObservable = Observable.Interval(TimeSpan.FromSeconds(1))
+            IObservable<long> publishedObservable = Observable.Interval(TimeSpan.FromSeconds(1))
                 .Do(x => Console.WriteLine("Generating {0}", x))
                 .Publish()
                 .RefCount();
 
-            var subscription1 = publishedObservable.SubscribeConsole("First");
-            var subscription2 = publishedObservable.SubscribeConsole("Second");
+            IDisposable subscription1 = publishedObservable.SubscribeConsole("First");
+            IDisposable subscription2 = publishedObservable.SubscribeConsole("Second");
 
             //waiting 3 seconds before disposing one subscription
             Thread.Sleep(3000);
@@ -65,23 +63,20 @@ namespace HotAndColdObservables
             Thread.Sleep(3000);
             Console.WriteLine("Disposing the second subscription");
             subscription2.Dispose();
-
-
-
         }
 
         private static void Reconnecting()
         {
             Demo.DisplayHeader("Reconnecting a connectable observable");
 
-            var connectableObservable =
+            IConnectableObservable<string> connectableObservable =
                 Observable.Defer(() => ChatServer.Current.ObserveMessages())
                     .Publish();
 
             connectableObservable.SubscribeConsole("Messages Screen");
             connectableObservable.SubscribeConsole("Messages Statistics");
 
-            var subscription = connectableObservable.Connect();
+            IDisposable subscription = connectableObservable.Connect();
 
             //After After the application was notified on server outage
             Console.WriteLine("--Disposing the current connection and reconnecting--");
@@ -94,15 +89,14 @@ namespace HotAndColdObservables
 
         private static void Multicast()
         {
-            var coldObservable = Observable.Interval(TimeSpan.FromSeconds(1)).Take(5);
+            IObservable<long> coldObservable = Observable.Interval(TimeSpan.FromSeconds(1)).Take(5);
 
-            var observable =
+            IObservable<long> observable =
                 coldObservable.Multicast(
                     subjectSelector: () => new Subject<long>(),
                     selector: src => src.Zip(src, (a, b) => a + b));
 
             observable.SubscribeConsole();
-
         }
 
         private static void PublishLast()
@@ -110,11 +104,11 @@ namespace HotAndColdObservables
             Demo.DisplayHeader("PublishLast - will emit the last value, even for observers that subscribe after completed");
 
             //an observable that simulate an asynchronous operation that take a long time to complete
-            var coldObservable = Observable.Timer(TimeSpan.FromSeconds(5)).Select(_ => "Rx");
+            IObservable<string> coldObservable = Observable.Timer(TimeSpan.FromSeconds(5))
+                .Select(_ => "Rx");
 
             Console.WriteLine("Creating hot disconncted observable");
-            var connectableObservable = coldObservable.PublishLast();
-
+            IConnectableObservable<string> connectableObservable = coldObservable.PublishLast();
 
             Console.WriteLine("Subscribing two observers now, and the third after the source observable completed");
             connectableObservable.SubscribeConsole("First");
@@ -127,19 +121,16 @@ namespace HotAndColdObservables
             Thread.Sleep(6000);
             Console.WriteLine("Subscribing the third observer - it will receive the last value");
             connectableObservable.SubscribeConsole("Third");
-
-
         }
 
         private static void PublishWithInitialValue()
         {
             Demo.DisplayHeader("Publish(initial-value) - published the observable but using BehaviorSubject");
 
-            var coldObservable = Observable.Interval(TimeSpan.FromSeconds(1)).Take(5);
+            IObservable<long> coldObservable = Observable.Interval(TimeSpan.FromSeconds(1)).Take(5);
 
             Console.WriteLine("Creating hot disconncted observable");
-            var connectableObservable = coldObservable.Publish(-10);
-
+            IConnectableObservable<long> connectableObservable = coldObservable.Publish(-10);
 
             Console.WriteLine("Subscribing two observers now, and the third in two more seconds");
             connectableObservable.SubscribeConsole("First");
@@ -161,35 +152,29 @@ namespace HotAndColdObservables
         {
             Demo.DisplayHeader("Publish(selector) - is good for reusing a published observable to create a new observable");
 
-            int i = 0;
-            var numbers = Observable.Range(1, 5).Select(_ => i++);//this observable causes a side effect
-
+            var i = 0;
+            IObservable<int> numbers = Observable.Range(1, 5).Select(_ => i++);//this observable causes a side effect
 
             //since the 'numbers' observable is cold, this will result in the sequence of values in the form i+(i+1) and not i+i
-            var zipped = numbers.Zip(numbers, (a, b) => a + b);
+            IObservable<int> zipped = numbers.Zip(numbers, (a, b) => a + b);
             zipped.SubscribeConsole("zipped");
 
-
-
             Console.WriteLine("Zipping an observable to itself after publihsing it");
+
             i = 0;
-            var publishedZip =
+            IObservable<int> publishedZip =
                 numbers.Publish(published => published.Zip(published, (a, b) => a + b));
             publishedZip.SubscribeConsole("publishedZipped");
-
         }
-
-
-
 
         private static void HeatingAnObservable()
         {
             Demo.DisplayHeader("Heating an observable using Publish and Connect");
 
-            var coldObservable = Observable.Interval(TimeSpan.FromSeconds(1)).Take(5);
+            IObservable<long> coldObservable = Observable.Interval(TimeSpan.FromSeconds(1)).Take(5);
 
             Console.WriteLine("Creating hot disconncted observable");
-            var connectableObservable = coldObservable.Publish();
+            IConnectableObservable<long> connectableObservable = coldObservable.Publish();
 
             Console.WriteLine("Subscribing two observers now, and the third in two more seconds");
             connectableObservable.SubscribeConsole("First");
@@ -211,9 +196,8 @@ namespace HotAndColdObservables
         {
             Demo.DisplayHeader("Cold observable will regenerate the entire seqeunce of notfications for each observer");
 
-            var coldObservable =
-                Observable.Create<string>(async o =>
-                {
+            IObservable<string> coldObservable =
+                Observable.Create<string>(async o => {
                     o.OnNext("Hello");
                     await Task.Delay(TimeSpan.FromSeconds(1));
                     o.OnNext("Rx");
@@ -225,7 +209,6 @@ namespace HotAndColdObservables
 
             //waiting for the observable sequence to complete
             Thread.Sleep(3000);
-
         }
     }
 }

@@ -6,15 +6,15 @@ namespace RxLibrary
     {
         public ConcurrencyProvider()
         {
-            TimeBasedOperations = DefaultScheduler.Instance;
-            Task=TaskPoolScheduler.Default;
-            Thread = NewThreadScheduler.Default;
+            this.TimeBasedOperations = DefaultScheduler.Instance;
+            this.Task = TaskPoolScheduler.Default;
+            this.Thread = NewThreadScheduler.Default;
 
 #if HAS_DISPATCHER
             Dispatcher=DispatcherScheduler.Current;
 #else
             //workaround to whenever there's no dispatcher
-            Dispatcher = CurrentThreadScheduler.Instance;
+            this.Dispatcher = CurrentThreadScheduler.Instance;
 #endif
         }
 

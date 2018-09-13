@@ -5,6 +5,7 @@ namespace Synchronize
     class Messenger
     {
         public event EventHandler<string> MessageRecieved = delegate { };
+
         public event EventHandler<FriendRequest> FriendRequestRecieved = delegate { };
 
         //Rest of the Messanger code
@@ -19,9 +20,8 @@ namespace Synchronize
         }
     }
 
-    internal class FriendRequest   
+    internal class FriendRequest
     {
         public string UserId { get; set; }
-
     }
 }

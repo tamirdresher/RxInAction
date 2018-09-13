@@ -4,6 +4,5 @@ namespace ShoppyExample
     {
         public Position Location { get; set; }
         public string Name { get; set; }
-
     }
 }

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Helpers;
+using System;
 using System.Reactive.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Helpers;
 
 namespace MagicalPrimeGeneratorExample
 {
@@ -20,8 +17,6 @@ namespace MagicalPrimeGeneratorExample
             Console.ReadLine();
         }
 
-      
-
         private static void GeneratingWithObservable()
         {
             Console.WriteLine();
@@ -29,7 +24,7 @@ namespace MagicalPrimeGeneratorExample
 
             var generator = new MagicalPrimeGenerator();
 
-            var subscription = generator
+            IDisposable subscription = generator
                 .GeneratePrimes_Sync(5)
                 .Timestamp()
                 .SubscribeConsole("primes observable");
@@ -53,7 +48,6 @@ namespace MagicalPrimeGeneratorExample
 
         private static void GeneratingSynchronously()
         {
-
             Console.WriteLine();
             Demo.DisplayHeader("Using synchronous enumerable");
 
@@ -72,9 +66,9 @@ namespace MagicalPrimeGeneratorExample
 
             var generator = new MagicalPrimeGenerator();
 
-            var primesObservable = generator.GeneratePrimes_ManualAsync(5);
+            IObservable<int> primesObservable = generator.GeneratePrimes_ManualAsync(5);
             //primesObservable = generator.GeneratePrimes_AsyncCreate(5);
-            var subscription =
+            IDisposable subscription =
                 primesObservable
                 .SubscribeConsole("primes observable");
 
@@ -91,7 +85,5 @@ namespace MagicalPrimeGeneratorExample
                 Console.WriteLine("\t {0}", input);
             }
         }
-
     }
-
 }

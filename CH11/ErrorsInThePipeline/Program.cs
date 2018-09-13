@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Helpers;
+using System;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Helpers;
 
 namespace ErrorsInThePipeline
 {
@@ -43,19 +39,16 @@ namespace ErrorsInThePipeline
             Observable.Interval(TimeSpan.FromMilliseconds(500))
                 .Subscribe(
                     x => { throw new Exception("Exception in OnNext"); },
-                    e =>
-                    {
+                    e => {
                         /*we wont get here since the exception originated in the observer*/
                     });
         }
-
 
         private static void ExceptionDuringSubscription()
         {
             Demo.DisplayHeader("Throwing exception in Subscribe()");
 
-            var observable = Observable.Create<int>(o =>
-            {
+            IObservable<int> observable = Observable.Create<int>(o => {
                 throw new Exception("Exception in subscription");
                 return Disposable.Empty;
             });

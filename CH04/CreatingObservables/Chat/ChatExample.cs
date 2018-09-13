@@ -1,5 +1,5 @@
-﻿using System;
-using Helpers;
+﻿using Helpers;
+using System;
 
 namespace CreatingObservables.Chat
 {
@@ -10,7 +10,7 @@ namespace CreatingObservables.Chat
             var chatClient = new ChatClient();
             //var subscription = CreateObservableConnection(chatClient);
             //var subscription = CreateObservableConnectionFluenttly(chatClient);
-            var subscription = CreateDefferedObservableConnection(chatClient);
+            IDisposable subscription = CreateDefferedObservableConnection(chatClient);
 
             while (true)
             {
@@ -32,11 +32,11 @@ namespace CreatingObservables.Chat
 
         private static IDisposable CreateObservableConnection(ChatClient chatClient)
         {
-            var connection = chatClient.Connect("guest", "guest");
+            IChatConnection connection = chatClient.Connect("guest", "guest");
             IObservable<string> observableConnection =
                 new ObservableConnection(connection);
 
-            var subscription =
+            IDisposable subscription =
                 observableConnection.SubscribeConsole("reciever");
 
             return subscription;
@@ -44,22 +44,21 @@ namespace CreatingObservables.Chat
 
         private static IDisposable CreateObservableConnectionFluenttly(ChatClient chatClient)
         {
-            var subscription =
+            IDisposable subscription =
                 chatClient.Connect("guest", "guest")
                 .ToObservable()
                 .SubscribeConsole();
-
 
             return subscription;
         }
 
         private static IDisposable CreateDefferedObservableConnection(ChatClient chatClient)
         {
-            var messages = chatClient.ObserveMessagesDeferred("user", "password");
+            IObservable<string> messages = chatClient.ObserveMessagesDeferred("user", "password");
             Console.WriteLine("Press Enter to subscribe to the deffered observable");
             Console.ReadLine();
-            var subscription = messages.SubscribeConsole();
-            var subscription2 = messages.SubscribeConsole();
+            IDisposable subscription = messages.SubscribeConsole();
+            IDisposable subscription2 = messages.SubscribeConsole();
 
             return subscription;
         }

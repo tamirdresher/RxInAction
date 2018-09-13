@@ -9,7 +9,7 @@ namespace BasicQueryOperators.Model
 
         public override string ToString()
         {
-            return "ChatRoom: " + Id;
+            return "ChatRoom: " + this.Id;
         }
     }
 }

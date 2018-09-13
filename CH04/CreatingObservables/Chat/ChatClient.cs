@@ -1,6 +1,4 @@
 using System;
-using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
 using System.Reactive.Linq;
 
@@ -8,53 +6,55 @@ namespace CreatingObservables.Chat
 {
     public class ChatClient
     {
-        IList<IChatConnection> _connections = new List<IChatConnection>();
+        readonly IList<IChatConnection> _connections = new List<IChatConnection>();
         public IChatConnection Connect(string user, string password)
         {
             Console.WriteLine("Connect");
             var chatConnection = new ChatConnection();
-            _connections.Add(chatConnection);
+            this._connections.Add(chatConnection);
             return chatConnection;
         }
 
-
         public IObservable<string> ObserveMessages(string user, string password)
         {
-            var connection = Connect(user, password);
+            IChatConnection connection = this.Connect(user, password);
             return connection.ToObservable();
         }
 
-public IObservable<string> ObserveMessagesDeferred(string user, string password)
-{
-    return Observable.Defer(() =>
-    {
-        var connection = Connect(user, password);
-        return connection.ToObservable();
-    });
-}
+        public IObservable<string> ObserveMessagesDeferred(string user, string password)
+        {
+            return Observable.Defer(() => {
+                IChatConnection connection = this.Connect(user, password);
+                return connection.ToObservable();
+            });
+        }
 
         #region Testing Utils
+
         public void NotifyRecieved(string msg)
         {
-            foreach (var chatConnection in _connections)
+            foreach (IChatConnection chatConnection in this._connections)
             {
                 chatConnection.NotifyRecieved(msg);
             }
         }
+
         public void NotifyClosed()
         {
-            foreach (var chatConnection in _connections)
+            foreach (IChatConnection chatConnection in this._connections)
             {
                 chatConnection.NotifyClosed();
             }
         }
+
         public void NotifyError()
         {
-            foreach (var chatConnection in _connections)
+            foreach (IChatConnection chatConnection in this._connections)
             {
                 chatConnection.NotifyError();
             }
         }
-        #endregion
+
+        #endregion Testing Utils
     }
 }

@@ -1,7 +1,7 @@
+using Helpers;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Helpers;
 
 namespace SimpleAsyncProgram
 {
@@ -12,7 +12,7 @@ namespace SimpleAsyncProgram
             Console.WriteLine();
             Demo.DisplayHeader("Using Task.Run(...) to create async code");
 
-            bool isSame = await MyAsyncMethod(Thread.CurrentThread.ManagedThreadId);
+            var isSame = await MyAsyncMethod(Thread.CurrentThread.ManagedThreadId);
             Console.WriteLine("Caller thread is the same as executing thread: {0}", isSame);//this will print 'false'
         }
 
@@ -20,6 +20,5 @@ namespace SimpleAsyncProgram
         {
             return await Task.Run(() => Thread.CurrentThread.ManagedThreadId == callingThreadId);
         }
-
     }
 }

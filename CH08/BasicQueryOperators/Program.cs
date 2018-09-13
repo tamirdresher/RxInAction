@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using BasicQueryOperators.Examples;
+using BasicQueryOperators.Model;
+using Helpers;
+using System;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using BasicQueryOperators.Examples;
-using BasicQueryOperators.Model;
-using Helpers;
 
 namespace BasicQueryOperators
 {
@@ -28,13 +25,11 @@ namespace BasicQueryOperators
             DistinctUntilChanged();
         }
 
-
-
         private static void Where()
         {
             Demo.DisplayHeader("The Where operator - filters the elements of an observable sequence based on a predicate ");
 
-            var strings = new[] { "aa", "Abc", "Ba", "Ac" }.ToObservable();
+            IObservable<string> strings = new[] { "aa", "Abc", "Ba", "Ac" }.ToObservable();
 
             strings.Where(s => s.StartsWith("A"))
                 .SubscribeConsole();
@@ -74,9 +69,8 @@ namespace BasicQueryOperators
             subject.OnNext(2);
             subject.OnNext(4);
             subject.OnCompleted();
-
-
         }
+
         private static void DistinctNewsItems()
         {
             Demo.DisplayHeader("The Distinct operator - filters values that were already emmited by the observable - by a given keySelector");
@@ -92,6 +86,7 @@ namespace BasicQueryOperators
 
             subject.OnCompleted();
         }
+
         private static void SelectingFromAnotherSource()
         {
             Demo.DisplayHeader("The Select operator - using select to load data");
@@ -111,8 +106,6 @@ namespace BasicQueryOperators
             messagesViewModels.Wait();
         }
 
-
-
         private static void Selecting()
         {
             Demo.DisplayHeader("The Select operator - taking only some of the properties in a ChatMessage");
@@ -128,7 +121,7 @@ namespace BasicQueryOperators
         {
             Demo.DisplayHeader("SelectMany(Observables)");
 
-            var observables =
+            IObservable<IObservable<string>> observables =
                 Observable.Interval(TimeSpan.FromSeconds(2))
                     .Take(3)
                     .Select(i => Observable.Interval(TimeSpan.FromSeconds(1))
@@ -138,9 +131,7 @@ namespace BasicQueryOperators
             observables.SelectMany(xs => xs)
                 .Log()
                 .Wait();
-
         }
-
 
         private static User LoadUserFromDb(string sender)
         {

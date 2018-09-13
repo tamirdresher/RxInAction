@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Microsoft.Reactive.Testing;
+using System;
 using System.Reactive.Linq;
-using Microsoft.Reactive.Testing;
 using Xunit;
-using RxLibrary;
 
 namespace RxLibrary.Tests
 {
@@ -14,7 +13,7 @@ namespace RxLibrary.Tests
             var seqeucneSize = 10;
             var burstSize = 5;
             var expected = new[] { 0, 5 };
-            var xs = Observable.Range(0, seqeucneSize);
+            IObservable<int> xs = Observable.Range(0, seqeucneSize);
 
             xs.FilterBursts(burstSize)
                 .AssertEqual(expected.ToObservable());
@@ -28,7 +27,7 @@ namespace RxLibrary.Tests
         [InlineData(5, 8, new[] { 0, 5 })]
         public void FilterBursts(int burstSize, int sequenceSize, int[] expected)
         {
-            var observable = Observable.Range(0, sequenceSize);
+            IObservable<int> observable = Observable.Range(0, sequenceSize);
             observable.FilterBursts(burstSize)
                 .AssertEqual(expected.ToObservable());
         }
@@ -36,9 +35,8 @@ namespace RxLibrary.Tests
         [Fact]
         public void FilterBursts_TwoBurstAndGapInEachBurst_FirstInEachBurstEmitted()
         {
-            
             var scheduler = new TestScheduler();
-            var xs = scheduler.CreateHotObservable(
+            ITestableObservable<int> xs = scheduler.CreateHotObservable(
                 OnNext(250, 1),
                 OnNext(260, 2),
                 OnNext(270, 3),
@@ -50,7 +48,7 @@ namespace RxLibrary.Tests
                 OnCompleted<int>(500)
                 );
 
-            var res = scheduler.Start(() => xs.FilterBursts(3));
+            ITestableObserver<int> res = scheduler.Start(() => xs.FilterBursts(3));
 
             res.Messages.AssertEqual(
                 OnNext(250, 1),
@@ -65,9 +63,9 @@ namespace RxLibrary.Tests
         public void FilterBursts_TwoBurstAndGapInEachBurst_FirstInEachBurstEmitted_WithTestableObserver()
         {
             var scheduler = new TestScheduler();
-            
+
             // Creating an observable that will emit two bursts of values 1-to-3 and (-1)-to-(-3)
-            var xs = scheduler.CreateHotObservable(
+            ITestableObservable<int> xs = scheduler.CreateHotObservable(
                 OnNext(250, 1),
                 OnNext(275, 2),
                 OnNext(300, 3),
@@ -80,10 +78,10 @@ namespace RxLibrary.Tests
                 );
 
             // Creating a TestableObserver that is capable of recording its observations
-            var testableObserver = scheduler.CreateObserver<int>();
+            ITestableObserver<int> testableObserver = scheduler.CreateObserver<int>();
 
-            // Act - This is the code we want to test. 
-            //Since we havent started the scheduler yet, its clock time is 0 (i.e. subscription time is 0) 
+            // Act - This is the code we want to test.
+            //Since we havent started the scheduler yet, its clock time is 0 (i.e. subscription time is 0)
             xs.FilterBursts(3)
                 .Subscribe(testableObserver);
 

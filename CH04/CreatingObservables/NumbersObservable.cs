@@ -9,12 +9,12 @@ namespace CreatingObservables
 
         public NumbersObservable(int amount)
         {
-            _amount = amount;
+            this._amount = amount;
         }
 
         public IDisposable Subscribe(IObserver<int> observer)
         {
-            for (int i = 0; i < _amount; i++)
+            for (var i = 0; i < this._amount; i++)
             {
                 observer.OnNext(i);
             }

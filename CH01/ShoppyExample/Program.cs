@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ShoppyExample
@@ -23,7 +22,7 @@ namespace ShoppyExample
             {
                 StoreIconExample();
 
-                ConnectivityExample();
+                this.ConnectivityExample();
             }
 
             [Description("Shows how you can combine multiple observables")]
@@ -34,7 +33,6 @@ namespace ShoppyExample
 
                 IObservable<Position> myLocation = CreateDummyLocations();
                 Store[] stores = CreateDummyStores();
-
 
                 var storeLocation = stores.ToObservable()
                     .SelectMany(store => myLocation, (store, currentLocation) => new { store, currentLocation });
@@ -60,7 +58,6 @@ namespace ShoppyExample
                                        sizeOrMax
                                    };
 
-
                 iconSize.Subscribe(d => Debug.WriteLine(d));
             }
 
@@ -71,13 +68,14 @@ namespace ShoppyExample
                 IObservable<IEnumerable<Discount>> newDiscounts =
                     from connectivity in myConnectivity
                     where connectivity == Connectivity.Online
-                    from discounts in GetDiscounts()
+                    from discounts in this.GetDiscounts()
                     select discounts;
 
-                newDiscounts.Subscribe(discounts => RefreshView(discounts));
+                newDiscounts.Subscribe(discounts => this.RefreshView(discounts));
             }
 
             #region Helper Methods
+
             private static IObservable<Position> CreateDummyLocations()
             {
                 return Observable.Range(1, 50).Select(i => new Position() { X = i, Y = i * 2 });
@@ -123,8 +121,8 @@ namespace ShoppyExample
                 //Sends request to the server and recieves the collection of discounts
                 return Task.FromResult(Enumerable.Empty<Discount>());
             }
-            #endregion
-        }
 
+            #endregion Helper Methods
+        }
     }
 }

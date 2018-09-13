@@ -10,7 +10,7 @@ namespace BasicAggregateOperators
 
         public override string ToString()
         {
-            return String.Format("Id: {0}, Name: {1}, Grade: {2}", Id, Name, Grade);
+            return String.Format("Id: {0}, Name: {1}, Grade: {2}", this.Id, this.Name, this.Grade);
         }
     }
 }

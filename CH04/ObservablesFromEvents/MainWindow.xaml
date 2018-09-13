@@ -10,7 +10,7 @@
         <Button x:Name="theButton"
                 DockPanel.Dock="Top"
                 Content="Click Me"/>
-        <TextBox x:Name="output" 
+        <TextBox x:Name="output"
                  AcceptsReturn="True"></TextBox>
     </DockPanel>
 </Window>

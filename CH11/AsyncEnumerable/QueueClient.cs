@@ -5,7 +5,6 @@ internal class QueueClient : IDisposable
 {
     public void Dispose()
     {
-
     }
 
     public Task<QueueItem> ReadNextItemAsync()

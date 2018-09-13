@@ -9,20 +9,17 @@ namespace HotAndColdObservables
         private static int createdServers = 0;
         public ChatServer()
         {
-            ServerId = createdServers++;
+            this.ServerId = createdServers++;
         }
 
         public int ServerId { get; set; }
 
-        public static ChatServer Current
-        {
-            get { return new ChatServer();}
-        }
+        public static ChatServer Current => new ChatServer();
 
         public IObservable<string> ObserveMessages()
         {
             //"Never" is used so that the resulted observable will not complete, so  the observers wont be detached
-            return Observable.Never<string>().StartWith("Message1", "Message2", "Message3").Select(m => "Server" + ServerId + " - " + m);
+            return Observable.Never<string>().StartWith("Message1", "Message2", "Message3").Select(m => "Server" + this.ServerId + " - " + m);
         }
     }
 }
