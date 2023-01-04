@@ -179,6 +179,6 @@ $RECYCLE.BIN/
 # Visual Studio 2014 CTP
 **/*.sln.ide
 /packages
-/.vs/restore.dg
+/.vs
 *.lock.json
 /.vs
