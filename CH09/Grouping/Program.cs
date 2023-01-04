@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Helpers;
+using System;
 using System.Linq;
 using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Helpers;
 
 namespace Grouping
 {
@@ -20,7 +17,7 @@ namespace Grouping
 
         private static void GroupBy()
         {
-            var people = ObservableEx.FromValues(
+            IObservable<Person> people = ObservableExtensionsHelpers.FromValues(
                 new Person() { Gender = Gender.Male, Age = 21 },
                 new Person() { Gender = Gender.Female, Age = 31 },
                 new Person() { Gender = Gender.Male, Age = 23 },

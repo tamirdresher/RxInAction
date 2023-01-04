@@ -1,10 +1,8 @@
-﻿using System;
+﻿using Helpers;
+using System;
 using System.Collections.Generic;
 using System.Reactive.Linq;
-using System.Reactive.Subjects;
 using System.Security.Policy;
-using System.Xml;
-using Helpers;
 
 namespace BasicQueryOperators.Examples
 {
@@ -20,8 +18,10 @@ namespace BasicQueryOperators.Examples
         private static void ProcessingTheSourceAndTheResultWithLet()
         {
             Demo.DisplayHeader("The SelectMany operator is added automatically when using Let inside the query-syntax query");
+
             #region creating collection of news items
-            var theNews = new[]
+
+            NewsItem[] theNews = new[]
             {
                 new NewsItem
                 {
@@ -42,10 +42,11 @@ namespace BasicQueryOperators.Examples
                         new[] {new NewsImage {ImageName = "Item2Image1"}},
                 }
             };
-            #endregion
 
-IObservable<NewsItem> news = theNews.ToObservable();
-var newsImages =
+            #endregion creating collection of news items
+
+            IObservable<NewsItem> news = theNews.ToObservable();
+            IObservable<NewImageViewModel> newsImages =
     from n in news
     from img in n.Images
     where img.IsChildFriendly
@@ -62,8 +63,10 @@ var newsImages =
         private static void ProcessingTheSourceAndTheResult()
         {
             Demo.DisplayHeader("The SelectMany operator - processing the source item and the result item");
+
             #region creating collection of news items
-            var theNews = new[]
+
+            NewsItem[] theNews = new[]
             {
                 new NewsItem
                 {
@@ -84,27 +87,26 @@ var newsImages =
                         new[] {new NewsImage {ImageName = "Item2Image1"}},
                 }
             };
-            #endregion
+
+            #endregion creating collection of news items
 
             IObservable<NewsItem> news = theNews.ToObservable();
 
-news.SelectMany(n => n.Images,
-    (newsItem, img) => new NewImageViewModel
-    {
-        ItemUrl = newsItem.Url,
-        NewsImage = img
-    })
-    .Where(vm => vm.NewsImage.IsChildFriendly)
-    .Subscribe(img => AddToHeadlines(img));
+            news.SelectMany(n => n.Images,
+                (newsItem, img) => new NewImageViewModel
+                {
+                    ItemUrl = newsItem.Url,
+                    NewsImage = img
+                })
+                .Where(vm => vm.NewsImage.IsChildFriendly)
+                .Subscribe(img => AddToHeadlines(img));
         }
-
-       
 
         private static void SimpleCollectionsFlattening()
         {
             Demo.DisplayHeader("The SelectMany operator - flattening collections of images from many news items");
 
-            var theNews = new[]
+            NewsItem[] theNews = new[]
             {
                 new NewsItem
                 {
@@ -124,7 +126,6 @@ news.SelectMany(n => n.Images,
                 }
             };
 
-
             IObservable<NewsItem> news = theNews.ToObservable();
 
             news.SelectMany(n => n.Images)
@@ -136,12 +137,11 @@ news.SelectMany(n => n.Images,
         {
             Console.WriteLine("News headline image: {0}", img.ImageName);
         }
+
         private static void AddToHeadlines(NewImageViewModel img)
         {
             AddToHeadlines(img.NewsImage);
         }
-
-
     }
 
     public class NewsItem
@@ -152,7 +152,7 @@ news.SelectMany(n => n.Images,
 
         public override string ToString()
         {
-            return Title;
+            return this.Title;
         }
     }
 
@@ -160,8 +160,7 @@ news.SelectMany(n => n.Images,
     {
         public NewsImage(bool isChildFriendly = true)
         {
-            IsChildFriendly = isChildFriendly;
-
+            this.IsChildFriendly = isChildFriendly;
         }
 
         public string ImageName { get; set; }

@@ -8,9 +8,9 @@ namespace Disposables
         public static CompositeDisposable AddToCompositeDisposable(this IDisposable @this,
             CompositeDisposable compositeDisposable)
         {
-            if (compositeDisposable==null){throw new ArgumentNullException(nameof(compositeDisposable));}
+            if (compositeDisposable == null) { throw new ArgumentNullException(nameof(compositeDisposable)); }
             compositeDisposable.Add(@this);
             return compositeDisposable;
-        } 
+        }
     }
 }

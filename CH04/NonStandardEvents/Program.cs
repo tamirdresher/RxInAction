@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Helpers;
+using System;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Text;
-using System.Threading.Tasks;
-using Helpers;
 
 namespace NonStandardEvents
 {
@@ -40,16 +35,14 @@ namespace NonStandardEvents
             //      h => wifiScanner.NetworkFound += h,
             //      h => wifiScanner.NetworkFound -= h);
 
-            //
-            // When the target event has more than one parameter, a conversion method is needed to turn them into a single object
-            //
+            // When the target event has more than one parameter, a conversion method is needed to
+            // turn them into a single object
             IObservable<Tuple<string, int>> networks = Observable
-                .FromEvent<ExtendedNetworkFoundEventHandler, Tuple<String, int>>(
+                .FromEvent<ExtendedNetworkFoundEventHandler, Tuple<string, int>>(
                     rxHandler =>
                         (ssid, strength) => rxHandler(Tuple.Create(ssid, strength)),
                     h => wifiScanner.ExtendedNetworkFound += h,
                     h => wifiScanner.ExtendedNetworkFound -= h);
-
 
             networks.SubscribeConsole();
             networks.SubscribeConsole();
@@ -63,7 +56,7 @@ namespace NonStandardEvents
                     break;
                 }
                 Console.WriteLine("Enter the network strength - 1 to 10");
-                var strength = int.Parse(Console.ReadLine());
+                var strength = Int32.Parse(Console.ReadLine());
 
                 wifiScanner.RaiseFound(ssid, strength);
             }
@@ -83,31 +76,6 @@ namespace NonStandardEvents
 
             wifiScanner.RaiseConnected();
             wifiScanner.RaiseConnected();
-
-
-        }
-
-    }
-
-    public delegate void NetworkFoundEventHandler(string ssid);
-    public delegate void ExtendedNetworkFoundEventHandler(string ssid, int strength);
-    class WifiScanner
-    {
-        public event NetworkFoundEventHandler NetworkFound = delegate { };
-        public event ExtendedNetworkFoundEventHandler ExtendedNetworkFound = delegate { };
-
-        public event Action Connected = delegate { };
-
-        // rest of the code
-        public void RaiseFound(string ssid, int strength = 0)
-        {
-            NetworkFound(ssid);
-            ExtendedNetworkFound(ssid, strength);
-        }
-
-        public void RaiseConnected()
-        {
-            Connected();
         }
     }
 }

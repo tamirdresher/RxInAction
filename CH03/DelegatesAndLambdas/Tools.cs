@@ -8,12 +8,12 @@ namespace DelegatesAndLambdas
         public static void ForEach<T>(this IEnumerable<T> collection, Action<T> action)
         {
             //ForEach implementation
-            foreach (var item in collection)
+            foreach (T item in collection)
             {
                 action(item);
             }
         }
-       
+
         public static void ForEachInt(IEnumerable<int> collection, Action<int> action)
         {
             foreach (var item in collection)
@@ -24,7 +24,7 @@ namespace DelegatesAndLambdas
 
         public static void ForEach<T>(IEnumerable<T> collection, Action<T> action, Func<T, bool> predicate)
         {
-            foreach (var item in collection)
+            foreach (T item in collection)
             {
                 if (predicate(item))
                 {
@@ -32,7 +32,5 @@ namespace DelegatesAndLambdas
                 }
             }
         }
-
-
     }
 }

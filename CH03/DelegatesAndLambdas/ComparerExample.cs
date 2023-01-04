@@ -23,12 +23,12 @@ namespace DelegatesAndLambdas
 
             public GenericComparer(Func<T, T, int> compareFunc)
             {
-                CompareFunc = compareFunc;
+                this.CompareFunc = compareFunc;
             }
 
             public int Compare(T x, T y)
             {
-                return CompareFunc(x, y);
+                return this.CompareFunc(x, y);
             }
         }
 
@@ -44,8 +44,6 @@ namespace DelegatesAndLambdas
                     ? 0
                     : (x.Length > y.Length) ? 1 : -1));
             Tools.ForEach(words, Console.WriteLine);
-
-
         }
     }
 }

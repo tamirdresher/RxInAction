@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Helpers;
+using System;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using Helpers;
 
 namespace Disposables
 {
@@ -15,15 +12,13 @@ namespace Disposables
     {
         static void Main(string[] args)
         {
-            //TestMySubscribeOn(); 
+            //TestMySubscribeOn();
             RefCountDisposable();
             CompositeDisposable();
             AddToCompositeDisposable();
             BooleanDisposable();
             Console.ReadLine();
         }
-
-       
 
         private static void TestMySubscribeOn()
         {
@@ -35,15 +30,16 @@ namespace Disposables
                 .Do(x => Console.WriteLine("Thread Id " + Thread.CurrentThread.ManagedThreadId))
                 .Wait();
         }
+
         private static void RefCountDisposable()
         {
             Demo.DisplayHeader("The RefCountDisposable - dispose the underlying disposable when all referencing disposables are dispsosed");
 
-            var inner = Disposable.Create(() => Console.WriteLine("Disposing inner-disposable"));
+            IDisposable inner = Disposable.Create(() => Console.WriteLine("Disposing inner-disposable"));
             var refCountDisposable = new RefCountDisposable(inner);
-            var d1 = refCountDisposable.GetDisposable();
-            var d2 = refCountDisposable.GetDisposable();
-            var d3 = refCountDisposable.GetDisposable();
+            IDisposable d1 = refCountDisposable.GetDisposable();
+            IDisposable d2 = refCountDisposable.GetDisposable();
+            IDisposable d3 = refCountDisposable.GetDisposable();
 
             refCountDisposable.Dispose();
             Console.WriteLine("Disposing 1st");
@@ -52,7 +48,6 @@ namespace Disposables
             d2.Dispose();
             Console.WriteLine("Disposing 3rd");
             d3.Dispose();
-
         }
 
         private static void CompositeDisposable()
@@ -66,9 +61,11 @@ namespace Disposables
             compositeDisposable.Dispose();
 
             //The same can also be written using the Add() method
-            compositeDisposable = new CompositeDisposable();
-            compositeDisposable.Add(Disposable.Create(() => Console.WriteLine("1st disposed")));
-            compositeDisposable.Add(Disposable.Create(() => Console.WriteLine("2nd disposed")));
+            compositeDisposable = new CompositeDisposable
+            {
+                Disposable.Create(() => Console.WriteLine("1st disposed")),
+                Disposable.Create(() => Console.WriteLine("2nd disposed"))
+            };
 
             compositeDisposable.Dispose();
         }
@@ -78,9 +75,9 @@ namespace Disposables
             Demo.DisplayHeader("AddToCompositeDisposable extensions method - useful for keeping your observable pipeline fluent");
 
             var compositeDisposable = new CompositeDisposable();
-            IObservable<string> observable = ObservableEx.FromValues("Rx", "For", "The", "Win");
+            IObservable<string> observable = ObservableExtensionsHelpers.FromValues("Rx", "For", "The", "Win");
 
-            observable.Where(x => x.Length%2 == 0)
+            observable.Where(x => x.Length % 2 == 0)
                 .Select(x => x.ToUpper())
                 .Subscribe(x => Console.WriteLine(x))
                 .AddToCompositeDisposable(compositeDisposable);
@@ -99,8 +96,6 @@ namespace Disposables
             Console.WriteLine("Before dispose, booleanDisposable.IsDisposed = {0}", booleanDisposable.IsDisposed);
             booleanDisposable.Dispose();
             Console.WriteLine("After dispose, booleanDisposable.IsDisposed = {0}", booleanDisposable.IsDisposed);
-
-
         }
     }
 }

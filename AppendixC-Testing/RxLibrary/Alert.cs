@@ -9,8 +9,8 @@ namespace RxLibrary
 
         public Alert(string message, DateTimeOffset time)
         {
-            Message = message;
-            Time = time;
+            this.Message = message;
+            this.Time = time;
         }
     }
 }

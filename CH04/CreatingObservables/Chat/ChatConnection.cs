@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Net.NetworkInformation;
-using System.Net.Sockets;
 
 namespace CreatingObservables.Chat
 {
     public class ChatConnection : IChatConnection
     {
         public event Action<string> Received = delegate { };
-        public event Action Closed = delegate { };
-        public event Action<Exception> Error = delegate { };
 
+        public event Action Closed = delegate { };
+
+        public event Action<Exception> Error = delegate { };
 
         //rest of code
 
@@ -17,10 +16,12 @@ namespace CreatingObservables.Chat
         {
             Received(msg);
         }
+
         public void NotifyClosed()
         {
             Closed();
         }
+
         public void NotifyError()
         {
             //Simulating an error

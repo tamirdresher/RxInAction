@@ -12,21 +12,22 @@ namespace DelegatesAndLambdas
         class ThinClass
         {
             private HeavyClass _heavy;
+
             public HeavyClass TheHeavy
             {
                 get
                 {
-                    if (_heavy == null)
+                    if (this._heavy == null)
                     {
-                        _heavy = new HeavyClass();
+                        this._heavy = new HeavyClass();
                     }
-                    return _heavy;
+                    return this._heavy;
                 }
             }
 
             public void SomeMethod()
             {
-                var myHeavy = TheHeavy;
+                HeavyClass myHeavy = this.TheHeavy;
 
                 //Rest of code the use myHeavy
             }
@@ -34,18 +35,17 @@ namespace DelegatesAndLambdas
 
         class ClassWithLazy
         {
-            Lazy<HeavyClass> _lazyHeavyClass = new Lazy<HeavyClass>(() =>
-              {
-                  var heavy = new HeavyClass();
+            readonly Lazy<HeavyClass> _lazyHeavyClass = new Lazy<HeavyClass>(() => {
+                var heavy = new HeavyClass();
 
-                  //code that initialize the heavy object
+                //code that initialize the heavy object
 
-                  return heavy;
-              });
+                return heavy;
+            });
 
             public void SomeMethod()
             {
-                var myHeavy = _lazyHeavyClass.Value;
+                HeavyClass myHeavy = this._lazyHeavyClass.Value;
 
                 //Rest of code the use myHeavy
             }

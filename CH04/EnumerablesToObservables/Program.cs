@@ -1,14 +1,12 @@
-﻿using System;
+﻿using CreatingObservables.Chat;
+using Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using CreatingObservables.Chat;
-using Helpers;
 
 namespace EnumerablesToObservables
 {
@@ -34,14 +32,13 @@ namespace EnumerablesToObservables
             Console.WriteLine();
             Demo.DisplayHeader("Observable To Enumerable (using Next)");
 
-            var observable =
+            IObservable<long> observable =
                  Observable.Interval(TimeSpan.FromSeconds(1));
 
-            var enumerable = observable.Next();
+            IEnumerable<long> enumerable = observable.Next();
 
-            // enumerting on the enumerable - some values will be missed beacuse the thread will sleep 
-            // when they are pushed
-            // only 5 items are taken so we wont stay here forever
+            // enumerting on the enumerable - some values will be missed beacuse the thread will
+            // sleep when they are pushed only 5 items are taken so we wont stay here forever
             foreach (var item in enumerable.Take(5))
             {
                 Console.WriteLine(item);
@@ -59,17 +56,19 @@ namespace EnumerablesToObservables
             // Madrid and London has the same length
             IEnumerable<string> cities = new[] { "London", "Tel-Aviv", "Tokyo", "Rome", "Madrid" };
 
-            var lookupObservable =
+            IObservable<ILookup<int, string>> lookupObservable =
                 cities
                 .ToObservable()
                 .ToLookup(c => c.Length);
 
             lookupObservable
-                .Select(lookup =>
-                {
+                .Select(lookup => {
                     var groups = new StringBuilder();
-                    foreach (var grp in lookup)
+                    foreach (IGrouping<int, string> grp in lookup)
+                    {
                         groups.AppendFormat("[Key:{0} => {1}]", grp.Key, grp.Count());
+                    }
+
                     return groups.ToString();
                 })
                 .SubscribeConsole("lookup");
@@ -81,13 +80,13 @@ namespace EnumerablesToObservables
             Demo.DisplayHeader("Observable To Dictionary");
             IEnumerable<string> cities = new[] { "London", "Tel-Aviv", "Tokyo", "Rome" };
 
-            var dictionaryObservable =
+            IObservable<IDictionary<int, string>> dictionaryObservable =
                 cities
                 .ToObservable()
                 .ToDictionary(c => c.Length);//change the value to some const to see and error
 
             dictionaryObservable
-                .Select(d => string.Join(",", d))
+                .Select(d => String.Join(",", d))
                 .SubscribeConsole("dictionary");
         }
 
@@ -95,13 +94,12 @@ namespace EnumerablesToObservables
         {
             Console.WriteLine();
             Demo.DisplayHeader("Observable To List");
-            var observable =
-                Observable.Create<string>(o =>
-                {
+            IObservable<string> observable =
+                Observable.Create<string>(o => {
                     o.OnNext("Observable");
                     o.OnNext("To");
                     o.OnNext("List");
-                    //  comment the call to OnCompleted() to see how the list is never built 
+                    // comment the call to OnCompleted() to see how the list is never built
                     o.OnCompleted();
                     return Disposable.Empty;
                 });
@@ -110,7 +108,7 @@ namespace EnumerablesToObservables
                 observable.ToList();
 
             listObservable
-                .Select(lst => string.Join(",", lst))
+                .Select(lst => String.Join(",", lst))
                 .SubscribeConsole("list ready");
         }
 
@@ -119,18 +117,17 @@ namespace EnumerablesToObservables
             Console.WriteLine();
             Demo.DisplayHeader("Observable To Enumerable");
 
-            var observable =
-                Observable.Create<string>(o =>
-                {
+            IObservable<string> observable =
+                Observable.Create<string>(o => {
                     o.OnNext("Observable");
                     o.OnNext("To");
                     o.OnNext("Enumerable");
-                    //  comment the call to OnCompleted() to see the thread wait
+                    // comment the call to OnCompleted() to see the thread wait
                     o.OnCompleted();
                     return Disposable.Empty;
                 });
 
-            var enumerable = observable.ToEnumerable();
+            IEnumerable<string> enumerable = observable.ToEnumerable();
             Console.WriteLine("got the enumerable");
             Console.WriteLine("------------------");
 
@@ -186,7 +183,7 @@ namespace EnumerablesToObservables
             Console.WriteLine();
             Demo.DisplayHeader("Merging ObservableConnection with loaded messages");
 
-            ChatClient client = new ChatClient();
+            var client = new ChatClient();
             IObservable<string> liveMessages = client.ObserveMessages("user", "pass");
             IEnumerable<string> loadedMessages = LoadMessagesFromDB();
 

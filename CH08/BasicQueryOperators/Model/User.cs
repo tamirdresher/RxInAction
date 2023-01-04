@@ -9,7 +9,7 @@ namespace BasicQueryOperators.Model
 
         public override string ToString()
         {
-            return String.Format("Id={0} Name:{1}", Id, Name);
+            return String.Format("Id={0} Name:{1}", this.Id, this.Name);
         }
     }
 }

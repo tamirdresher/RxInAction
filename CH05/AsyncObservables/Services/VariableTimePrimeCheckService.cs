@@ -8,12 +8,12 @@ namespace AsyncObservables.Services
 
         public VariableTimePrimeCheckService(int numberToDelay)
         {
-            _numberToDelay = numberToDelay;
+            this._numberToDelay = numberToDelay;
         }
 
         public override async Task<bool> IsPrimeAsync(int number)
         {
-            if (number == _numberToDelay)
+            if (number == this._numberToDelay)
             {
                 await Task.Delay(2000);
             }

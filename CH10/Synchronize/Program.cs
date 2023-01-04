@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Helpers;
+using System;
 using System.Linq;
 using System.Reactive.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using Helpers;
 
 namespace Synchronize
 {
@@ -24,7 +21,7 @@ namespace Synchronize
             Demo.DisplayHeader("The Synchrnoize operator - synchronizes the notifications so they will be received in a seriazlied way");
 
             var messenger = new Messenger();
-            var messages =
+            IObservable<System.Reactive.EventPattern<string>> messages =
                 Observable.FromEventPattern<string>(
                     h => messenger.MessageRecieved += h,
                     h => messenger.MessageRecieved -= h);
@@ -32,18 +29,16 @@ namespace Synchronize
             messages
                 .Select(evt => evt.EventArgs)
                 .Synchronize()
-                .Subscribe(msg =>
-                {
+                .Subscribe(msg => {
                     Console.WriteLine("Message {0} arrived", msg);
                     Thread.Sleep(1000);
                     Console.WriteLine("Message {0} exit", msg);
                 });
 
-            for (int i = 0; i < 3; i++)
+            for (var i = 0; i < 3; i++)
             {
-                string msg = "msg" + i;
-                ThreadPool.QueueUserWorkItem((_) =>
-                {
+                var msg = "msg" + i;
+                ThreadPool.QueueUserWorkItem((_) => {
                     messenger.Notify(msg);
                 });
             }
@@ -57,57 +52,50 @@ namespace Synchronize
             Demo.DisplayHeader("The Synchrnoize operator - can synchronizes the notifications from multiple observables by passing the gate object");
 
             var messenger = new Messenger();
-            var messages =
+            IObservable<System.Reactive.EventPattern<string>> messages =
                 Observable.FromEventPattern<string>(
                     h => messenger.MessageRecieved += h,
                     h => messenger.MessageRecieved -= h);
 
-            var friendRequests =
+            IObservable<System.Reactive.EventPattern<FriendRequest>> friendRequests =
                 Observable.FromEventPattern<FriendRequest>(
                     h => messenger.FriendRequestRecieved += h,
                     h => messenger.FriendRequestRecieved -= h);
 
-var gate = new object();
+            var gate = new object();
 
-messages
-    .Select(evt => evt.EventArgs)
-    .Synchronize(gate)
-    .Subscribe(msg =>
-    {
-        Console.WriteLine("Message {0} arrived", msg);
-        Thread.Sleep(1000);
-        Console.WriteLine("Message {0} exit", msg);
-    });
+            messages
+                .Select(evt => evt.EventArgs)
+                .Synchronize(gate)
+                .Subscribe(msg => {
+                    Console.WriteLine("Message {0} arrived", msg);
+                    Thread.Sleep(1000);
+                    Console.WriteLine("Message {0} exit", msg);
+                });
 
-
-friendRequests 
-    .Select(evt => evt.EventArgs)
-    .Synchronize(gate)
-    .Subscribe(request =>
-    {
-        Console.WriteLine("user {0} sent request", request.UserId);
-        Thread.Sleep(1000);
-        Console.WriteLine("user {0} approved", request.UserId);
-    });
-            for (int i = 0; i < 3; i++)
+            friendRequests
+                .Select(evt => evt.EventArgs)
+                .Synchronize(gate)
+                .Subscribe(request => {
+                    Console.WriteLine("user {0} sent request", request.UserId);
+                    Thread.Sleep(1000);
+                    Console.WriteLine("user {0} approved", request.UserId);
+                });
+            for (var i = 0; i < 3; i++)
             {
-                string msg = "msg" + i;
-                string userId = "user" + i;
-                ThreadPool.QueueUserWorkItem((_) =>
-                {
+                var msg = "msg" + i;
+                var userId = "user" + i;
+                ThreadPool.QueueUserWorkItem((_) => {
                     messenger.Notify(msg);
                 });
 
-                ThreadPool.QueueUserWorkItem((_) =>
-                {
-                    messenger.Notify(new FriendRequest() {UserId = userId});
+                ThreadPool.QueueUserWorkItem((_) => {
+                    messenger.Notify(new FriendRequest() { UserId = userId });
                 });
             }
 
             //waiting for all the other threads to complete before proceeding
             Thread.Sleep(3000);
         }
-
-
     }
 }
